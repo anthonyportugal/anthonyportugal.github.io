@@ -68,10 +68,12 @@ const socialLinks = [
     <!-- Copyright & Tech Badge -->
     <div class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-ctp-surface0/40 pt-8 text-xs text-ctp-overlay1 sm:flex-row">
       <p>© {currentYear} Anthony Portugal. All rights reserved.</p>
-      <p class="font-mono text-[11px] text-ctp-overlay1">
-        Built with <span class="text-ctp-mauve">Astro</span>, <span class="text-ctp-sky">SCSS</span>
-        &amp; <span class="text-ctp-peach">Catppuccin Mocha</span>
-      </p>
+      <p
+        class="font-mono text-[11px] text-ctp-overlay1"
+        set:html={
+          'Built with <span class="text-ctp-mauve">Astro</span>, <span class="text-ctp-sky">SCSS</span> and <span class="text-ctp-peach">Catppuccin Mocha</span>'
+        }
+      />
     </div>
   </Container>
 </footer>
