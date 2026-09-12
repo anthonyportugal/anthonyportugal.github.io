@@ -1,0 +1,31 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  @include custom-scrollbar;
+  min-height: 100vh;
+  background-color: $ctp-base;
+  color: $ctp-text;
+  font-family: $font-sans;
+  overflow-x: hidden;
+}
+
+// Text selection
+::selection {
+  background-color: rgba($ctp-mauve, 0.35);
+  color: $ctp-text;
+}
+
+// Monospace defaults
+code,
+pre,
+kbd {
+  font-family: $font-mono;
+}

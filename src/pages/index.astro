@@ -1,18 +1,18 @@
 ---
-import '../styles/main.scss';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<!doctype html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anthony Portugal | Software Engineer & Frontend Architect</title>
-  </head>
-  <body class="min-h-screen bg-ctp-base text-ctp-text">
-    <main class="flex min-h-screen flex-col items-center justify-center p-6 text-center">
-      <h1 class="text-4xl font-bold tracking-tight text-ctp-mauve sm:text-6xl">Anthony Portugal</h1>
-      <p class="mt-4 text-lg text-ctp-subtext0">Software Engineer & Frontend Architect</p>
-    </main>
-  </body>
-</html>
+<BaseLayout>
+  <main class="flex min-h-screen flex-col items-center justify-center p-6 text-center">
+    <div class="surface-card max-w-2xl rounded-2xl p-8 sm:p-12">
+      <div class="inline-flex items-center gap-2 rounded-full border border-ctp-surface1 bg-ctp-surface0/50 px-3 py-1 text-xs text-ctp-subtext0">
+        <span class="h-2 w-2 rounded-full bg-ctp-green animate-pulse"></span>
+        Available for selective freelance work
+      </div>
+      <h1 class="mt-6 text-4xl font-bold tracking-tight text-ctp-text sm:text-6xl">
+        Anthony <span class="text-ctp-mauve">Portugal</span>
+      </h1>
+      <p class="mt-4 text-lg text-ctp-subtext0">Software Engineer &amp; Frontend Architect</p>
+    </div>
+  </main>
+</BaseLayout>

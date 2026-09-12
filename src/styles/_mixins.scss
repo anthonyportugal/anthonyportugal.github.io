@@ -1,0 +1,51 @@
+@use 'variables' as *;
+
+// Glassmorphism card surface
+@mixin frosted-surface {
+  background-color: rgba($ctp-mantle, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba($ctp-surface1, 0.5);
+}
+
+// Interactive border hover glow
+@mixin hover-glow($color: $ctp-mauve) {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    border-color: rgba($color, 0.6);
+    box-shadow: 0 4px 20px -4px rgba($color, 0.15);
+  }
+}
+
+// Accessible focus ring
+@mixin focus-ring($color: $ctp-mauve) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}
+
+// Custom styled scrollbar
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $ctp-mantle;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $ctp-surface1;
+    border-radius: 9999px;
+
+    &:hover {
+      background: $ctp-surface2;
+    }
+  }
+}

@@ -1,15 +1,20 @@
+// SCSS Architecture (must precede other rules)
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'reset';
+
+// Tailwind directives
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+// Custom utility classes
+.surface-card {
+  @include frosted-surface;
+  @include hover-glow($ctp-mauve);
 }
 
-body {
-  background-color: theme('colors.ctp.base');
-  color: theme('colors.ctp.text');
-  font-family: theme('fontFamily.sans');
-  margin: 0;
-  padding: 0;
+.surface-card-subtle {
+  @include frosted-surface;
+  @include hover-glow($ctp-surface2);
 }
