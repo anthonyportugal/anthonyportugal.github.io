@@ -1,0 +1,61 @@
+---
+export type BadgeVariant = 'green' | 'mauve' | 'blue' | 'peach' | 'sky' | 'surface';
+
+interface Props {
+  variant?: BadgeVariant;
+  pulse?: boolean;
+  class?: string;
+}
+
+const { variant = 'mauve', pulse = false, class: className = '' } = Astro.props;
+
+const variantStyles: Record<BadgeVariant, { badge: string; dot: string }> = {
+  green: {
+    badge: 'border-ctp-green/30 bg-ctp-green/10 text-ctp-green',
+    dot: 'bg-ctp-green',
+  },
+  mauve: {
+    badge: 'border-ctp-mauve/30 bg-ctp-mauve/10 text-ctp-mauve',
+    dot: 'bg-ctp-mauve',
+  },
+  blue: {
+    badge: 'border-ctp-blue/30 bg-ctp-blue/10 text-ctp-blue',
+    dot: 'bg-ctp-blue',
+  },
+  peach: {
+    badge: 'border-ctp-peach/30 bg-ctp-peach/10 text-ctp-peach',
+    dot: 'bg-ctp-peach',
+  },
+  sky: {
+    badge: 'border-ctp-sky/30 bg-ctp-sky/10 text-ctp-sky',
+    dot: 'bg-ctp-sky',
+  },
+  surface: {
+    badge: 'border-ctp-surface1 bg-ctp-surface0/60 text-ctp-subtext0',
+    dot: 'bg-ctp-subtext0',
+  },
+};
+
+const current = variantStyles[variant];
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-xs font-medium tracking-wide',
+    current.badge,
+    className,
+  ]}
+>
+  {pulse && (
+    <span class="relative flex h-2 w-2">
+      <span
+        class:list={[
+          'absolute inline-flex h-full w-full animate-ping rounded-full opacity-75',
+          current.dot,
+        ]}
+      />
+      <span class:list={['relative inline-flex h-2 w-2 rounded-full', current.dot]} />
+    </span>
+  )}
+  <slot />
+</span>

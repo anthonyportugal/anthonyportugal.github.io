@@ -1,0 +1,77 @@
+---
+import Container from './Container.astro';
+
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  {
+    name: 'GitHub',
+    href: 'https://github.com/anthonyportugal',
+    label: 'GitHub Profile',
+  },
+  {
+    name: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/bruceeanthonyportugalrobles/',
+    label: 'LinkedIn Profile',
+  },
+  {
+    name: 'Showcase',
+    href: 'https://mangowm.github.io/showcase/',
+    label: 'MangoWM Showcase',
+  },
+];
+---
+
+<footer class="mt-auto border-t border-ctp-surface0/60 bg-ctp-mantle/50 py-12">
+  <Container>
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3 md:items-center">
+      <!-- Brand & Tagline -->
+      <div>
+        <a
+          href="#"
+          class="font-mono text-base font-semibold tracking-tight text-ctp-text hover:text-ctp-mauve"
+        >
+          anthony<span class="text-ctp-mauve">.dev</span>
+        </a>
+        <p class="mt-2 text-sm text-ctp-subtext0">
+          Frontend architecture, scalable web systems, and Unix engineering.
+        </p>
+      </div>
+
+      <!-- Timezone & Location Status -->
+      <div class="flex items-center md:justify-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-ctp-surface1 bg-ctp-surface0/50 px-3 py-1 font-mono text-xs text-ctp-subtext0">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-ctp-green opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-ctp-green"></span>
+          </span>
+          <span>Lima, Peru (PET · UTC-5)</span>
+        </div>
+      </div>
+
+      <!-- Social & Professional Links -->
+      <div class="flex items-center gap-4 md:justify-end">
+        {socialLinks.map((item) => (
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-mono text-xs text-ctp-subtext0 transition-colors hover:text-ctp-mauve"
+            aria-label={item.label}
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Copyright & Tech Badge -->
+    <div class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-ctp-surface0/40 pt-8 text-xs text-ctp-overlay1 sm:flex-row">
+      <p>© {currentYear} Anthony Portugal. All rights reserved.</p>
+      <p class="font-mono text-[11px] text-ctp-overlay1">
+        Built with <span class="text-ctp-mauve">Astro</span>, <span class="text-ctp-sky">SCSS</span>
+        &amp; <span class="text-ctp-peach">Catppuccin Mocha</span>
+      </p>
+    </div>
+  </Container>
+</footer>

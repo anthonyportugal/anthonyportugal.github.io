@@ -7,6 +7,9 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/600.css';
 import '../styles/main.scss';
 
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+
 interface Props {
   title?: string;
   description?: string;
@@ -55,16 +58,22 @@ const socialImageURL = new URL(image, Astro.site);
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
   </head>
-  <body class="relative min-h-screen bg-ctp-base text-ctp-text selection:bg-ctp-mauve/30 selection:text-ctp-text">
+  <body class="relative flex min-h-screen flex-col bg-ctp-base text-ctp-text selection:bg-ctp-mauve/30 selection:text-ctp-text">
     <!-- Ambient subtle background glow -->
     <div
       class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(203,166,247,0.12),rgba(255,255,255,0))]"
       aria-hidden="true"
     ></div>
 
-    <!-- Main page wrapper -->
-    <div class="relative z-10 flex min-h-screen flex-col">
+    <!-- Header Navigation -->
+    <Header />
+
+    <!-- Main page content -->
+    <main class="relative z-10 flex-1">
       <slot />
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <Footer />
   </body>
 </html>
