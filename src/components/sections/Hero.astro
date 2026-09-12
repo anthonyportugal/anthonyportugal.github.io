@@ -1,0 +1,132 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Badge from '../ui/Badge.astro';
+import { ArrowRight, Terminal, Sparkles, ShieldCheck } from '@lucide/astro';
+---
+
+<section class="relative overflow-hidden pb-20 pt-12 sm:pb-28 sm:pt-20">
+  <Container>
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+      <!-- Left Column: Value Proposition & CTAs (7 cols) -->
+      <div class="flex flex-col items-start lg:col-span-7">
+        <!-- Status Badge -->
+        <Badge variant="green" pulse={true} class="mb-6">
+          Available for freelance &amp; architecture consulting
+        </Badge>
+
+        <!-- Headline -->
+        <h1 class="text-4xl font-bold tracking-tight text-ctp-text sm:text-5xl lg:text-6xl">
+          Architecting scalable web platforms with
+          <span class="bg-gradient-to-r from-ctp-mauve via-ctp-lavender to-ctp-blue bg-clip-text text-transparent">
+            Unix craftsmanship.
+          </span>
+        </h1>
+
+        <!-- Subheadline / Pitch -->
+        <p class="mt-6 text-lg leading-relaxed text-ctp-subtext0 sm:text-xl">
+          Senior Software Engineer &amp; Frontend Architect based in Peru. I help startups and
+          engineering teams build maintainable design systems, eliminate technical debt through
+          Clean Architecture, and ship resilient, high-performance web applications.
+        </p>
+
+        <!-- Action CTAs -->
+        <div class="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <Button href="#contact" variant="primary" size="lg">
+            Start a Project
+            <ArrowRight class="h-4 w-4" />
+          </Button>
+          <Button href="#work" variant="secondary" size="lg">
+            Explore Case Studies
+          </Button>
+        </div>
+
+        <!-- Quick Proof Points -->
+        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-ctp-subtext1">
+          <div class="flex items-center gap-1.5">
+            <ShieldCheck class="h-4 w-4 text-ctp-green" />
+            <span>Proven Production Track Record</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <Sparkles class="h-4 w-4 text-ctp-mauve" />
+            <span>Clean Architecture &amp; SOLID</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <Terminal class="h-4 w-4 text-ctp-sky" />
+            <span>Declarative Systems &amp; CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Terminal Card (5 cols) -->
+      <div class="lg:col-span-5">
+        <div class="surface-card relative overflow-hidden rounded-2xl border border-ctp-surface1 bg-ctp-mantle/90 shadow-2xl shadow-ctp-crust/50">
+          <!-- Terminal Header Bar -->
+          <div class="flex items-center justify-between border-b border-ctp-surface0 bg-ctp-crust/80 px-4 py-3">
+            <div class="flex items-center gap-2">
+              <span class="h-3 w-3 rounded-full bg-[#f38ba8]/80"></span>
+              <span class="h-3 w-3 rounded-full bg-[#f9e2af]/80"></span>
+              <span class="h-3 w-3 rounded-full bg-[#a6e3a1]/80"></span>
+            </div>
+            <span class="font-mono text-xs text-ctp-overlay0">anthony@workstation: ~</span>
+            <div class="w-12"></div>
+          </div>
+
+          <!-- Terminal Content Body -->
+          <div class="p-5 font-mono text-xs leading-relaxed sm:p-6 sm:text-sm">
+            <!-- Command line -->
+            <div class="flex items-center gap-2 text-ctp-subtext0">
+              <span class="text-ctp-mauve">➜</span>
+              <span class="text-ctp-sky">~</span>
+              <span class="text-ctp-text">fastfetch --profile architect</span>
+            </div>
+
+            <!-- Specs Grid in Terminal style -->
+            <div class="mt-4 space-y-2 border-t border-ctp-surface0/60 pt-4">
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Name</span>
+                <span class="col-span-2 font-semibold text-ctp-text">Anthony Portugal</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Role</span>
+                <span class="col-span-2 font-medium text-ctp-mauve">
+                  Frontend Architect &amp; Tech Lead
+                </span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Location</span>
+                <span class="col-span-2 text-ctp-subtext0">Lima, Peru (UTC-5)</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Focus</span>
+                <span class="col-span-2 text-ctp-text">
+                  Clean Arch · Design Systems · Performance
+                </span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Frontend</span>
+                <span class="col-span-2 text-ctp-teal">TypeScript, Vue, React, Astro</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Systems</span>
+                <span class="col-span-2 text-ctp-sky">
+                  Arch Linux, Docker, CI/CD Pipelines, GNU Stow
+                </span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">Status</span>
+                <span class="col-span-2 font-medium text-ctp-green">● Open to Select Projects</span>
+              </div>
+            </div>
+
+            <!-- Terminal Footer summary -->
+            <div class="mt-5 rounded-lg border border-ctp-surface0 bg-ctp-surface0/30 p-3 text-xs">
+              <span class="text-ctp-mauve">Impact:</span>
+              <span class="text-ctp-subtext0"> -30% Technical Debt · +80% Delivery Velocity</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
