@@ -1,0 +1,183 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { Blocks, Palette, Gauge, Check } from '@lucide/astro';
+
+interface ServicePillar {
+  icon: typeof Blocks;
+  title: string;
+  tagline: string;
+  description: string;
+  deliverables: string[];
+  metricBadge: {
+    metric: string;
+    label: string;
+  };
+  accentColor: 'mauve' | 'teal' | 'sky';
+}
+
+const services: ServicePillar[] = [
+  {
+    icon: Blocks,
+    title: 'Frontend Architecture & Modernization',
+    tagline: 'Architecture & Quality',
+    description:
+      'Transform brittle codebases into modular, maintainable systems. Implementing Clean Architecture, strict TypeScript boundaries, and SOLID design patterns to protect long-term agility.',
+    deliverables: [
+      'Legacy codebase refactoring & tech debt auditing',
+      'Clean Architecture & domain boundary decoupling',
+      'Strict TypeScript migrations & type-safe APIs',
+      'Modern framework transitions (Vue, React, Astro)',
+    ],
+    metricBadge: {
+      metric: '-30%',
+      label: 'Technical debt reduction',
+    },
+    accentColor: 'mauve',
+  },
+  {
+    icon: Palette,
+    title: 'Design Systems & Component Governance',
+    tagline: 'DesignOps & Scale',
+    description:
+      'Bridge the gap between design and development with centralized token architectures, WCAG-compliant primitives, and comprehensive governance that empowers engineering squads.',
+    deliverables: [
+      'Design token architectures (Tailwind, SCSS, Figma)',
+      'Accessible, WCAG-compliant atomic UI primitives',
+      'Component library governance & documentation',
+      'Consistent multi-brand & multi-repo design ops',
+    ],
+    metricBadge: {
+      metric: '+40%',
+      label: 'Faster UI feature delivery',
+    },
+    accentColor: 'teal',
+  },
+  {
+    icon: Gauge,
+    title: 'Performance Audits & CI/CD Pipelines',
+    tagline: 'Automation & DX',
+    description:
+      'Eliminate release bottlenecks and optimize end-user performance. Deploying automated CI/CD pipelines, containerized environments, and strict Core Web Vitals budgets.',
+    deliverables: [
+      'Core Web Vitals profiling & bundle optimization',
+      'Automated CI/CD pipelines (GitHub Actions, GitLab CI)',
+      'Reproducible Docker & Linux development tooling',
+      'Automated quality gates (Linting, Typing, Testing)',
+    ],
+    metricBadge: {
+      metric: '+80%',
+      label: 'Faster deployment releases',
+    },
+    accentColor: 'sky',
+  },
+];
+
+const colorClasses = {
+  mauve: {
+    iconBg: 'bg-ctp-mauve/10 text-ctp-mauve border-ctp-mauve/20',
+    borderHover: 'hover:border-ctp-mauve/40',
+    checkColor: 'text-ctp-mauve',
+    badgeText: 'text-ctp-mauve',
+    badgeBg: 'bg-ctp-mauve/10 border-ctp-mauve/20',
+  },
+  teal: {
+    iconBg: 'bg-ctp-teal/10 text-ctp-teal border-ctp-teal/20',
+    borderHover: 'hover:border-ctp-teal/40',
+    checkColor: 'text-ctp-teal',
+    badgeText: 'text-ctp-teal',
+    badgeBg: 'bg-ctp-teal/10 border-ctp-teal/20',
+  },
+  sky: {
+    iconBg: 'bg-ctp-sky/10 text-ctp-sky border-ctp-sky/20',
+    borderHover: 'hover:border-ctp-sky/40',
+    checkColor: 'text-ctp-sky',
+    badgeText: 'text-ctp-sky',
+    badgeBg: 'bg-ctp-sky/10 border-ctp-sky/20',
+  },
+};
+---
+
+<section id="services" class="relative border-t border-ctp-surface0/60 py-20 sm:py-28">
+  <Container>
+    <SectionHeading
+      tag="Expertise & Services"
+      title="Architectural solutions for"
+      highlight="high-growth platforms."
+      description="Targeted technical consulting and leadership to eliminate friction, standardize UI ecosystems, and streamline production engineering."
+    />
+
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      {services.map((service) => {
+        const colors = colorClasses[service.accentColor];
+        const IconComponent = service.icon;
+
+        return (
+          <div
+            class:list={[
+              'surface-card group flex flex-col justify-between rounded-2xl border border-ctp-surface0 bg-ctp-mantle/70 p-7 transition-all duration-300 sm:p-8',
+              colors.borderHover,
+            ]}
+          >
+            <div>
+              <!-- Icon & Tagline -->
+              <div class="flex items-center justify-between gap-4">
+                <div
+                  class:list={[
+                    'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border',
+                    colors.iconBg,
+                  ]}
+                >
+                  <IconComponent class="h-6 w-6" />
+                </div>
+                <span class="text-right font-mono text-xs uppercase tracking-wider text-ctp-overlay1">
+                  {service.tagline}
+                </span>
+              </div>
+
+              <!-- Service Title -->
+              <h3 class="mt-6 text-xl font-bold tracking-tight text-ctp-text sm:text-2xl">
+                {service.title}
+              </h3>
+
+              <!-- Service Description -->
+              <p class="mt-3 text-sm leading-relaxed text-ctp-subtext0 sm:text-base">
+                {service.description}
+              </p>
+
+              <!-- Deliverables List -->
+              <div class="mt-6 border-t border-ctp-surface0/60 pt-6">
+                <h4 class="font-mono text-xs font-semibold uppercase tracking-wider text-ctp-subtext1">
+                  Key Deliverables
+                </h4>
+                <ul class="mt-3 space-y-2.5 text-xs text-ctp-subtext0 sm:text-sm">
+                  {service.deliverables.map((item) => (
+                    <li class="flex items-start gap-2.5">
+                      <Check class:list={['h-4 w-4 shrink-0 mt-0.5', colors.checkColor]} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <!-- ROI / Metric Pill -->
+            <div
+              class:list={[
+                'mt-8 flex items-center justify-between rounded-xl border px-4 py-3',
+                colors.badgeBg,
+              ]}
+            >
+              <span class:list={['font-mono text-lg font-bold sm:text-xl', colors.badgeText]}>
+                {service.metricBadge.metric}
+              </span>
+              <span class="text-right text-xs font-medium text-ctp-subtext1">
+                {service.metricBadge.label}
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Container>
+</section>
