@@ -78,6 +78,7 @@ const socialImageURL = new URL(image, Astro.site);
     <meta name="description" content={description} />
     <meta name="author" content="Anthony Portugal" />
     <meta name="theme-color" content="#1e1e2e" />
+    <meta name="google-site-verification" content="7d7NMlLI0KPl4VqcY3-CAB96dk47fPgB0K2zgnF0d2Y" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -92,6 +93,40 @@ const socialImageURL = new URL(image, Astro.site);
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
+
+    <!-- Structured Data (JSON-LD) for Search Engines -->
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Anthony Portugal',
+        url: 'https://anthonyportugal.github.io',
+        sameAs: [
+          'https://github.com/anthonyportugal',
+          'https://www.linkedin.com/in/bruceeanthonyportugalrobles/',
+        ],
+        jobTitle:
+          lang === 'es'
+            ? 'Ingeniero de Software Senior y Arquitecto'
+            : 'Senior Software Engineer & Architect',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Lima',
+          addressCountry: 'PE',
+        },
+        knowsAbout: [
+          'Software Architecture',
+          'Multiplatform Engineering',
+          'Flutter',
+          'Linux Systems',
+          'Astro',
+          'TypeScript',
+          'Wayland',
+        ],
+      })}
+    ></script>
   </head>
   <body class="relative flex min-h-screen flex-col bg-ctp-base text-ctp-text selection:bg-ctp-mauve/30 selection:text-ctp-text">
     <!-- Ambient subtle background glow -->
