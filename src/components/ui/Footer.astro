@@ -1,6 +1,13 @@
 ---
 import Container from './Container.astro';
+import { useTranslations, type Lang } from '../../i18n/translations';
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 const currentYear = new Date().getFullYear();
 
 const socialLinks = [
@@ -15,6 +22,8 @@ const socialLinks = [
     label: 'LinkedIn Profile',
   },
 ];
+
+const homeUrl = lang === 'es' ? '/es/' : '/';
 ---
 
 <footer class="mt-auto border-t border-ctp-surface0/60 bg-ctp-mantle/50 py-12">
@@ -22,12 +31,13 @@ const socialLinks = [
     <div class="grid grid-cols-1 gap-8 md:grid-cols-3 md:items-center">
       <!-- Brand & Tagline -->
       <div>
-        <a href="#" class="text-base font-bold tracking-tight text-ctp-text hover:text-ctp-mauve">
+        <a
+          href={homeUrl}
+          class="text-base font-bold tracking-tight text-ctp-text hover:text-ctp-mauve"
+        >
           Anthony Portugal
         </a>
-        <p class="mt-2 text-sm text-ctp-subtext0">
-          Frontend architecture, scalable web systems, and Unix engineering.
-        </p>
+        <p class="mt-2 text-sm text-ctp-subtext0">{t.footer.tagline}</p>
       </div>
 
       <!-- Timezone & Location Status -->
@@ -37,7 +47,7 @@ const socialLinks = [
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-ctp-green opacity-75"></span>
             <span class="relative inline-flex h-2 w-2 rounded-full bg-ctp-green"></span>
           </span>
-          <span>Lima, Peru (PET · UTC-5)</span>
+          <span>{t.contact.locLima}</span>
         </div>
       </div>
 
@@ -59,13 +69,10 @@ const socialLinks = [
 
     <!-- Copyright & Tech Badge -->
     <div class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-ctp-surface0/40 pt-8 text-xs text-ctp-overlay1 sm:flex-row">
-      <p>© {currentYear} Anthony Portugal. All rights reserved.</p>
-      <p
-        class="font-mono text-[11px] text-ctp-overlay1"
-        set:html={
-          'Built with <span class="text-ctp-mauve">Astro</span>, <span class="text-ctp-sky">Tailwind CSS</span> and <span class="text-ctp-peach">Catppuccin Mocha</span>'
-        }
-      />
+      <p>
+        © {currentYear} {t.footer.rights}
+      </p>
+      <p class="font-mono text-[11px] text-ctp-overlay1" set:html={t.footer.builtWith} />
     </div>
   </Container>
 </footer>

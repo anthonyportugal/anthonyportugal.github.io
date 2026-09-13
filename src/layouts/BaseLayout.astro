@@ -9,16 +9,23 @@ import '../styles/main.scss';
 
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
+import type { Lang } from '../i18n/translations';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  lang?: Lang;
 }
 
 const {
-  title = 'Anthony Portugal | Software Engineer & Frontend Architect',
-  description = 'Senior Software Engineer & Frontend Architect building resilient platforms, scalable UI systems, and developer tooling.',
+  lang = 'en',
+  title = lang === 'es'
+    ? 'Anthony Portugal | Ingeniero de Software y Arquitecto'
+    : 'Anthony Portugal | Senior Software Engineer & Architect',
+  description = lang === 'es'
+    ? 'Ingeniero de Software Senior y Arquitecto construyendo plataformas escalables, aplicaciones multiplataforma y herramientas de sistema para Linux.'
+    : 'Senior Software Engineer & Architect building scalable platforms, multiplatform applications, and Linux systems tooling.',
   image = '/og-image.png',
 } = Astro.props;
 
@@ -27,8 +34,31 @@ const socialImageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang={lang} class="dark">
   <head>
+    <!-- Language Auto-Detection & Immediate Routing (Zero-FOUC) -->
+    <script is:inline>
+      (function () {
+        try {
+          const savedLang = localStorage.getItem('preferred-locale');
+          const path = window.location.pathname;
+          const isEsPath = path.startsWith('/es') || path === '/es';
+
+          if (!savedLang) {
+            const browserLang = (navigator.language || '').toLowerCase();
+            if (browserLang.startsWith('es') && !isEsPath) {
+              window.location.replace('/es' + window.location.search + window.location.hash);
+            }
+          } else if (savedLang === 'es' && !isEsPath) {
+            window.location.replace('/es' + window.location.search + window.location.hash);
+          } else if (savedLang === 'en' && isEsPath) {
+            window.location.replace('/' + window.location.search + window.location.hash);
+          }
+        } catch {
+          // Ignore localStorage access restrictions in strict environments
+        }
+      })();
+    </script>
     <!-- Essential Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,6 +66,11 @@ const socialImageURL = new URL(image, Astro.site);
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Multilingual SEO Alternates (hreflang) -->
+    <link rel="alternate" hreflang="en" href="https://anthonyportugal.github.io/" />
+    <link rel="alternate" hreflang="es" href="https://anthonyportugal.github.io/es/" />
+    <link rel="alternate" hreflang="x-default" href="https://anthonyportugal.github.io/" />
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
@@ -66,7 +101,7 @@ const socialImageURL = new URL(image, Astro.site);
     ></div>
 
     <!-- Header Navigation -->
-    <Header />
+    <Header lang={lang} />
 
     <!-- Main page content -->
     <main class="relative z-10 flex-1">
@@ -74,6 +109,6 @@ const socialImageURL = new URL(image, Astro.site);
     </main>
 
     <!-- Footer -->
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

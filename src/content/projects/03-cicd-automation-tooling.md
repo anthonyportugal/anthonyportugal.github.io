@@ -2,7 +2,7 @@
 title: 'CI/CD Pipeline Automation & Build Optimization'
 subtitle: 'Transforming release cycles through automated delivery pipelines and modern build orchestration.'
 category: 'Performance & CI/CD'
-clientType: 'Enterprise Web Infrastructure'
+clientType: 'Enterprise Software Infrastructure'
 role: 'Tech Lead & Systems Engineer'
 period: '2023 - 2026'
 summary: 'Automated end-to-end CI/CD release pipelines with GitLab CI, migrated legacy bundlers to Vite, and deployed containerized testing environments to eliminate deployment friction and drastically increase delivery velocity.'

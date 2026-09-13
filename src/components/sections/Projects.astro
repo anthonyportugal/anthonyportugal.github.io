@@ -12,6 +12,14 @@ import {
   Layers,
   ShieldCheck,
 } from '@lucide/astro';
+import { useTranslations, type Lang } from '../../i18n/translations';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 
 const allProjects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const allOpenSource = (await getCollection('openSource')).sort(
@@ -61,10 +69,10 @@ const accentClasses = {
   <Container>
     <!-- Section Main Heading -->
     <SectionHeading
-      tag="Engineering Case Studies"
-      title="Production architecture &"
-      highlight="open-source systems."
-      description="Solving complex enterprise frontend challenges through Clean Architecture and DesignOps, alongside declarative Linux environments crafted with Unix precision."
+      tag={t.caseStudies.tag}
+      title={t.caseStudies.title}
+      highlight={t.caseStudies.highlight}
+      description={t.caseStudies.description}
     />
 
     <!-- PART 1: Architectural Case Studies -->
@@ -72,13 +80,20 @@ const accentClasses = {
       <div class="flex items-center gap-3">
         <Layers class="h-5 w-5 text-ctp-mauve" />
         <h3 class="font-mono text-sm font-semibold uppercase tracking-wider text-ctp-subtext1">
-          // Architectural Case Studies &amp; Technical Leadership
+          {t.caseStudies.sectionHeader}
         </h3>
       </div>
 
       <div class="grid grid-cols-1 gap-8">
         {allProjects.map((project) => {
           const colors = accentClasses[project.data.accentColor];
+          const tProj = t.caseStudies.projects[project.id as keyof typeof t.caseStudies.projects];
+          const title = tProj?.title ?? project.data.title;
+          const category = tProj?.category ?? project.data.category;
+          const clientType = tProj?.clientType ?? project.data.clientType;
+          const role = tProj?.role ?? project.data.role;
+          const summary = tProj?.summary ?? project.data.summary;
+          const metrics = tProj?.metrics ?? project.data.metrics;
 
           return (
             <article
@@ -93,26 +108,24 @@ const accentClasses = {
                   <div>
                     <!-- Metadata Row -->
                     <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                      <Badge variant={colors.badgeVariant}>{project.data.category}</Badge>
+                      <Badge variant={colors.badgeVariant}>{category}</Badge>
                       <span class="font-mono text-xs text-ctp-overlay1">·</span>
-                      <span class="font-mono text-xs text-ctp-subtext0">
-                        {project.data.clientType}
-                      </span>
+                      <span class="font-mono text-xs text-ctp-subtext0">{clientType}</span>
                       <span class="font-mono text-xs text-ctp-overlay1">·</span>
                       <span class="font-mono text-xs text-ctp-overlay0">{project.data.period}</span>
                     </div>
 
                     <!-- Role & Title -->
                     <h4 class="mt-4 text-2xl font-bold tracking-tight text-ctp-text sm:text-3xl">
-                      {project.data.title}
+                      {title}
                     </h4>
                     <p class="mt-1 font-mono text-xs font-medium text-ctp-mauve">
-                      Role: {project.data.role}
+                      {t.caseStudies.roleLabel} {role}
                     </p>
 
                     <!-- Summary / Problem & Approach -->
                     <p class="mt-4 text-sm leading-relaxed text-ctp-subtext0 sm:text-base">
-                      {project.data.summary}
+                      {summary}
                     </p>
                   </div>
 
@@ -130,11 +143,11 @@ const accentClasses = {
                 <div class="flex flex-col justify-center rounded-xl border border-ctp-surface0 bg-ctp-crust/60 p-6 sm:p-8 lg:col-span-5">
                   <div class="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-ctp-overlay1">
                     <ShieldCheck class="h-4 w-4 text-ctp-green" />
-                    <span>Production ROI &amp; Outcomes</span>
+                    <span>{t.caseStudies.roiHeading}</span>
                   </div>
 
                   <div class="mt-6 grid grid-cols-1 gap-5 divide-y divide-ctp-surface0/80">
-                    {project.data.metrics.map((metric, idx) => (
+                    {metrics.map((metric, idx) => (
                       <div class:list={['flex items-baseline justify-between', idx > 0 && 'pt-4']}>
                         <span class="text-sm font-medium text-ctp-subtext0">{metric.label}</span>
                         <span
@@ -150,7 +163,7 @@ const accentClasses = {
                   </div>
 
                   <div class="mt-6 rounded-lg border border-ctp-surface0/80 bg-ctp-mantle/50 p-3 text-center text-xs text-ctp-overlay1">
-                    Verified production achievements and metric benchmarks.
+                    {t.caseStudies.verifiedPill}
                   </div>
                 </div>
               </div>
@@ -170,16 +183,14 @@ const accentClasses = {
           <div class="flex items-center gap-2">
             <Terminal class="h-5 w-5 text-ctp-sky" />
             <h3 class="font-mono text-sm font-semibold uppercase tracking-wider text-ctp-sky">
-              // Author &amp; Workstation Tooling
+              {t.openSource.tag}
             </h3>
           </div>
           <h4 class="mt-2 text-2xl font-bold tracking-tight text-ctp-text sm:text-3xl">
-            Personal Unix Tooling &amp; Open-Source Workstations
+            {t.openSource.title}
           </h4>
           <p class="mt-2 max-w-2xl text-sm text-ctp-subtext0 sm:text-base">
-            My publicly maintained dotfiles and Wayland workstation configurations. Engineered to
-            maximize developer velocity, eliminate cognitive overhead, and showcase production-grade
-            Linux craftsmanship.
+            {t.openSource.description}
           </p>
         </div>
 
@@ -190,13 +201,22 @@ const accentClasses = {
           size="sm"
         >
           <FolderGit2 class="h-4 w-4" />
-          View All Repositories
+          {t.openSource.viewAll}
         </Button>
       </div>
 
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         {allOpenSource.map((repo) => {
           const colors = accentClasses[repo.data.accentColor];
+          const tRepo = t.openSource.repos[repo.id as keyof typeof t.openSource.repos];
+          const title = tRepo?.title ?? repo.data.title;
+          const category = tRepo?.category ?? repo.data.category;
+          const tagline = tRepo?.tagline ?? repo.data.tagline;
+          const description = tRepo?.description ?? repo.data.description;
+          const liveUrlLabel =
+            tRepo && 'liveUrlLabel' in tRepo && tRepo.liveUrlLabel
+              ? tRepo.liveUrlLabel
+              : (repo.data.liveUrlLabel ?? t.openSource.liveShowcase);
 
           return (
             <div
@@ -208,24 +228,26 @@ const accentClasses = {
               <div>
                 <!-- Category & Repo Name -->
                 <div class="flex items-center justify-between">
-                  <Badge variant={colors.badgeVariant}>{repo.data.category}</Badge>
+                  <Badge variant={colors.badgeVariant}>{category}</Badge>
                   {repo.data.liveUrlLabel ? (
                     <span class="inline-flex items-center gap-1 rounded-full border border-ctp-teal/40 bg-ctp-teal/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-ctp-teal">
-                      Official Feature
+                      {t.openSource.officialFeature}
                     </span>
                   ) : (
-                    <span class="font-mono text-xs text-ctp-overlay1">Arch Linux</span>
+                    <span class="font-mono text-xs text-ctp-overlay1">
+                      {t.openSource.archLinux}
+                    </span>
                   )}
                 </div>
 
                 <h5 class="mt-4 font-mono text-xl font-bold tracking-tight text-ctp-text group-hover:text-ctp-mauve sm:text-2xl">
-                  {repo.data.title}
+                  {title}
                 </h5>
 
-                <p class="mt-2 text-xs font-medium text-ctp-subtext1">{repo.data.tagline}</p>
+                <p class="mt-2 text-xs font-medium text-ctp-subtext1">{tagline}</p>
 
                 <p class="mt-3 text-xs leading-relaxed text-ctp-subtext0 sm:text-sm">
-                  {repo.data.description}
+                  {description}
                 </p>
 
                 <!-- Tech pills -->
@@ -247,7 +269,7 @@ const accentClasses = {
                   class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-ctp-text transition-colors hover:text-ctp-mauve"
                 >
                   <FolderGit2 class="h-4 w-4 text-ctp-mauve" />
-                  <span>Source Code</span>
+                  <span>{t.openSource.sourceCode}</span>
                   <ArrowUpRight class="h-3 w-3 text-ctp-overlay1" />
                 </a>
 
@@ -259,7 +281,7 @@ const accentClasses = {
                     class="inline-flex items-center gap-1.5 rounded-md border border-ctp-teal/30 bg-ctp-teal/10 px-3 py-1 font-mono text-xs font-semibold text-ctp-teal transition-colors hover:bg-ctp-teal/20"
                   >
                     <ExternalLink class="h-3.5 w-3.5" />
-                    <span>{repo.data.liveUrlLabel ?? 'Live Showcase'}</span>
+                    <span>{liveUrlLabel}</span>
                   </a>
                 )}
               </div>

@@ -3,9 +3,17 @@ import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Badge from '../ui/Badge.astro';
 import { ArrowRight, Terminal, Sparkles, ShieldCheck } from '@lucide/astro';
+import { useTranslations, type Lang } from '../../i18n/translations';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 ---
 
-<section class="relative overflow-hidden pb-20 pt-12 sm:pb-28 sm:pt-20">
+<section class="relative overflow-hidden pb-16 pt-12 sm:pb-24 sm:pt-20">
   <Container>
     <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
       <!-- Left Column: Value Proposition & CTAs (7 cols) -->
@@ -17,38 +25,34 @@ import { ArrowRight, Terminal, Sparkles, ShieldCheck } from '@lucide/astro';
             Anthony Portugal
           </div>
           <span class="hidden font-mono text-xs text-ctp-surface2 sm:inline">·</span>
-          <span class="font-mono text-xs font-medium text-ctp-subtext1">
-            Senior Frontend Architect
-          </span>
+          <span class="font-mono text-xs font-medium text-ctp-subtext1">{t.hero.eyebrowRole}</span>
           <span class="hidden font-mono text-xs text-ctp-surface2 sm:inline">·</span>
           <Badge variant="green" pulse={true}>
-            Available for Select Projects
+            {t.hero.availableBadge}
           </Badge>
         </div>
 
         <!-- Headline -->
         <h1 class="text-4xl font-bold tracking-tight text-ctp-text sm:text-5xl lg:text-6xl">
-          Architecting scalable web platforms with{' '}
+          {t.hero.headlinePrefix}{' '}
           <span class="bg-gradient-to-r from-ctp-mauve via-ctp-lavender to-ctp-blue bg-clip-text text-transparent">
-            Unix craftsmanship.
+            {t.hero.headlineHighlight}
           </span>
         </h1>
 
         <!-- Subheadline / Pitch -->
         <p class="mt-6 text-lg leading-relaxed text-ctp-subtext0 sm:text-xl">
-          Senior Software Engineer &amp; Frontend Architect based in Peru. I help engineering teams
-          and startups build maintainable design systems, eliminate technical debt through Clean
-          Architecture, and ship resilient, resource-conscious web and multiplatform applications.
+          {t.hero.subheadline}
         </p>
 
         <!-- Action CTAs -->
         <div class="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
           <Button href="#contact" variant="primary" size="lg">
-            Start a Project
+            {t.hero.ctaStart}
             <ArrowRight class="h-4 w-4" />
           </Button>
           <Button href="#work" variant="secondary" size="lg">
-            Explore Case Studies
+            {t.hero.ctaCaseStudies}
           </Button>
         </div>
 
@@ -56,15 +60,15 @@ import { ArrowRight, Terminal, Sparkles, ShieldCheck } from '@lucide/astro';
         <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-ctp-subtext1">
           <div class="flex items-center gap-1.5">
             <ShieldCheck class="h-4 w-4 text-ctp-green" />
-            <span>Proven Production Track Record</span>
+            <span>{t.hero.proofProduction}</span>
           </div>
           <div class="flex items-center gap-1.5">
             <Sparkles class="h-4 w-4 text-ctp-mauve" />
-            <span>Clean Architecture &amp; SOLID</span>
+            <span>{t.hero.proofCleanArch}</span>
           </div>
           <div class="flex items-center gap-1.5">
             <Terminal class="h-4 w-4 text-ctp-sky" />
-            <span>Declarative Systems &amp; CI/CD</span>
+            <span>{t.hero.proofSystems}</span>
           </div>
         </div>
       </div>
@@ -95,45 +99,43 @@ import { ArrowRight, Terminal, Sparkles, ShieldCheck } from '@lucide/astro';
             <!-- Specs Grid in Terminal style -->
             <div class="mt-4 space-y-2 border-t border-ctp-surface0/60 pt-4">
               <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Name</span>
+                <span class="text-ctp-overlay1">{t.hero.terminalNameLabel}</span>
                 <span class="col-span-2 font-semibold text-ctp-text">Anthony Portugal</span>
               </div>
               <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Role</span>
+                <span class="text-ctp-overlay1">{t.hero.terminalRoleLabel}</span>
                 <span class="col-span-2 font-medium text-ctp-mauve">
-                  Frontend Architect &amp; Tech Lead
+                  {t.hero.terminalRoleValue}
                 </span>
               </div>
               <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Location</span>
-                <span class="col-span-2 text-ctp-subtext0">Lima, Peru (UTC-5)</span>
+                <span class="text-ctp-overlay1">{t.hero.terminalLocationLabel}</span>
+                <span class="col-span-2 text-ctp-subtext0">{t.hero.terminalLocationValue}</span>
               </div>
               <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Focus</span>
-                <span class="col-span-2 text-ctp-text">
-                  Clean Arch · Design Systems · Performance
+                <span class="text-ctp-overlay1">{t.hero.terminalFocusLabel}</span>
+                <span class="col-span-2 text-ctp-text">{t.hero.terminalFocusValue}</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">{t.hero.terminalPlatformLabel}</span>
+                <span class="col-span-2 text-ctp-teal">{t.hero.terminalPlatformValue}</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">{t.hero.terminalSystemsLabel}</span>
+                <span class="col-span-2 text-ctp-sky">{t.hero.terminalSystemsValue}</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <span class="text-ctp-overlay1">{t.hero.terminalStatusLabel}</span>
+                <span class="col-span-2 font-medium text-ctp-green">
+                  {t.hero.terminalStatusValue}
                 </span>
-              </div>
-              <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Platform</span>
-                <span class="col-span-2 text-ctp-teal">TypeScript, Vue, Flutter, Lit, Astro</span>
-              </div>
-              <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Systems</span>
-                <span class="col-span-2 text-ctp-sky">
-                  Arch Linux, Docker, CI/CD Pipelines, GNU Stow
-                </span>
-              </div>
-              <div class="grid grid-cols-3 gap-2">
-                <span class="text-ctp-overlay1">Status</span>
-                <span class="col-span-2 font-medium text-ctp-green">● Open to Select Projects</span>
               </div>
             </div>
 
             <!-- Terminal Footer summary -->
             <div class="mt-5 rounded-lg border border-ctp-surface0 bg-ctp-surface0/30 p-3 text-xs">
-              <span class="text-ctp-mauve">Impact:</span>
-              <span class="text-ctp-subtext0"> -30% Technical Debt · +80% Delivery Velocity</span>
+              <span class="text-ctp-mauve">{t.hero.terminalImpact}</span>
+              <span class="text-ctp-subtext0">{t.hero.terminalImpactValue}</span>
             </div>
           </div>
         </div>

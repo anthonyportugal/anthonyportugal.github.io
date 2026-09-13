@@ -3,6 +3,14 @@ import Container from '../ui/Container.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import Badge from '../ui/Badge.astro';
 import { ArrowUpRight, MapPin, Clock, ShieldCheck, CircleCheck } from '@lucide/astro';
+import { useTranslations, type Lang } from '../../i18n/translations';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 
 const linkedinUrl = 'https://www.linkedin.com/in/bruceeanthonyportugalrobles/';
 const githubUrl = 'https://github.com/anthonyportugal';
@@ -11,10 +19,10 @@ const githubUrl = 'https://github.com/anthonyportugal';
 <section id="contact" class="relative scroll-mt-16 border-t border-ctp-surface0/60 py-16 sm:py-20">
   <Container>
     <SectionHeading
-      tag="Initiate Contact"
-      title="Let's engineer something"
-      highlight="resilient together."
-      description="Available for select freelance contracts, frontend architecture audits, design systems governance, and senior technical consulting."
+      tag={t.contact.tag}
+      title={t.contact.title}
+      highlight={t.contact.highlight}
+      description={t.contact.description}
     />
 
     <div class="mt-12 space-y-8">
@@ -30,28 +38,27 @@ const githubUrl = 'https://github.com/anthonyportugal';
                 </svg>
               </div>
               <Badge variant="blue" pulse={false}>
-                Primary Channel
+                {t.contact.linkedinBadge}
               </Badge>
             </div>
 
             <div class="mt-6">
               <h3 class="font-mono text-xl font-bold tracking-tight text-ctp-text sm:text-2xl">
-                Direct Inquiry on LinkedIn
+                {t.contact.linkedinTitle}
               </h3>
               <p class="mt-2.5 text-sm leading-relaxed text-ctp-subtext0 sm:text-base">
-                For architectural consulting, design systems advisory, contract engagements, or
-                technical leadership discussions. Verified professional identity with zero bot spam.
+                {t.contact.linkedinDesc}
               </p>
             </div>
 
             <ul class="mt-6 space-y-2 font-mono text-xs text-ctp-subtext1">
               <li class="flex items-center gap-2">
                 <CircleCheck class="h-3.5 w-3.5 text-ctp-blue" />
-                <span>Verified professional identity &amp; direct messaging</span>
+                <span>{t.contact.linkedinPoint1}</span>
               </li>
               <li class="flex items-center gap-2">
                 <CircleCheck class="h-3.5 w-3.5 text-ctp-blue" />
-                <span>Typical response window: &lt; 24 hours</span>
+                <span>{t.contact.linkedinPoint2}</span>
               </li>
             </ul>
           </div>
@@ -66,7 +73,7 @@ const githubUrl = 'https://github.com/anthonyportugal';
               <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
                 <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
               </svg>
-              <span>Connect on LinkedIn</span>
+              <span>{t.contact.linkedinCta}</span>
               <ArrowUpRight class="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           </div>
@@ -86,28 +93,27 @@ const githubUrl = 'https://github.com/anthonyportugal';
                 </svg>
               </div>
               <Badge variant="mauve" pulse={false}>
-                Code &amp; Systems
+                {t.contact.githubBadge}
               </Badge>
             </div>
 
             <div class="mt-6">
               <h3 class="font-mono text-xl font-bold tracking-tight text-ctp-text sm:text-2xl">
-                Inspect Source Repositories
+                {t.contact.githubTitle}
               </h3>
               <p class="mt-2.5 text-sm leading-relaxed text-ctp-subtext0 sm:text-base">
-                Validate engineering rigor through production code, Unix dotfiles configurations,
-                and architectural foundations powering modern web systems.
+                {t.contact.githubDesc}
               </p>
             </div>
 
             <ul class="mt-6 space-y-2 font-mono text-xs text-ctp-subtext1">
               <li class="flex items-center gap-2">
                 <CircleCheck class="h-3.5 w-3.5 text-ctp-mauve" />
-                <span>Arch Linux dotfiles suite with GNU Stow &amp; MangoWM</span>
+                <span>{t.contact.githubPoint1}</span>
               </li>
               <li class="flex items-center gap-2">
                 <CircleCheck class="h-3.5 w-3.5 text-ctp-mauve" />
-                <span>Auditable Git hygiene and atomic commit cadence</span>
+                <span>{t.contact.githubPoint2}</span>
               </li>
             </ul>
           </div>
@@ -122,7 +128,7 @@ const githubUrl = 'https://github.com/anthonyportugal';
               <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
                 <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
               </svg>
-              <span>Explore GitHub Repositories</span>
+              <span>{t.contact.githubCta}</span>
               <ArrowUpRight class="h-4 w-4 text-ctp-overlay1 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ctp-mauve" />
             </a>
           </div>
@@ -135,31 +141,26 @@ const githubUrl = 'https://github.com/anthonyportugal';
           <div class="space-y-1.5">
             <div class="flex items-center gap-3">
               <Badge variant="green" pulse={true}>
-                Available for Select Projects
+                {t.contact.availBadge}
               </Badge>
-              <span class="font-mono text-xs text-ctp-overlay1">Q1–Q2 2026</span>
+              <span class="font-mono text-xs text-ctp-overlay1">{t.contact.availPeriod}</span>
             </div>
-            <h4 class="text-base font-semibold text-ctp-text sm:text-lg">
-              Open for Architecture Advisory, Design Systems &amp; Engineering Retainers
-            </h4>
-            <p class="text-xs text-ctp-subtext0 sm:text-sm">
-              Tailored engagements for technical teams scaling web applications and establishing
-              architectural standards.
-            </p>
+            <h4 class="text-base font-semibold text-ctp-text sm:text-lg">{t.contact.availTitle}</h4>
+            <p class="text-xs text-ctp-subtext0 sm:text-sm">{t.contact.availDesc}</p>
           </div>
 
           <div class="grid grid-cols-1 gap-3 border-t border-ctp-surface0/60 pt-4 font-mono text-xs text-ctp-subtext0 sm:grid-cols-3 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
             <div class="flex items-center gap-2">
               <MapPin class="h-4 w-4 shrink-0 text-ctp-mauve" />
-              <span>Lima, Peru (PET · UTC-5)</span>
+              <span>{t.contact.locLima}</span>
             </div>
             <div class="flex items-center gap-2">
               <Clock class="h-4 w-4 shrink-0 text-ctp-teal" />
-              <span>Remote Worldwide</span>
+              <span>{t.contact.locRemote}</span>
             </div>
             <div class="flex items-center gap-2">
               <ShieldCheck class="h-4 w-4 shrink-0 text-ctp-sky" />
-              <span>Response &lt; 24h</span>
+              <span>{t.contact.locResponse}</span>
             </div>
           </div>
         </div>

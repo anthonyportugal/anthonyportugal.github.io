@@ -1,12 +1,22 @@
 ---
 import Container from './Container.astro';
+import { useTranslations, type Lang } from '../../i18n/translations';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 
 const navItems = [
-  { label: 'Services', href: '#services' },
-  { label: 'Case Studies', href: '#work' },
-  { label: 'Open Source', href: '#ecosystem' },
-  { label: 'Architecture', href: '#philosophy' },
+  { label: t.nav.services, href: '#services' },
+  { label: t.nav.caseStudies, href: '#work' },
+  { label: t.nav.openSource, href: '#ecosystem' },
+  { label: t.nav.architecture, href: '#philosophy' },
 ];
+
+const homeUrl = lang === 'es' ? '/es/' : '/';
 ---
 
 <header class="sticky top-0 z-50 w-full border-b border-ctp-surface0/60 bg-ctp-mantle/80 backdrop-blur-md transition-all duration-200">
@@ -14,7 +24,7 @@ const navItems = [
     <div class="flex h-16 items-center justify-between">
       <!-- Brand Logo -->
       <a
-        href="#"
+        href={homeUrl}
         class="group inline-flex items-center gap-2.5 font-mono text-sm font-semibold tracking-tight text-ctp-text transition-colors hover:text-ctp-mauve"
         aria-label="Anthony Portugal - Home"
       >
@@ -38,8 +48,46 @@ const navItems = [
         ))}
       </nav>
 
-      <!-- Desktop CTA & Mobile Toggle -->
+      <!-- Desktop Controls: Language Switcher, CTA & Mobile Toggle -->
       <div class="flex items-center gap-3">
+        <!-- Language Switcher Pill -->
+        <div
+          class="inline-flex items-center rounded-xl border border-ctp-surface1 bg-ctp-surface0/60 p-0.5 font-mono text-xs shadow-inner"
+          role="group"
+          aria-label="Language selection"
+        >
+          <a
+            href={lang === 'en' ? undefined : '/'}
+            data-lang-choice="en"
+            tabindex={lang === 'en' ? -1 : 0}
+            class:list={[
+              'rounded-lg px-2 py-1 font-semibold transition-all select-none',
+              lang === 'en'
+                ? 'bg-ctp-mauve text-ctp-crust shadow-sm pointer-events-none cursor-default'
+                : 'text-ctp-subtext0 hover:text-ctp-text cursor-pointer',
+            ]}
+            aria-label="Switch to English"
+            aria-current={lang === 'en' ? 'page' : undefined}
+          >
+            EN
+          </a>
+          <a
+            href={lang === 'es' ? undefined : '/es/'}
+            data-lang-choice="es"
+            tabindex={lang === 'es' ? -1 : 0}
+            class:list={[
+              'rounded-lg px-2 py-1 font-semibold transition-all select-none',
+              lang === 'es'
+                ? 'bg-ctp-mauve text-ctp-crust shadow-sm pointer-events-none cursor-default'
+                : 'text-ctp-subtext0 hover:text-ctp-text cursor-pointer',
+            ]}
+            aria-label="Cambiar a Español"
+            aria-current={lang === 'es' ? 'page' : undefined}
+          >
+            ES
+          </a>
+        </div>
+
         <a
           href="#contact"
           class="group relative hidden items-center gap-2 rounded-xl bg-gradient-to-r from-ctp-mauve to-ctp-blue px-4 py-2 font-mono text-xs font-semibold text-ctp-crust shadow-md shadow-ctp-mauve/20 transition-all duration-200 hover:shadow-lg hover:shadow-ctp-mauve/30 active:scale-95 sm:inline-flex"
@@ -48,7 +96,7 @@ const navItems = [
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-ctp-crust opacity-75"></span>
             <span class="relative inline-flex h-2 w-2 rounded-full bg-ctp-crust"></span>
           </span>
-          <span>Get in Touch</span>
+          <span>{t.nav.getInTouch}</span>
           <svg
             class="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5"
             viewBox="0 0 24 24"
@@ -111,6 +159,7 @@ const navItems = [
             {item.label}
           </a>
         ))}
+
         <div class="mt-2 border-t border-ctp-surface0/60 pt-4">
           <a
             href="#contact"
@@ -120,7 +169,7 @@ const navItems = [
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-ctp-crust opacity-75"></span>
               <span class="relative inline-flex h-2 w-2 rounded-full bg-ctp-crust"></span>
             </span>
-            <span>Get in Touch</span>
+            <span>{t.nav.getInTouch}</span>
             <svg
               class="h-3.5 w-3.5"
               viewBox="0 0 24 24"
@@ -142,34 +191,56 @@ const navItems = [
 </header>
 
 <script>
-  function setupMobileMenu() {
+  function setupHeader() {
     const toggle = document.getElementById('mobile-menu-toggle');
     const menu = document.getElementById('mobile-menu');
     const iconOpen = document.getElementById('icon-open');
     const iconClose = document.getElementById('icon-close');
     const links = document.querySelectorAll('.mobile-nav-link');
 
-    if (!toggle || !menu || !iconOpen || !iconClose) return;
+    if (toggle && menu && iconOpen && iconClose) {
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
+        menu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden');
+        iconClose.classList.toggle('hidden');
+      });
 
-    toggle.addEventListener('click', () => {
-      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!isExpanded));
-      menu.classList.toggle('hidden');
-      iconOpen.classList.toggle('hidden');
-      iconClose.classList.toggle('hidden');
-    });
+      links.forEach((link) => {
+        link.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', 'false');
+          menu.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+        });
+      });
+    }
 
-    links.forEach((link) => {
-      link.addEventListener('click', () => {
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.classList.add('hidden');
-        iconOpen.classList.remove('hidden');
-        iconClose.classList.add('hidden');
+    // Persist language choice when user manually clicks language switch
+    const langLinks = document.querySelectorAll('[data-lang-choice]');
+    langLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const isCurrent =
+          link.getAttribute('aria-current') === 'page' || !link.hasAttribute('href');
+        if (isCurrent) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
+        const choice = link.getAttribute('data-lang-choice');
+        if (choice) {
+          try {
+            localStorage.setItem('preferred-locale', choice);
+          } catch {
+            // Ignore restricted localStorage
+          }
+        }
       });
     });
   }
 
-  // Setup on initial load and page transitions
-  setupMobileMenu();
-  document.addEventListener('astro:page-load', setupMobileMenu);
+  setupHeader();
+  document.addEventListener('astro:page-load', setupHeader);
 </script>
