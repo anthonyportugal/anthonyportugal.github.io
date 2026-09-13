@@ -2,9 +2,9 @@
 export type BadgeVariant = 'green' | 'mauve' | 'blue' | 'peach' | 'sky' | 'teal' | 'surface';
 
 interface Props {
-  variant?: BadgeVariant;
-  pulse?: boolean;
-  class?: string;
+  variant?: BadgeVariant | undefined;
+  pulse?: boolean | undefined;
+  class?: string | undefined;
 }
 
 const { variant = 'mauve', pulse = false, class: className = '' } = Astro.props;

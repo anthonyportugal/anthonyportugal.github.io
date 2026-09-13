@@ -1,0 +1,279 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Badge from '../ui/Badge.astro';
+import { Layers, Palette, Terminal, Cpu, Briefcase, Calendar, CircleCheck } from '@lucide/astro';
+
+interface Principle {
+  icon: typeof Layers;
+  title: string;
+  tag: string;
+  description: string;
+  accent: 'mauve' | 'teal' | 'sky' | 'peach';
+}
+
+const principles: Principle[] = [
+  {
+    icon: Layers,
+    title: 'Frameworks Are Implementation Details',
+    tag: 'Clean Architecture',
+    description:
+      'UI frameworks (Vue, React, Angular) come and go. Investing in framework-agnostic standards like Web Components (Lit) and Clean Architecture boundaries ensures that core business logic and UI primitives outlive any single framework ecosystem.',
+    accent: 'mauve',
+  },
+  {
+    icon: Palette,
+    title: 'Design Tokens as Single Source of Truth',
+    tag: 'DesignOps',
+    description:
+      'Bridging design and engineering requires multi-level semantic tokens (Core, Semantic, Component). By establishing strict token governance and compound primitives, UI consistency is mathematically preserved across products.',
+    accent: 'teal',
+  },
+  {
+    icon: Terminal,
+    title: 'Unix Craftsmanship & Developer Tooling',
+    tag: 'Systems & DX',
+    description:
+      'An engineering team’s delivery velocity is bound by its developer tooling. Declarative configurations (GNU Stow, Linux), reproducible containers, and automated CI/CD quality gates empower teams to ship with zero cognitive fatigue.',
+    accent: 'sky',
+  },
+  {
+    icon: Cpu,
+    title: 'Resource-Conscious Engineering & Performance',
+    tag: 'Efficiency & UX',
+    description:
+      'Performance is driven by discipline and resource efficiency: strict Core Web Vitals budgets, low memory footprints, sub-2s load guarantees, and asynchronous queue concurrency to prevent main-thread saturation across web and multiplatform.',
+    accent: 'peach',
+  },
+];
+
+interface TimelineItem {
+  role: string;
+  company: string;
+  client?: string;
+  period: string;
+  current?: boolean;
+  description: string;
+  highlights: string[];
+  skills: string[];
+}
+
+const timeline: TimelineItem[] = [
+  {
+    role: 'Senior Frontend Consultant',
+    company: 'CSTI',
+    client: 'Client: Laureate',
+    period: '2026 – Present',
+    current: true,
+    description:
+      'Collaborating as an external frontend specialist supporting enterprise engineering teams in elevating UI code quality, adopting compound component patterns, and establishing design token alignment.',
+    highlights: [
+      'Guiding UI library refactoring toward Compound Components and open composition',
+      'Assisting teams in synchronizing multi-level design tokens between Figma and code',
+      'Supporting package release standards, SemVer versioning, and Storybook documentation',
+    ],
+    skills: ['Vue 3', 'Nuxt', 'Compound Components', 'Design Tokens', 'Storybook', 'TypeScript'],
+  },
+  {
+    role: 'Tech Lead & Software Project Manager',
+    company: 'FractalUp',
+    period: '2024 – 2026',
+    description:
+      'Directed an engineering squad of ~7 developers, driving architectural standards, technical onboarding, and platform scalability.',
+    highlights: [
+      'Engineered cross-platform Flutter architecture across Android, iOS, Windows, macOS, and Linux',
+      'Architected Google Drive-style file system with queue-based concurrency',
+      'Enforced Clean Architecture & SOLID (-30% tech debt) and automated GitLab CI/CD (-80% manual deploys)',
+    ],
+    skills: [
+      'Clean Architecture',
+      'Flutter (Mobile & Desktop)',
+      'Widgetbook',
+      'TypeScript',
+      'Docker',
+      'GitLab CI',
+    ],
+  },
+  {
+    role: 'Full Stack Software Engineer',
+    company: 'FractalUp',
+    period: '2021 – 2024',
+    description:
+      'Built core product modules and refactored high-concurrency interfaces for enterprise scale.',
+    highlights: [
+      'Migrated build tooling to modern Vite, cutting build times by 50%',
+      'Engineered dynamic form and rubric engines with TypeScript type safety',
+      'Maintained 80% crash-free sessions and <2s latency under concurrent loads',
+    ],
+    skills: ['Vue', 'React', 'TypeScript', 'Vite', 'Storybook', 'GitLab CI', 'GraphQL'],
+  },
+  {
+    role: 'Systems & Frontend Intern',
+    company: 'Virtualink Technologies',
+    period: '2019 – 2021',
+    description:
+      'Gained deep foundational experience in web fundamentals, systems stability, and responsive rendering.',
+    highlights: [
+      'Optimized asset delivery and rendering pipelines for legacy client platforms',
+      'Executed responsive UI component layouts ensuring cross-browser parity',
+    ],
+    skills: ['JavaScript', 'HTML5 / SCSS', 'Linux', 'Git', 'Debugging'],
+  },
+];
+
+const accentColors = {
+  mauve: {
+    badge: 'border-ctp-mauve/20 bg-ctp-mauve/10 text-ctp-mauve',
+    border: 'hover:border-ctp-mauve/40',
+    iconBg: 'bg-ctp-mauve/10 text-ctp-mauve',
+  },
+  teal: {
+    badge: 'border-ctp-teal/20 bg-ctp-teal/10 text-ctp-teal',
+    border: 'hover:border-ctp-teal/40',
+    iconBg: 'bg-ctp-teal/10 text-ctp-teal',
+  },
+  sky: {
+    badge: 'border-ctp-sky/20 bg-ctp-sky/10 text-ctp-sky',
+    border: 'hover:border-ctp-sky/40',
+    iconBg: 'bg-ctp-sky/10 text-ctp-sky',
+  },
+  peach: {
+    badge: 'border-ctp-peach/20 bg-ctp-peach/10 text-ctp-peach',
+    border: 'hover:border-ctp-peach/40',
+    iconBg: 'bg-ctp-peach/10 text-ctp-peach',
+  },
+};
+---
+
+<section
+  id="philosophy"
+  class="relative scroll-mt-16 border-t border-ctp-surface0/60 py-20 sm:py-28"
+>
+  <div id="about" class="absolute -top-16"></div>
+  <Container>
+    <SectionHeading
+      tag="Engineering Mindset & Track Record"
+      title="Architectural principles honed in"
+      highlight="high-stakes production."
+      description="How I approach software engineering: treating frameworks as details, enforcing typed contracts, and building for long-term maintainability."
+    />
+
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+      <!-- Left Column: Core Engineering Principles (6 cols) -->
+      <div class="space-y-6 lg:col-span-6">
+        <div class="flex items-center gap-2 border-b border-ctp-surface0/60 pb-4">
+          <Layers class="h-5 w-5 text-ctp-mauve" />
+          <h3 class="font-mono text-sm font-semibold uppercase tracking-wider text-ctp-text">
+            Core Engineering Principles
+          </h3>
+        </div>
+
+        <div class="space-y-4">
+          {principles.map((item) => {
+            const styles = accentColors[item.accent];
+            const IconComp = item.icon;
+
+            return (
+              <div
+                class:list={[
+                  'surface-card rounded-2xl border border-ctp-surface0 bg-ctp-mantle/70 p-6 transition-all duration-300',
+                  styles.border,
+                ]}
+              >
+                <div class="flex items-start gap-4">
+                  <div
+                    class:list={[
+                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+                      styles.iconBg,
+                    ]}
+                  >
+                    <IconComp class="h-5 w-5" />
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between gap-2">
+                      <h4 class="text-base font-bold text-ctp-text sm:text-lg">{item.title}</h4>
+                      <span
+                        class:list={[
+                          'shrink-0 rounded-full border px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider',
+                          styles.badge,
+                        ]}
+                      >
+                        {item.tag}
+                      </span>
+                    </div>
+                    <p class="mt-2 text-xs leading-relaxed text-ctp-subtext0 sm:text-sm">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Right Column: Career Milestones & Leadership Journey (6 cols) -->
+      <div class="space-y-6 lg:col-span-6">
+        <div class="flex items-center gap-2 border-b border-ctp-surface0/60 pb-4">
+          <Briefcase class="h-5 w-5 text-ctp-teal" />
+          <h3 class="font-mono text-sm font-semibold uppercase tracking-wider text-ctp-text">
+            Leadership &amp; Career Milestones
+          </h3>
+        </div>
+
+        <!-- Vertical Timeline -->
+        <div class="relative pl-6 space-y-8 before:absolute before:bottom-2 before:left-2 before:top-2 before:w-0.5 before:bg-ctp-surface1">
+          {timeline.map((item) => (
+            <div class="relative">
+              <!-- Timeline Node Marker -->
+              <div
+                class:list={[
+                  'absolute -left-[27px] top-1.5 h-3.5 w-3.5 rounded-full border-2 bg-ctp-crust',
+                  item.current
+                    ? 'border-ctp-green ring-4 ring-ctp-green/20'
+                    : 'border-ctp-overlay0',
+                ]}
+              />
+
+              <div class="surface-card rounded-2xl border border-ctp-surface0 bg-ctp-mantle/70 p-6 transition-all duration-300 hover:border-ctp-surface2">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="font-mono text-xs font-semibold text-ctp-mauve">
+                    {item.company}{' '}
+                    {item.client && <span class="text-ctp-subtext0">({item.client})</span>}
+                  </span>
+                  <Badge variant={item.current ? 'green' : 'surface'} pulse={Boolean(item.current)}>
+                    <Calendar class="mr-1 h-3 w-3" />
+                    {item.period}
+                  </Badge>
+                </div>
+
+                <h4 class="mt-2 text-lg font-bold text-ctp-text">{item.role}</h4>
+
+                <p class="mt-2 text-xs leading-relaxed text-ctp-subtext0 sm:text-sm">
+                  {item.description}
+                </p>
+
+                <ul class="mt-4 space-y-1.5 text-xs text-ctp-subtext1">
+                  {item.highlights.map((point) => (
+                    <li class="flex items-start gap-2">
+                      <CircleCheck class="h-3.5 w-3.5 shrink-0 text-ctp-teal mt-0.5" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-4 flex flex-wrap gap-1.5 border-t border-ctp-surface0/60 pt-3">
+                  {item.skills.map((skill) => (
+                    <span class="rounded border border-ctp-surface1 bg-ctp-surface0/40 px-2 py-0.5 font-mono text-[11px] text-ctp-subtext0">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
