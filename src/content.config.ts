@@ -35,6 +35,7 @@ const openSource = defineCollection({
     technologies: z.array(z.string()),
     githubUrl: z.string(),
     liveUrl: z.string().optional(),
+    liveUrlLabel: z.string().optional(),
     order: z.number(),
     featured: z.boolean().default(true),
     accentColor: z.enum(['mauve', 'teal', 'sky', 'peach', 'green']).default('sky'),

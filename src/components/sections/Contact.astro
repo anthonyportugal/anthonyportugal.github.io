@@ -1,0 +1,169 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Badge from '../ui/Badge.astro';
+import { ArrowUpRight, MapPin, Clock, ShieldCheck, CircleCheck } from '@lucide/astro';
+
+const linkedinUrl = 'https://www.linkedin.com/in/bruceeanthonyportugalrobles/';
+const githubUrl = 'https://github.com/anthonyportugal';
+---
+
+<section id="contact" class="relative scroll-mt-16 border-t border-ctp-surface0/60 py-20 sm:py-28">
+  <Container>
+    <SectionHeading
+      tag="Initiate Contact"
+      title="Let's engineer something"
+      highlight="resilient together."
+      description="Available for select freelance contracts, frontend architecture audits, design systems governance, and senior technical consulting."
+    />
+
+    <div class="mt-12 space-y-8">
+      <!-- Main Channels Grid -->
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <!-- LinkedIn: Primary Contact Channel -->
+        <div class="surface-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-ctp-blue/30 bg-gradient-to-br from-ctp-mantle/90 via-ctp-mantle/70 to-ctp-blue/5 p-7 transition-all duration-300 hover:border-ctp-blue/60 hover:shadow-xl hover:shadow-ctp-blue/5 sm:p-9">
+          <div>
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-ctp-blue/40 bg-ctp-blue/10 text-ctp-blue shadow-inner">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+                </svg>
+              </div>
+              <Badge variant="blue" pulse={false}>
+                Primary Channel
+              </Badge>
+            </div>
+
+            <div class="mt-6">
+              <h3 class="font-mono text-xl font-bold tracking-tight text-ctp-text sm:text-2xl">
+                Direct Inquiry on LinkedIn
+              </h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-ctp-subtext0 sm:text-base">
+                For architectural consulting, design systems advisory, contract engagements, or
+                technical leadership discussions. Verified professional identity with zero bot spam.
+              </p>
+            </div>
+
+            <ul class="mt-6 space-y-2 font-mono text-xs text-ctp-subtext1">
+              <li class="flex items-center gap-2">
+                <CircleCheck class="h-3.5 w-3.5 text-ctp-blue" />
+                <span>Verified professional identity &amp; direct messaging</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <CircleCheck class="h-3.5 w-3.5 text-ctp-blue" />
+                <span>Typical response window: &lt; 24 hours</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-8 border-t border-ctp-surface0/60 pt-6">
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-ctp-blue px-6 py-3.5 font-mono text-sm font-semibold text-ctp-crust shadow-lg shadow-ctp-blue/20 transition-all hover:bg-ctp-sapphire hover:shadow-xl hover:shadow-ctp-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-blue"
+            >
+              <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+              </svg>
+              <span>Connect on LinkedIn</span>
+              <ArrowUpRight class="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          </div>
+        </div>
+
+        <!-- GitHub: Code & Open Source Showcase -->
+        <div class="surface-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-ctp-surface1 bg-gradient-to-br from-ctp-mantle/90 via-ctp-mantle/70 to-ctp-mauve/5 p-7 transition-all duration-300 hover:border-ctp-mauve/50 hover:shadow-xl hover:shadow-ctp-mauve/5 sm:p-9">
+          <div>
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-ctp-mauve/40 bg-ctp-mauve/10 text-ctp-mauve shadow-inner">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  ></path>
+                </svg>
+              </div>
+              <Badge variant="mauve" pulse={false}>
+                Code &amp; Systems
+              </Badge>
+            </div>
+
+            <div class="mt-6">
+              <h3 class="font-mono text-xl font-bold tracking-tight text-ctp-text sm:text-2xl">
+                Inspect Source Repositories
+              </h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-ctp-subtext0 sm:text-base">
+                Validate engineering rigor through production code, Unix dotfiles configurations,
+                and architectural foundations powering modern web systems.
+              </p>
+            </div>
+
+            <ul class="mt-6 space-y-2 font-mono text-xs text-ctp-subtext1">
+              <li class="flex items-center gap-2">
+                <CircleCheck class="h-3.5 w-3.5 text-ctp-mauve" />
+                <span>Arch Linux dotfiles suite with GNU Stow &amp; MangoWM</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <CircleCheck class="h-3.5 w-3.5 text-ctp-mauve" />
+                <span>Auditable Git hygiene and atomic commit cadence</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-8 border-t border-ctp-surface0/60 pt-6">
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl border border-ctp-surface1 bg-ctp-surface0/60 px-6 py-3.5 font-mono text-sm font-semibold text-ctp-text transition-all hover:border-ctp-mauve hover:bg-ctp-surface0 hover:text-ctp-mauve focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve"
+            >
+              <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+              </svg>
+              <span>Explore GitHub Repositories</span>
+              <ArrowUpRight class="h-4 w-4 text-ctp-overlay1 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ctp-mauve" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Availability & Engagement Banner -->
+      <div class="surface-card rounded-2xl border border-ctp-surface0 bg-ctp-mantle/70 p-6 sm:p-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-3">
+              <Badge variant="green" pulse={true}>
+                Available for Consultations
+              </Badge>
+              <span class="font-mono text-xs text-ctp-overlay1">Q1–Q2 2026</span>
+            </div>
+            <h4 class="text-base font-semibold text-ctp-text sm:text-lg">
+              Open for Architecture Advisory, Design Systems &amp; Engineering Retainers
+            </h4>
+            <p class="text-xs text-ctp-subtext0 sm:text-sm">
+              Tailored engagements for technical teams scaling web applications and establishing
+              architectural standards.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-3 border-t border-ctp-surface0/60 pt-4 font-mono text-xs text-ctp-subtext0 sm:grid-cols-3 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+            <div class="flex items-center gap-2">
+              <MapPin class="h-4 w-4 shrink-0 text-ctp-mauve" />
+              <span>Lima, Peru (PET · UTC-5)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <Clock class="h-4 w-4 shrink-0 text-ctp-teal" />
+              <span>Remote Worldwide</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <ShieldCheck class="h-4 w-4 shrink-0 text-ctp-sky" />
+              <span>Response &lt; 24h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

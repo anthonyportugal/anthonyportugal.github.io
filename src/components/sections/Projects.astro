@@ -205,7 +205,13 @@ const accentClasses = {
                 <!-- Category & Repo Name -->
                 <div class="flex items-center justify-between">
                   <Badge variant={colors.badgeVariant}>{repo.data.category}</Badge>
-                  <span class="font-mono text-xs text-ctp-overlay1">Arch Linux</span>
+                  {repo.data.liveUrlLabel ? (
+                    <span class="inline-flex items-center gap-1 rounded-full border border-ctp-teal/40 bg-ctp-teal/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-ctp-teal">
+                      Official Feature
+                    </span>
+                  ) : (
+                    <span class="font-mono text-xs text-ctp-overlay1">Arch Linux</span>
+                  )}
                 </div>
 
                 <h5 class="mt-4 font-mono text-xl font-bold tracking-tight text-ctp-text group-hover:text-ctp-mauve sm:text-2xl">
@@ -249,7 +255,7 @@ const accentClasses = {
                     class="inline-flex items-center gap-1.5 rounded-md border border-ctp-teal/30 bg-ctp-teal/10 px-3 py-1 font-mono text-xs font-semibold text-ctp-teal transition-colors hover:bg-ctp-teal/20"
                   >
                     <ExternalLink class="h-3.5 w-3.5" />
-                    <span>Live Showcase</span>
+                    <span>{repo.data.liveUrlLabel ?? 'Live Showcase'}</span>
                   </a>
                 )}
               </div>

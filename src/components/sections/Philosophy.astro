@@ -222,20 +222,26 @@ const accentColors = {
         </div>
 
         <!-- Vertical Timeline -->
-        <div class="relative pl-6 space-y-8 before:absolute before:bottom-2 before:left-2 before:top-2 before:w-0.5 before:bg-ctp-surface1">
+        <div class="relative space-y-8">
+          <!-- Continuous Timeline Track Line -->
+          <div
+            class="absolute bottom-8 left-[7px] top-8 w-0.5 bg-ctp-surface1"
+            aria-hidden="true"
+          ></div>
+
           {timeline.map((item) => (
-            <div class="relative">
+            <div class="relative flex items-start gap-4 sm:gap-5">
               <!-- Timeline Node Marker -->
               <div
                 class:list={[
-                  'absolute -left-[27px] top-1.5 h-3.5 w-3.5 rounded-full border-2 bg-ctp-crust',
+                  'relative z-10 mt-6 h-4 w-4 shrink-0 rounded-full border-2 bg-ctp-crust',
                   item.current
                     ? 'border-ctp-green ring-4 ring-ctp-green/20'
                     : 'border-ctp-overlay0',
                 ]}
               />
 
-              <div class="surface-card rounded-2xl border border-ctp-surface0 bg-ctp-mantle/70 p-6 transition-all duration-300 hover:border-ctp-surface2">
+              <div class="surface-card flex-1 rounded-2xl border border-ctp-surface0 bg-ctp-mantle/70 p-6 transition-all duration-300 hover:border-ctp-surface2">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                   <span class="font-mono text-xs font-semibold text-ctp-mauve">
                     {item.company}{' '}
@@ -256,7 +262,7 @@ const accentColors = {
                 <ul class="mt-4 space-y-1.5 text-xs text-ctp-subtext1">
                   {item.highlights.map((point) => (
                     <li class="flex items-start gap-2">
-                      <CircleCheck class="h-3.5 w-3.5 shrink-0 text-ctp-teal mt-0.5" />
+                      <CircleCheck class="mt-0.5 h-3.5 w-3.5 shrink-0 text-ctp-teal" />
                       <span>{point}</span>
                     </li>
                   ))}
