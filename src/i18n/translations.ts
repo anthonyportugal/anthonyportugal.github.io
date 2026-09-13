@@ -333,7 +333,7 @@ export const translations = {
     },
     footer: {
       tagline: 'Software architecture, multiplatform engineering, and Unix systems craftsmanship.',
-      rights: 'Anthony Portugal. All rights reserved.',
+      rights: 'Anthony Portugal (Anthony Portugal Robles). All rights reserved.',
       builtWith:
         'Built with <span class="text-ctp-mauve">Astro</span>, <span class="text-ctp-sky">Tailwind CSS</span> and <span class="text-ctp-peach">Catppuccin Mocha</span>',
     },
@@ -665,7 +665,7 @@ export const translations = {
     },
     footer: {
       tagline: 'Arquitectura de software, ingeniería multiplataforma y artesanía en sistemas Unix.',
-      rights: 'Anthony Portugal. Todos los derechos reservados.',
+      rights: 'Anthony Portugal (Anthony Portugal Robles). Todos los derechos reservados.',
       builtWith:
         'Construido con <span class="text-ctp-mauve">Astro</span>, <span class="text-ctp-sky">Tailwind CSS</span> y <span class="text-ctp-peach">Catppuccin Mocha</span>',
     },

@@ -21,11 +21,11 @@ interface Props {
 const {
   lang = 'en',
   title = lang === 'es'
-    ? 'Anthony Portugal | Ingeniero de Software y Arquitecto'
-    : 'Anthony Portugal | Senior Software Engineer & Architect',
+    ? 'Anthony Portugal (Anthony Portugal Robles) | Ingeniero de Software y Arquitecto'
+    : 'Anthony Portugal (Anthony Portugal Robles) | Senior Software Engineer & Architect',
   description = lang === 'es'
-    ? 'Ingeniero de Software Senior y Arquitecto construyendo plataformas escalables, aplicaciones multiplataforma y herramientas de sistema para Linux.'
-    : 'Senior Software Engineer & Architect building scalable platforms, multiplatform applications, and Linux systems tooling.',
+    ? 'Anthony Portugal (Anthony Portugal Robles) — Ingeniero de Software Senior y Arquitecto construyendo plataformas escalables, aplicaciones multiplataforma y herramientas de sistema para Linux.'
+    : 'Anthony Portugal (Anthony Portugal Robles) — Senior Software Engineer & Architect building scalable platforms, multiplatform applications, and Linux systems tooling.',
   image = '/og-image.png',
 } = Astro.props;
 
@@ -76,7 +76,11 @@ const socialImageURL = new URL(image, Astro.site);
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="author" content="Anthony Portugal" />
+    <meta name="author" content="Anthony Portugal (Anthony Portugal Robles)" />
+    <meta
+      name="keywords"
+      content="Anthony Portugal, Anthony Portugal Robles, Brucee Anthony Portugal Robles, Software Architect, Software Engineer, Flutter, Wayland, Linux, Lima Peru"
+    />
     <meta name="theme-color" content="#1e1e2e" />
     <meta name="google-site-verification" content="7d7NMlLI0KPl4VqcY3-CAB96dk47fPgB0K2zgnF0d2Y" />
 
@@ -102,6 +106,9 @@ const socialImageURL = new URL(image, Astro.site);
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: 'Anthony Portugal',
+        alternateName: ['Anthony Portugal Robles', 'Brucee Anthony Portugal Robles'],
+        givenName: 'Anthony',
+        familyName: 'Portugal Robles',
         url: 'https://anthonyportugal.github.io',
         sameAs: [
           'https://github.com/anthonyportugal',
