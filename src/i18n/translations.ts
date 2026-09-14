@@ -17,12 +17,14 @@ export const translations = {
       getInTouch: 'Get in Touch',
     },
     hero: {
-      eyebrowRole: 'Senior Software & Systems Architect',
+      eyebrowBadge: 'Personal Portfolio & Systems Space',
       availableBadge: 'Available for Select Projects',
+      greeting: "Hi, I'm",
+      roleHeadline: 'Software Architect & Systems Engineer',
       headlinePrefix: 'Architecting scalable platforms & systems with',
       headlineHighlight: 'Unix craftsmanship.',
       subheadline:
-        'Senior Software Engineer & Systems Architect based in Peru. I partner with engineering teams and startups to build robust design systems, eliminate technical debt through Clean Architecture, and ship resilient web platforms, multiplatform apps, and declarative Linux environments.',
+        'Senior Software Engineer & Systems Architect based in Peru. I build robust design systems, eliminate technical debt through Clean Architecture, and engineer resilient web platforms, multiplatform applications, and declarative Linux environments.',
       ctaStart: 'Start a Project',
       ctaCaseStudies: 'Explore Case Studies',
       proofProduction: 'Proven Production Track Record',
@@ -347,12 +349,14 @@ export const translations = {
       getInTouch: 'Iniciar Contacto',
     },
     hero: {
-      eyebrowRole: 'Arquitecto de Software y Sistemas',
+      eyebrowBadge: 'Portafolio Personal & Espacio de Sistemas',
       availableBadge: 'Disponible para Proyectos Selectos',
+      greeting: 'Hola, soy',
+      roleHeadline: 'Arquitecto de Software & Sistemas',
       headlinePrefix: 'Construyendo software y sistemas escalables con',
       headlineHighlight: 'artesanía Unix.',
       subheadline:
-        'Ingeniero de Software Senior y Arquitecto en Perú. Colaboro con equipos de ingeniería y startups para construir sistemas de diseño robustos, eliminar deuda técnica mediante Clean Architecture y crear plataformas web resilientes, aplicaciones multiplataforma y entornos declarativos en Linux.',
+        'Ingeniero de Software Senior y Arquitecto en Perú. Construyo sistemas de diseño robustos, elimino deuda técnica mediante Clean Architecture e impulso plataformas web resilientes, aplicaciones multiplataforma y entornos declarativos en Linux.',
       ctaStart: 'Iniciar Proyecto',
       ctaCaseStudies: 'Explorar Casos de Estudio',
       proofProduction: 'Trayectoria Comprobada en Producción',
