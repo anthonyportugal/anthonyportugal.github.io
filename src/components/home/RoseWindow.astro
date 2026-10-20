@@ -1,0 +1,76 @@
+---
+import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
+
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+// Every pane carries its own data-san-accent: the one place on the site where the
+// accents mix, because showing all twelve pigments is the point.
+const pigments = Object.keys(palette.pigments);
+---
+
+<div class="rose" role="img" aria-label={label} style={`--count: ${pigments.length}`}>
+  {pigments.map((pigment, index) => (
+    <span class="pane" style={`--i: ${index}`} data-san-accent={pigment} />
+  ))}
+  <span class="hub" aria-hidden="true">
+    S
+  </span>
+</div>
+
+<style>
+  .rose {
+    --angle: calc(360deg / var(--count));
+
+    position: relative;
+    justify-self: center;
+    width: min(100%, 24rem);
+    aspect-ratio: 1;
+  }
+
+  .pane {
+    --orbit: -205%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16%;
+    aspect-ratio: 1;
+    border: var(--san-border-width-came) solid var(--san-lead-came);
+    border-radius: var(--san-radius-full);
+    background: radial-gradient(
+      circle at 35% 30%,
+      var(--san-accent-lume),
+      var(--san-accent) 30%,
+      var(--san-accent-pane) 100%
+    );
+    box-shadow: var(--san-cast-md);
+    transform: translate(-50%, -50%) rotate(calc(var(--i) * var(--angle))) translateY(var(--orbit))
+      rotate(calc(var(--i) * var(--angle) * -1));
+    transition: transform var(--san-duration-slow) var(--san-ease-standard);
+  }
+
+  .rose:hover .pane {
+    --orbit: -220%;
+  }
+
+  .hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 30%;
+    aspect-ratio: 1;
+    border: var(--san-border-width-heavy) solid var(--san-lead-came);
+    border-radius: var(--san-radius-full);
+    background: var(--san-window);
+    box-shadow: var(--san-cast-lg);
+    color: var(--san-accent-on);
+    font: var(--san-type-inscription);
+    font-size: 1.4rem;
+    transform: translate(-50%, -50%);
+  }
+</style>

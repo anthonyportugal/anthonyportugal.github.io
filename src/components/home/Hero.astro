@@ -1,0 +1,345 @@
+---
+import { Picture } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import portrait from '../../assets/portrait.jpg';
+import { useUi, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUi(lang).hero;
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <div class="beams" aria-hidden="true">
+    <span class="beam"></span>
+    <span class="beam"></span>
+    <span class="beam"></span>
+  </div>
+  <div class="floor" aria-hidden="true"></div>
+
+  <Container class="hero-grid">
+    <div class="copy">
+      <span class="inscription">{t.inscription}</span>
+      <h1 class="name" id="hero-name">
+        {t.first}
+        <em>{t.last}</em>
+      </h1>
+      <p class="statement">{t.statement}</p>
+      <p class="lede">
+        {t.ledeBefore} <a href="#work">Sanctuary</a>
+        {t.ledeAfter}
+      </p>
+      <div class="actions">
+        <Button href="#work" size="lg">
+          {t.ctaWork} →
+        </Button>
+        <Button href="#contact" size="lg" variant="secondary">
+          {t.ctaContact}
+        </Button>
+      </div>
+      <dl class="facts">
+        {t.facts.map((fact) => (
+          <div class="fact">
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <figure class="portrait">
+      <div class="niche">
+        <Picture
+          src={portrait}
+          alt={t.portraitAlt}
+          formats={['avif', 'webp']}
+          widths={[420, 640, 896]}
+          sizes="(min-width: 960px) 26rem, 90vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <figcaption class="plaque">
+        <span class="dot" aria-hidden="true"></span>
+        {t.availability}
+      </figcaption>
+    </figure>
+  </Container>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--san-space-16) var(--san-space-24);
+  }
+
+  /* Light falling through tall windows onto the stone floor. */
+  .beams {
+    position: absolute;
+    inset: -20% -10% 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .beam {
+    position: absolute;
+    top: 0;
+    width: 14rem;
+    height: 140%;
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--beam-light) 35%, transparent),
+      transparent 70%
+    );
+    filter: blur(28px);
+    opacity: 0.55;
+    transform: skewX(-18deg);
+    animation: breathe 9s var(--san-ease-standard) infinite alternate;
+
+    &:nth-child(1) {
+      --beam-light: var(--san-window-c);
+      left: 48%;
+    }
+
+    &:nth-child(2) {
+      --beam-light: var(--san-window-a);
+      left: 64%;
+      width: 8rem;
+      animation-delay: -3s;
+    }
+
+    &:nth-child(3) {
+      --beam-light: var(--san-window-b);
+      left: 78%;
+      width: 11rem;
+      animation-delay: -6s;
+    }
+  }
+
+  @keyframes breathe {
+    from {
+      opacity: 0.35;
+    }
+
+    to {
+      opacity: 0.7;
+    }
+  }
+
+  .floor {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: -1;
+    height: 40%;
+    background: radial-gradient(
+      60% 80% at 65% 100%,
+      color-mix(in oklch, var(--san-accent) 18%, transparent),
+      transparent 70%
+    );
+  }
+
+  .hero :global(.hero-grid) {
+    display: grid;
+    gap: var(--san-space-16);
+    align-items: center;
+  }
+
+  .inscription {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--san-space-3);
+    color: var(--san-accent-ink);
+    font: var(--san-type-inscription);
+    font-size: 0.8rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+
+    &::before {
+      content: '';
+      width: 2.5rem;
+      height: 1px;
+      background: currentColor;
+    }
+  }
+
+  .name {
+    margin: var(--san-space-6) 0 0;
+    font: 500 clamp(3.4rem, 8vw, 6.5rem) / 0.95 var(--san-font-family-display);
+    letter-spacing: -0.03em;
+
+    & em {
+      display: block;
+      /* background-clip: text paints only inside the line box; the padding keeps
+         descenders such as the g from being cut, the margin keeps the rhythm. */
+      padding-bottom: 0.18em;
+      margin-bottom: -0.18em;
+      background: var(--san-window);
+      background-clip: text;
+      color: transparent;
+      font-style: normal;
+    }
+  }
+
+  /* At dawn the window's pane tone is pale; start the glass from ink so the first
+     letters keep their contrast against light stone. */
+  :global([data-san-flavor='lauds']) .name em {
+    background: linear-gradient(100deg, var(--san-accent-ink), var(--san-accent));
+    background-clip: text;
+  }
+
+  .statement {
+    margin: var(--san-space-6) 0 0;
+    font: var(--san-type-headline-sm);
+  }
+
+  .lede {
+    max-width: 36rem;
+    margin: var(--san-space-4) 0 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+
+    & a {
+      color: var(--san-accent-ink);
+      text-decoration-color: color-mix(in oklch, var(--san-accent) 50%, transparent);
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--san-space-3);
+    margin-top: var(--san-space-10);
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--san-space-8);
+    margin: var(--san-space-12) 0 0;
+    padding-top: var(--san-space-6);
+    border-top: var(--san-border-width-hairline) solid var(--san-lead-soft);
+  }
+
+  /* The value reads first; the label stays first in the markup for screen readers. */
+  .fact {
+    display: flex;
+    flex-direction: column-reverse;
+
+    & dt {
+      color: var(--san-text-subtle);
+      font: var(--san-type-label-md);
+    }
+
+    & dd {
+      margin: 0;
+      font: var(--san-type-headline-md);
+    }
+  }
+
+  /* The portrait has no frame: it dissolves into the stone, and the accent enters
+     from the window side, where the photo's own light comes from. */
+  .portrait {
+    --fade:
+      linear-gradient(to right, transparent, #000 30%),
+      linear-gradient(to top, transparent, #000 30%),
+      linear-gradient(to bottom, transparent, #000 12%),
+      linear-gradient(to left, transparent, #000 12%);
+
+    position: relative;
+    isolation: isolate;
+    justify-self: center;
+    width: min(100%, 26rem);
+    margin: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 10% auto 10% -15%;
+      z-index: -1;
+      width: 60%;
+      background: var(--san-window);
+      filter: blur(70px);
+      opacity: 0.5;
+    }
+  }
+
+  .niche {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+
+    & :global(img) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      mask-image: var(--fade);
+      mask-composite: intersect;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        100deg,
+        color-mix(in oklch, var(--san-accent-lume) 55%, transparent),
+        transparent 55%
+      );
+      mix-blend-mode: soft-light;
+      mask-image: var(--fade);
+      mask-composite: intersect;
+    }
+  }
+
+  /* At dawn the stone is pale, so the photo dissolves into a dark niche instead of
+     the page. In the dark flavors the niche would be the same stone. */
+  :global([data-san-flavor='lauds']) .niche {
+    border-radius: var(--san-radius-xl);
+    background: var(--san-surface-inverse);
+    box-shadow: var(--san-elevation-4);
+  }
+
+  .plaque {
+    position: absolute;
+    bottom: calc(-1 * var(--san-space-5));
+    left: 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--san-space-2);
+    padding: var(--san-space-2) var(--san-space-4);
+    border: var(--san-border-width-hairline) solid var(--san-lead);
+    border-radius: var(--san-radius-full);
+    background: var(--san-surface-raised-3);
+    box-shadow: var(--san-elevation-3);
+    color: var(--san-text-muted);
+    font: var(--san-type-code-sm);
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  .dot {
+    width: var(--san-space-2);
+    height: var(--san-space-2);
+    border-radius: var(--san-radius-full);
+    background: var(--san-success);
+    box-shadow: 0 0 10px var(--san-success);
+  }
+
+  @media (min-width: 960px) {
+    .hero {
+      padding-block: var(--san-space-20) var(--san-space-24);
+    }
+
+    .hero :global(.hero-grid) {
+      grid-template-columns: 1.35fr 1fr;
+    }
+  }
+</style>

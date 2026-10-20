@@ -1,0 +1,25 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  id: string;
+  labelledby: string;
+}
+
+const { id, labelledby } = Astro.props;
+---
+
+<section class="section" id={id} aria-labelledby={labelledby}>
+  <Container>
+    <slot />
+  </Container>
+</section>
+
+<style>
+  .section {
+    padding-block: var(--san-space-24);
+    border-top: var(--san-border-width-hairline) solid var(--san-lead-soft);
+    /* Keeps headings clear of the sticky header after an anchor jump. */
+    scroll-margin-top: 4rem;
+  }
+</style>

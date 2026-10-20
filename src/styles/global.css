@@ -58,3 +58,23 @@ kbd {
     transition: none !important;
   }
 }
+
+/* Blocks marked data-reveal rise into place as they enter the viewport. The
+   animation is driven by scroll position in CSS, so there is no script and no
+   flash of hidden content; browsers without scroll timelines show it as is. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}

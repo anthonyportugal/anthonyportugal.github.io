@@ -1,65 +1,51 @@
 ---
 interface Props {
-  tag?: string;
-  title: string;
-  highlight?: string;
+  eyebrow: string;
+  titleBefore: string;
+  titleEmphasis?: string;
+  titleAfter?: string;
   description?: string;
-  align?: 'left' | 'center';
-  class?: string;
+  id?: string;
 }
 
-const { tag, title, highlight, description, align = 'left', class: className = '' } = Astro.props;
+const { eyebrow, titleBefore, titleEmphasis, titleAfter, description, id } = Astro.props;
+// Spaces are built here, not in the markup: Astro drops whitespace between an
+// expression and a tag on another line. Punctuation attaches to the emphasis.
+const before = titleEmphasis ? `${titleBefore} ` : titleBefore;
+const after = titleAfter && !/^[,.;:!?]/.test(titleAfter) ? ` ${titleAfter}` : titleAfter;
 ---
 
-<div class:list={['heading', align, className]}>
-  {tag && (
-    <span class="tag">
-      <span class="slashes" aria-hidden="true">
-        //
-      </span>
-      {tag}
-    </span>
-  )}
-  <h2 class="title">
-    {title}
-    {highlight && <span class="highlight"> {highlight}</span>}
+<header class="heading" data-reveal>
+  <span class="eyebrow">{eyebrow}</span>
+  <h2 class="title" id={id}>
+    {before}
+    {titleEmphasis && <em>{titleEmphasis}</em>}
+    {after}
   </h2>
   {description && <p class="description">{description}</p>}
-</div>
+</header>
 
 <style>
   .heading {
-    max-width: 42rem;
+    max-width: 44rem;
     margin-bottom: var(--san-space-12);
   }
 
-  .center {
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .tag {
-    display: inline-flex;
-    gap: var(--san-space-2);
-    margin-bottom: var(--san-space-3);
+  .eyebrow {
     color: var(--san-accent-ink);
     font: var(--san-type-label-md);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
-  .slashes {
-    color: var(--san-text-subtle);
-  }
-
   .title {
-    margin: 0;
-    color: var(--san-text);
-    font: var(--san-type-headline-lg);
-    letter-spacing: var(--san-type-headline-lg-tracking);
+    margin: var(--san-space-3) 0 0;
+    font: 500 clamp(2.25rem, 5vw, 2.75rem) / 1.1 var(--san-font-family-display);
+    letter-spacing: var(--san-type-display-sm-tracking);
+    text-wrap: balance;
   }
 
-  .highlight {
+  em {
     color: var(--san-accent-ink);
   }
 
@@ -67,11 +53,5 @@ const { tag, title, highlight, description, align = 'left', class: className = '
     margin: var(--san-space-4) 0 0;
     color: var(--san-text-muted);
     font: var(--san-type-body-lg);
-  }
-
-  @media (min-width: 640px) {
-    .heading {
-      margin-bottom: var(--san-space-16);
-    }
   }
 </style>

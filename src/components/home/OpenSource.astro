@@ -1,0 +1,158 @@
+---
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { getLocalized } from '../../lib/content';
+import { useUi, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUi(lang).openSource;
+const repos = (await getLocalized('openSource', lang)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Section id="open-source" labelledby="open-source-title">
+  <SectionHeading
+    id="open-source-title"
+    eyebrow={t.eyebrow}
+    titleBefore={t.titleBefore}
+    titleEmphasis={t.titleEmphasis}
+    titleAfter={t.titleAfter}
+    description={t.description}
+  />
+
+  <ul class="repos">
+    {repos.map(({ data }) => (
+      <li class="repo" data-reveal>
+        <span class="category">{data.category}</span>
+        <h3 class="name">
+          <a href={data.githubUrl} target="_blank" rel="noopener noreferrer">
+            {data.title}
+          </a>
+        </h3>
+        {data.highlight && (
+          <p class="highlight">
+            <span aria-hidden="true">✦</span>
+            {data.liveUrl ? (
+              <a href={data.liveUrl} target="_blank" rel="noopener noreferrer">
+                {data.highlight}
+              </a>
+            ) : (
+              data.highlight
+            )}
+          </p>
+        )}
+        <p class="description">{data.description}</p>
+        <ul class="tech">
+          {data.technologies.map((tech) => (
+            <li>{tech}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  .repos {
+    display: grid;
+    gap: var(--san-space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* The whole card is the link target: the heading link stretches over it. */
+  .repo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--san-space-3);
+    padding: var(--san-space-6);
+    border: var(--san-border-width-hairline) solid var(--san-lead);
+    border-radius: var(--san-radius-lg);
+    background: var(--san-surface-sunken);
+    transition: border-color var(--san-duration-base) var(--san-ease-standard);
+
+    &:hover {
+      border-color: var(--san-accent);
+    }
+
+    &:has(.highlight) {
+      border-color: color-mix(in oklch, var(--san-accent) 50%, var(--san-lead));
+      background: var(--san-surface-raised-1);
+    }
+  }
+
+  .category {
+    color: var(--san-text-subtle);
+    font: var(--san-type-label-md);
+  }
+
+  .name {
+    margin: 0;
+    font: var(--san-type-code-md);
+    font-size: 1.125rem;
+
+    & a {
+      color: var(--san-text);
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  .repo:hover .name a {
+    color: var(--san-accent-ink);
+  }
+
+  .highlight {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: var(--san-space-2);
+    margin: 0;
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+
+    & a {
+      color: inherit;
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  .description {
+    margin: 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-sm);
+  }
+
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--san-space-2) var(--san-space-3);
+    margin: auto 0 0;
+    padding: var(--san-space-3) 0 0;
+    list-style: none;
+    color: var(--san-text-subtle);
+    font: var(--san-type-code-sm);
+  }
+
+  @media (min-width: 768px) {
+    .repos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .repos {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
