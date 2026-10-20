@@ -28,24 +28,3 @@
     outline-offset: 2px;
   }
 }
-
-// Custom styled scrollbar
-@mixin custom-scrollbar {
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $ctp-mantle;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $ctp-surface1;
-    border-radius: 9999px;
-
-    &:hover {
-      background: $ctp-surface2;
-    }
-  }
-}

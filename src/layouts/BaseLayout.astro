@@ -1,11 +1,9 @@
 ---
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/600.css';
+import '@sanctuary-ds/tokens/css';
+import '../styles/global.css';
 import '../styles/main.scss';
+import { Font } from 'astro:assets';
+import { fontBridge, fontRoles } from '../data/fonts';
 
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
@@ -34,7 +32,7 @@ const socialImageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang} class="dark" data-san-flavor="compline" data-san-accent="cobalt">
   <head>
     <!-- Language Auto-Detection & Immediate Routing (Zero-FOUC) -->
     <script is:inline>
@@ -63,6 +61,10 @@ const socialImageURL = new URL(image, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {fontRoles.map(({ cssVariable, preload }) => (
+      <Font cssVariable={cssVariable} preload={preload} />
+    ))}
+    <style is:inline set:html={fontBridge}></style>
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -81,7 +83,7 @@ const socialImageURL = new URL(image, Astro.site);
       name="keywords"
       content="Anthony Portugal, Anthony Portugal Robles, Brucee Anthony Portugal Robles, Software Architect, Software Engineer, Flutter, Wayland, Linux, Lima Peru"
     />
-    <meta name="theme-color" content="#1e1e2e" />
+    <meta name="theme-color" content="#0d111b" />
     <meta name="google-site-verification" content="7d7NMlLI0KPl4VqcY3-CAB96dk47fPgB0K2zgnF0d2Y" />
 
     <!-- Open Graph / Facebook -->
@@ -135,12 +137,9 @@ const socialImageURL = new URL(image, Astro.site);
       })}
     ></script>
   </head>
-  <body class="relative flex min-h-screen flex-col bg-ctp-base text-ctp-text selection:bg-ctp-mauve/30 selection:text-ctp-text">
-    <!-- Ambient subtle background glow -->
-    <div
-      class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(203,166,247,0.12),rgba(255,255,255,0))]"
-      aria-hidden="true"
-    ></div>
+  <body class="relative flex min-h-screen flex-col">
+    <!-- Light cast from above through the accent glass -->
+    <div class="ambient" aria-hidden="true"></div>
 
     <!-- Header Navigation -->
     <Header lang={lang} />
@@ -154,3 +153,17 @@ const socialImageURL = new URL(image, Astro.site);
     <Footer lang={lang} />
   </body>
 </html>
+
+<style>
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 80% 60% at 50% -20%,
+      color-mix(in oklch, var(--san-accent) 14%, transparent),
+      transparent
+    );
+  }
+</style>

@@ -18,8 +18,9 @@ export default {
         ctp,
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+        // Transitional: sections still on Tailwind read Sanctuary's type roles.
+        sans: ['var(--san-font-family-text)'],
+        mono: ['var(--san-font-family-mono)'],
       },
     },
   },

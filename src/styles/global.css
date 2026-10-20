@@ -1,0 +1,60 @@
+/* Site-wide element rules. The core defines tokens only and styles no elements,
+   so everything here reads --san-* tokens and nothing else. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lauds is the only light flavor. */
+html[data-san-flavor='lauds'] {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--san-surface);
+  color: var(--san-text);
+  font: var(--san-type-body-md);
+  letter-spacing: var(--san-type-body-md-tracking);
+  scrollbar-color: var(--san-lead) var(--san-surface-sunken);
+}
+
+::selection {
+  background: color-mix(in oklch, var(--san-accent) 35%, transparent);
+  color: var(--san-text);
+}
+
+:focus-visible {
+  outline: var(--san-border-width-came) solid var(--san-accent);
+  outline-offset: 2px;
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--san-font-family-mono);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
