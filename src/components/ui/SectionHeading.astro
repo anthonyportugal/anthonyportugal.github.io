@@ -11,25 +11,67 @@ interface Props {
 const { tag, title, highlight, description, align = 'left', class: className = '' } = Astro.props;
 ---
 
-<div
-  class:list={[
-    'mb-12 sm:mb-16',
-    align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl',
-    className,
-  ]}
->
+<div class:list={['heading', align, className]}>
   {tag && (
-    <div class="mb-3">
-      <span class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-ctp-mauve">
-        <span class="text-ctp-overlay0">//</span> {tag}
+    <span class="tag">
+      <span class="slashes" aria-hidden="true">
+        //
       </span>
-    </div>
+      {tag}
+    </span>
   )}
-  <h2 class="text-3xl font-bold tracking-tight text-ctp-text sm:text-4xl">
+  <h2 class="title">
     {title}
-    {highlight && <span class="text-ctp-mauve"> {highlight}</span>}
+    {highlight && <span class="highlight"> {highlight}</span>}
   </h2>
-  {description && (
-    <p class="mt-4 text-base leading-relaxed text-ctp-subtext0 sm:text-lg">{description}</p>
-  )}
+  {description && <p class="description">{description}</p>}
 </div>
+
+<style>
+  .heading {
+    max-width: 42rem;
+    margin-bottom: var(--san-space-12);
+  }
+
+  .center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .tag {
+    display: inline-flex;
+    gap: var(--san-space-2);
+    margin-bottom: var(--san-space-3);
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .slashes {
+    color: var(--san-text-subtle);
+  }
+
+  .title {
+    margin: 0;
+    color: var(--san-text);
+    font: var(--san-type-headline-lg);
+    letter-spacing: var(--san-type-headline-lg-tracking);
+  }
+
+  .highlight {
+    color: var(--san-accent-ink);
+  }
+
+  .description {
+    margin: var(--san-space-4) 0 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+  }
+
+  @media (min-width: 640px) {
+    .heading {
+      margin-bottom: var(--san-space-16);
+    }
+  }
+</style>

@@ -7,6 +7,27 @@ export interface Props {
 const { class: className = '', as: Tag = 'div' } = Astro.props;
 ---
 
-<Tag class:list={['mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8', className]}>
+<Tag class:list={['page-width', className]}>
   <slot />
 </Tag>
+
+<style>
+  .page-width {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: var(--san-space-4);
+  }
+
+  @media (min-width: 640px) {
+    .page-width {
+      padding-inline: var(--san-space-6);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-width {
+      padding-inline: var(--san-space-8);
+    }
+  }
+</style>
