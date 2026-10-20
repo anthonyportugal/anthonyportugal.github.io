@@ -1,22 +1,22 @@
 ---
 import Container from './Container.astro';
-import { useTranslations, type Lang } from '../../i18n/translations';
+import { homeUrl as homeUrlFor, useUi, type Lang } from '../../i18n/ui';
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = 'en' } = Astro.props;
-const t = useTranslations(lang);
+const t = useUi(lang);
 
 const navItems = [
-  { label: t.nav.services, href: '#services' },
-  { label: t.nav.caseStudies, href: '#work' },
-  { label: t.nav.openSource, href: '#ecosystem' },
-  { label: t.nav.architecture, href: '#philosophy' },
+  { label: t.nav.work, href: '#work' },
+  { label: t.nav.openSource, href: '#open-source' },
+  { label: t.nav.experience, href: '#experience' },
+  { label: t.nav.about, href: '#about' },
 ];
 
-const homeUrl = lang === 'es' ? '/es/' : '/';
+const homeUrl = homeUrlFor(lang);
 ---
 
 <header class="site-header">
@@ -27,7 +27,7 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
         <span class="name">Anthony Portugal</span>
       </a>
 
-      <nav class="nav" aria-label="Main Navigation">
+      <nav class="nav" aria-label={t.nav.label}>
         {navItems.map((item) => (
           <a href={item.href} class="nav-link">
             {item.label}
@@ -36,13 +36,13 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
       </nav>
 
       <div class="controls">
-        <div class="lang" role="group" aria-label="Language selection">
+        <div class="lang" role="group" aria-label={t.language.label}>
           <a
             href={lang === 'en' ? undefined : '/'}
             data-lang-choice="en"
             tabindex={lang === 'en' ? -1 : 0}
             class="lang-option"
-            aria-label="Switch to English"
+            aria-label={t.language.switchTo.en}
             aria-current={lang === 'en' ? 'page' : undefined}
           >
             EN
@@ -52,7 +52,7 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
             data-lang-choice="es"
             tabindex={lang === 'es' ? -1 : 0}
             class="lang-option"
-            aria-label="Cambiar a Español"
+            aria-label={t.language.switchTo.es}
             aria-current={lang === 'es' ? 'page' : undefined}
           >
             ES
@@ -60,7 +60,7 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
         </div>
 
         <a href="#contact" class="cta">
-          <span>{t.nav.getInTouch}</span>
+          <span>{t.nav.contact}</span>
           <svg
             class="arrow"
             viewBox="0 0 24 24"
@@ -81,7 +81,7 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
           type="button"
           id="mobile-menu-toggle"
           class="menu-toggle"
-          aria-label="Toggle Navigation Menu"
+          aria-label={t.nav.toggle}
           aria-controls="mobile-menu"
           aria-expanded="false"
         >
@@ -111,14 +111,14 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
       </div>
     </div>
 
-    <div id="mobile-menu" class="mobile-menu" hidden aria-label="Mobile Navigation">
+    <div id="mobile-menu" class="mobile-menu" hidden aria-label={t.nav.label}>
       {navItems.map((item) => (
         <a href={item.href} class="mobile-nav-link">
           {item.label}
         </a>
       ))}
       <a href="#contact" class="cta cta-block">
-        <span>{t.nav.getInTouch}</span>
+        <span>{t.nav.contact}</span>
         <svg
           class="arrow"
           viewBox="0 0 24 24"

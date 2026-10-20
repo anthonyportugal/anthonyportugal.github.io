@@ -1,29 +1,21 @@
 ---
 import Container from './Container.astro';
-import { useTranslations, type Lang } from '../../i18n/translations';
+import { homeUrl as homeUrlFor, links, useUi, type Lang } from '../../i18n/ui';
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = 'en' } = Astro.props;
-const t = useTranslations(lang);
+const t = useUi(lang);
 const currentYear = new Date().getFullYear();
 
 const socialLinks = [
-  {
-    name: 'GitHub',
-    href: 'https://github.com/anthonyportugal',
-    label: 'GitHub Profile',
-  },
-  {
-    name: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/bruceeanthonyportugalrobles/',
-    label: 'LinkedIn Profile',
-  },
+  { name: 'GitHub', href: links.github },
+  { name: 'LinkedIn', href: links.linkedin },
 ];
 
-const homeUrl = lang === 'es' ? '/es/' : '/';
+const homeUrl = homeUrlFor(lang);
 ---
 
 <footer class="site-footer">
@@ -33,7 +25,7 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
         <a href={homeUrl} class="brand">
           Anthony Portugal
         </a>
-        <p class="tagline">{t.footer.tagline}</p>
+        <p class="tagline">{t.meta.jobTitle}</p>
       </div>
 
       <div class="location">
@@ -42,19 +34,13 @@ const homeUrl = lang === 'es' ? '/es/' : '/';
             <span class="ping"></span>
             <span class="dot"></span>
           </span>
-          <span>{t.contact.locLima}</span>
+          <span>{t.contact.location}</span>
         </span>
       </div>
 
       <div class="social">
         {socialLinks.map((item) => (
-          <a
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link"
-            aria-label={item.label}
-          >
+          <a href={item.href} target="_blank" rel="noopener noreferrer" class="link">
             {item.name}
           </a>
         ))}

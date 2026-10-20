@@ -7,7 +7,7 @@ import { fontBridge, fontRoles } from '../data/fonts';
 
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
-import type { Lang } from '../i18n/translations';
+import { links, useUi, type Lang } from '../i18n/ui';
 
 interface Props {
   title?: string;
@@ -16,16 +16,9 @@ interface Props {
   lang?: Lang;
 }
 
-const {
-  lang = 'en',
-  title = lang === 'es'
-    ? 'Anthony Portugal (Anthony Portugal Robles) | Ingeniero de Software y Arquitecto'
-    : 'Anthony Portugal (Anthony Portugal Robles) | Senior Software Engineer & Architect',
-  description = lang === 'es'
-    ? 'Anthony Portugal (Anthony Portugal Robles) — Ingeniero de Software Senior y Arquitecto construyendo plataformas escalables, aplicaciones multiplataforma y herramientas de sistema para Linux.'
-    : 'Anthony Portugal (Anthony Portugal Robles) — Senior Software Engineer & Architect building scalable platforms, multiplatform applications, and Linux systems tooling.',
-  image = '/og-image.png',
-} = Astro.props;
+const { lang = 'en' } = Astro.props;
+const meta = useUi(lang).meta;
+const { title = meta.title, description = meta.description, image = '/og-image.png' } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(image, Astro.site);
@@ -81,7 +74,7 @@ const socialImageURL = new URL(image, Astro.site);
     <meta name="author" content="Anthony Portugal (Anthony Portugal Robles)" />
     <meta
       name="keywords"
-      content="Anthony Portugal, Anthony Portugal Robles, Brucee Anthony Portugal Robles, Software Architect, Software Engineer, Flutter, Wayland, Linux, Lima Peru"
+      content="Anthony Portugal, Anthony Portugal Robles, Brucee Anthony Portugal Robles, Software Engineer, Frontend Architect, Design Systems, Design Tokens, Sanctuary, Peru"
     />
     <meta name="theme-color" content="#0d111b" />
     <meta name="google-site-verification" content="7d7NMlLI0KPl4VqcY3-CAB96dk47fPgB0K2zgnF0d2Y" />
@@ -112,27 +105,22 @@ const socialImageURL = new URL(image, Astro.site);
         givenName: 'Anthony',
         familyName: 'Portugal Robles',
         url: 'https://anthonyportugal.github.io',
-        sameAs: [
-          'https://github.com/anthonyportugal',
-          'https://www.linkedin.com/in/bruceeanthonyportugalrobles/',
-        ],
-        jobTitle:
-          lang === 'es'
-            ? 'Ingeniero de Software Senior y Arquitecto'
-            : 'Senior Software Engineer & Architect',
+        sameAs: [links.github, links.linkedin],
+        jobTitle: meta.jobTitle,
         address: {
           '@type': 'PostalAddress',
-          addressLocality: 'Lima',
           addressCountry: 'PE',
         },
         knowsAbout: [
-          'Software Architecture',
-          'Multiplatform Engineering',
-          'Flutter',
-          'Linux Systems',
-          'Astro',
+          'Design Systems',
+          'Design Tokens',
+          'Frontend Architecture',
+          'Clean Architecture',
           'TypeScript',
-          'Wayland',
+          'Vue',
+          'Flutter',
+          'Linux',
+          'AI-assisted software engineering',
         ],
       })}
     ></script>
