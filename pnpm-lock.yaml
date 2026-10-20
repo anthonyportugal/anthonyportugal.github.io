@@ -225,6 +225,9 @@ importers:
       '@lucide/astro':
         specifier: ^1.44.0
         version: 1.44.0(astro@7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.4)(jiti@1.21.7)(sass@1.104.0)(yaml@2.9.0))
+      '@sanctuary-ds/tokens':
+        specifier: 0.1.1
+        version: 0.1.1
       astro:
         specifier: ^7.3.2
         version: 7.3.2(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.4)(jiti@1.21.7)(sass@1.104.0)(yaml@2.9.0)
@@ -1126,6 +1129,10 @@ packages:
 
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
+
+  '@sanctuary-ds/tokens@0.1.1':
+    resolution: {integrity: sha512-SU502j100kpK0ab0AYMzCxRt38QxvUnhC3WkV6gYBK6af1yvzZ9WPEB3/K1IZZr0czBi/gjyjDLyoPQx4Qervw==}
+    engines: {node: '>=22'}
 
   '@shikijs/core@4.4.3':
     resolution: {integrity: sha512-QCR4q2ZO/ILJEuwiBMel4wdcTDb1JGwfjKTxPDF6x8ixOaluPrVqIn06C99AcRPhmYlBR56d/Fb+GN58GzExpg==}
@@ -3525,6 +3532,8 @@ snapshots:
     optional: true
 
   '@rolldown/pluginutils@1.0.1': {}
+
+  '@sanctuary-ds/tokens@0.1.1': {}
 
   '@shikijs/core@4.4.3':
     dependencies:
