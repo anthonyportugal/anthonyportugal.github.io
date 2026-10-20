@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
 
@@ -32,10 +31,5 @@ export default defineConfig({
     },
   },
   fonts,
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    sitemap(),
-  ],
+  integrations: [sitemap()],
 });

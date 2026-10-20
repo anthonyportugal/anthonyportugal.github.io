@@ -1,7 +1,6 @@
 ---
 import '@sanctuary-ds/tokens/css';
 import '../styles/global.css';
-import '../styles/main.scss';
 import { Font } from 'astro:assets';
 import { fontBridge, fontRoles } from '../data/fonts';
 
@@ -25,7 +24,7 @@ const socialImageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang={lang} class="dark" data-san-flavor="compline" data-san-accent="cobalt">
+<html lang={lang} data-san-flavor="compline" data-san-accent="cobalt">
   <head>
     <!-- Language Auto-Detection & Immediate Routing (Zero-FOUC) -->
     <script is:inline>
@@ -125,7 +124,7 @@ const socialImageURL = new URL(image, Astro.site);
       })}
     ></script>
   </head>
-  <body class="relative flex min-h-screen flex-col">
+  <body>
     <!-- Light cast from above through the accent glass -->
     <div class="ambient" aria-hidden="true"></div>
 
@@ -133,7 +132,7 @@ const socialImageURL = new URL(image, Astro.site);
     <Header lang={lang} />
 
     <!-- Main page content -->
-    <main class="relative z-10 flex-1">
+    <main>
       <slot />
     </main>
 
@@ -143,6 +142,17 @@ const socialImageURL = new URL(image, Astro.site);
 </html>
 
 <style>
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
   .ambient {
     position: fixed;
     inset: 0;
