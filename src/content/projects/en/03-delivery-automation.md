@@ -16,13 +16,3 @@ metrics:
 tags: ['GitLab CI/CD', 'Docker', 'AWS', 'Vite', 'WidgetBook']
 order: 3
 ---
-
-## The problem
-
-Releases depended on manual steps, and legacy Vue 2 modules built slowly and used too much memory.
-
-## What I did
-
-- **Pipelines.** Automated GitLab CI/CD, reducing manual deployments by 80%.
-- **Design system.** Built a unified design system with WidgetBook, increasing frontend velocity by 40%.
-- **Build tooling.** Refactored legacy Vue 2 modules to modern ECMAScript and moved projects to Vite, cutting build time by 50% and memory use by 30%.

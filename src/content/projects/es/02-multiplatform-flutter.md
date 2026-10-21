@@ -16,14 +16,3 @@ metrics:
 tags: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'GraphQL', 'Clean Architecture']
 order: 2
 ---
-
-## El problema
-
-El producto tenía que funcionar en móvil y escritorio sin un código distinto por plataforma, mientras el equipo seguía entregando módulos nuevos.
-
-## Qué hice
-
-- **Migración a Flutter.** Lideré la transición, definí los módulos core y configuré flavors dev, stage y prod para Android, iOS, Windows, Linux y macOS.
-- **Módulos complejos.** Diseñé un gestor de archivos tipo "Google Drive" y un módulo RBAC, con una arquitectura basada en colas que no bloquea el hilo principal.
-- **Arquitectura y calidad.** Apliqué Clean Architecture y SOLID, reduciendo la deuda técnica en un 30 % y haciendo el sistema testeable.
-- **Liderazgo.** Dirigí un equipo de unos siete desarrolladores, lideré entrevistas técnicas e hice el onboarding de tres ingenieros clave.

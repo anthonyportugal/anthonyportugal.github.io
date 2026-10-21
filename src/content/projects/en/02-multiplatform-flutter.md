@@ -16,14 +16,3 @@ metrics:
 tags: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'GraphQL', 'Clean Architecture']
 order: 2
 ---
-
-## The problem
-
-The product needed to run on mobile and desktop without one codebase per platform, while the team kept shipping new modules.
-
-## What I did
-
-- **Migration to Flutter.** Led the transition, defined the core modules and configured dev, stage and prod flavors for Android, iOS, Windows, Linux and macOS.
-- **Complex modules.** Designed a "Google Drive"-style file manager and an RBAC module, with a queue-based architecture that keeps the main thread free.
-- **Architecture and quality.** Applied Clean Architecture and SOLID, reducing technical debt by 30% and making the system testable.
-- **Leadership.** Led a team of about seven developers, ran technical interviews and onboarded three key engineers.

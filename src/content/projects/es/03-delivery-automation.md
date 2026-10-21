@@ -16,13 +16,3 @@ metrics:
 tags: ['GitLab CI/CD', 'Docker', 'AWS', 'Vite', 'WidgetBook']
 order: 3
 ---
-
-## El problema
-
-Las publicaciones dependían de pasos manuales, y los módulos legacy en Vue 2 compilaban lento y consumían demasiada memoria.
-
-## Qué hice
-
-- **Pipelines.** Automaticé GitLab CI/CD, reduciendo los despliegues manuales en un 80 %.
-- **Design system.** Creé un design system unificado con WidgetBook, aumentando la velocidad del frontend en un 40 %.
-- **Herramientas de build.** Refactoricé módulos legacy de Vue 2 a ECMAScript moderno y migré los proyectos a Vite, reduciendo el tiempo de build en un 50 % y el consumo de memoria en un 30 %.
