@@ -57,9 +57,9 @@ const en = {
     sanctuaryPlayground: 'Open playground',
     rose: {
       label: 'The twelve Sanctuary pigments arranged as a rose window',
-      paneLabel: 'Light the page through {pigment} glass',
+      petalLabel: 'Light the page through {pigment} glass',
       hubLabel: 'Change the hour of the light',
-      hint: 'Touch a pane to relight this page; the center changes the hour.',
+      hint: 'Touch a petal to relight this page; the center changes the hour.',
     },
   },
   openSource: {
@@ -225,9 +225,9 @@ const es: UiStrings = {
     sanctuaryPlayground: 'Abrir playground',
     rose: {
       label: 'Los doce pigmentos de Sanctuary dispuestos como un rosetón',
-      paneLabel: 'Iluminar la página a través del vidrio {pigment}',
+      petalLabel: 'Iluminar la página a través del vidrio {pigment}',
       hubLabel: 'Cambiar la hora de la luz',
-      hint: 'Toca un vidrio para iluminar la página; el centro cambia la hora.',
+      hint: 'Toca un pétalo para iluminar la página; el centro cambia la hora.',
     },
   },
   openSource: {

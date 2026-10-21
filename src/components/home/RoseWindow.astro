@@ -12,7 +12,11 @@ const { t } = Astro.props;
 // sanctuary-ds.github.io. Each petal is a pigment and a button. The tracery between
 // the petals uses the window tokens, so it re-tints with the accent the visitor chooses.
 const pigments = Object.keys(palette.pigments);
-const flavors = Object.entries(palette.flavors).map(([id, flavor]) => ({ id, name: flavor.name }));
+const flavors = Object.entries(palette.flavors).map(([id, flavor]) => ({
+  id,
+  name: flavor.name,
+  surface: flavor.colors.surface.hex,
+}));
 const pigmentName = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
 // 200 × 200 viewBox centered on 0,0; angles start at the top.
@@ -23,9 +27,17 @@ const polar = (r: number, deg: number) => {
 const at = (r: number, deg: number) => polar(r, deg).join(' ');
 
 const step = 360 / pigments.length;
-const INNER = 34;
-const SHOULDER = 64;
+// From the outside in: the stone frame, the lead ring the glass is set in, the gilt
+// roundels between the petal tips and the lead, then the petals around the oculus.
+const FRAME = 99;
+const LEAD = 95;
+const ROUNDEL_RING = 89;
 const TIP = 80;
+const SHOULDER = 64;
+const INNER = 34;
+const OCULUS = 28;
+// The tracery lancets fill each V between two petal tips and reach the lead ring.
+const TRACERY = { half: 4.6, inner: 73, shoulder: 85, tip: LEAD };
 
 // A lancet: straight sides from an inner arc, then two arcs meeting in a point.
 const lancet = (center: number, half: number, inner: number, shoulder: number, tip: number) => {
@@ -45,12 +57,12 @@ const lancet = (center: number, half: number, inner: number, shoulder: number, t
 // Tracery: a small lancet in each V between two petal tips, pointing at the frame,
 // so the border repeats the petals' shape. `i` staggers each shimmer.
 const tracery = pigments.map((_, i) => ({
-  d: lancet(i * step + step / 2, 4.6, 73, 85, 95),
+  d: lancet(i * step + step / 2, TRACERY.half, TRACERY.inner, TRACERY.shoulder, TRACERY.tip),
   fill: i % 2 ? 'window-b' : 'window-c',
   i,
 }));
 // Gilt roundels crown the tip of each petal.
-const roundels = pigments.map((_, i) => polar(89, i * step));
+const roundels = pigments.map((_, i) => polar(ROUNDEL_RING, i * step));
 
 const petals = pigments.map((pigment, index) => ({
   pigment,
@@ -69,7 +81,13 @@ const petals = pigments.map((pigment, index) => ({
         <stop offset="1" class="sun-shade" />
       </radialGradient>
       {petals.map(({ pigment }) => (
-        <radialGradient id={`glass-${pigment}`} cx="0" cy="0" r="80" gradientUnits="userSpaceOnUse">
+        <radialGradient
+          id={`glass-${pigment}`}
+          cx="0"
+          cy="0"
+          r={TIP}
+          gradientUnits="userSpaceOnUse"
+        >
           {/* The glass's own deep tones, not the UI accent: in dark flavors the
                 accent is a light tone chosen for text contrast. */}
           <stop offset="0.45" style={`stop-color: var(--san-pigment-${pigment}-900)`} />
@@ -80,10 +98,10 @@ const petals = pigments.map((pigment, index) => ({
       ))}
     </defs>
 
-    <circle r="99" class="stone" />
-    <circle r="95" class="lead" />
+    <circle r={FRAME} class="stone" />
+    <circle r={LEAD} class="lead" />
     {tracery.map(({ d, fill, i }) => (
-      <path class="pane" d={d} style={`fill: var(--san-${fill}); --i: ${i}`} />
+      <path class="tracery" d={d} style={`fill: var(--san-${fill}); --i: ${i}`} />
     ))}
     {roundels.map(([cx, cy], i) => (
       <circle class="roundel" cx={cx} cy={cy} r="3.4" style={`--i: ${i}`} />
@@ -98,7 +116,7 @@ const petals = pigments.map((pigment, index) => ({
         data-name={name}
         role="button"
         tabindex="0"
-        aria-label={t.paneLabel.replace('{pigment}', name)}
+        aria-label={t.petalLabel.replace('{pigment}', name)}
         aria-pressed="false"
       />
     ))}
@@ -110,12 +128,12 @@ const petals = pigments.map((pigment, index) => ({
       aria-label={t.hubLabel}
     >
       <circle class="hub-ring" r={INNER} />
-      <circle class="hub-glass" r="28" />
+      <circle class="hub-glass" r={OCULUS} />
       <text class="hub-letter" y="1" text-anchor="middle" dominant-baseline="middle">
         S
       </text>
     </g>
-    <circle r="94.5" class="sun" fill="url(#rose-sun)" />
+    <circle r={LEAD} class="sun" fill="url(#rose-sun)" />
   </svg>
   <figcaption class="caption">
     <span class="hint">{t.hint}</span>
@@ -128,10 +146,24 @@ const petals = pigments.map((pigment, index) => ({
   // returns to the flavor that follows the visitor's system preference.
   const root = document.documentElement;
 
+  // Tells the inline script in BaseLayout.astro to stop following the system
+  // preference: once the visitor relights the page, their choice wins.
+  const RELIT = 'data-relit';
+
+  // The relight lasts one procession, read from the token so the two never drift.
+  function processionMs() {
+    const value = getComputedStyle(root).getPropertyValue('--san-duration-procession').trim();
+    const amount = Number.parseFloat(value);
+    if (Number.isNaN(amount)) return 900;
+    return value.endsWith('ms') ? amount : amount * 1000;
+  }
+
+  let shifting: number | undefined;
   function shift(change: () => void) {
+    window.clearTimeout(shifting);
     root.classList.add('is-shifting');
     change();
-    window.setTimeout(() => root.classList.remove('is-shifting'), 900);
+    shifting = window.setTimeout(() => root.classList.remove('is-shifting'), processionMs());
   }
 
   // SVG shapes act as buttons, so they answer Enter and Space like one.
@@ -146,12 +178,16 @@ const petals = pigments.map((pigment, index) => ({
     });
   }
 
+  type Flavor = { id: string; name: string; surface: string };
+
   for (const rose of document.querySelectorAll<HTMLElement>('.rose-window')) {
     const petals = [...rose.querySelectorAll<SVGPathElement>('.petal')];
     const hub = rose.querySelector<SVGGElement>('.hub');
     const status = rose.querySelector<HTMLElement>('.status');
-    const flavors: { id: string; name: string }[] = JSON.parse(hub?.dataset.flavors ?? '[]');
+    const flavors: Flavor[] = JSON.parse(hub?.dataset.flavors ?? '[]');
+    const themeColors = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
 
+    // Reflects whatever lit the page: a petal, the hub or the system preference.
     const render = () => {
       const accent = root.dataset.sanAccent ?? '';
       const flavor = flavors.find((item) => item.id === root.dataset.sanFlavor);
@@ -162,13 +198,16 @@ const petals = pigments.map((pigment, index) => ({
         if (active) accentName = petal.dataset.name ?? '';
       }
       if (status) status.textContent = [accentName, flavor?.name].filter(Boolean).join(' · ');
+      // Once relit, the browser chrome follows the visible stone, not the system.
+      if (flavor && root.hasAttribute(RELIT)) {
+        for (const meta of themeColors) meta.content = flavor.surface;
+      }
     };
 
     for (const petal of petals) {
       onActivate(petal, () => {
-        root.setAttribute('data-relit', '');
+        root.setAttribute(RELIT, '');
         shift(() => (root.dataset.sanAccent = petal.dataset.pigment));
-        render();
       });
     }
 
@@ -177,12 +216,15 @@ const petals = pigments.map((pigment, index) => ({
         const index = flavors.findIndex((item) => item.id === root.dataset.sanFlavor);
         const next = flavors[(index + 1) % flavors.length];
         if (!next) return;
-        root.setAttribute('data-relit', '');
+        root.setAttribute(RELIT, '');
         shift(() => (root.dataset.sanFlavor = next.id));
-        render();
       });
     }
 
+    new MutationObserver(render).observe(root, {
+      attributes: true,
+      attributeFilter: ['data-san-flavor', 'data-san-accent'],
+    });
     render();
   }
 </script>
@@ -217,13 +259,13 @@ const petals = pigments.map((pigment, index) => ({
     stroke-width: 1;
   }
 
-  .pane {
+  .tracery {
     stroke: var(--san-lead-came);
     stroke-width: 2;
     stroke-linejoin: round;
   }
 
-  .pane,
+  .tracery,
   .roundel {
     animation: shimmer 7s ease-in-out infinite;
     animation-delay: calc(var(--i) * -0.55s);

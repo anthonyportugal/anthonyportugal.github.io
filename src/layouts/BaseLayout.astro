@@ -42,6 +42,8 @@ const socialImageURL = new URL(image, Astro.site);
         const root = document.documentElement;
         const apply = () => (root.dataset.sanFlavor = light.matches ? 'lauds' : 'compline');
         apply();
+        // RoseWindow.astro sets data-relit once the visitor relights the page;
+        // from then on their choice wins over later system changes.
         light.addEventListener('change', () => {
           if (!root.hasAttribute('data-relit')) apply();
         });
