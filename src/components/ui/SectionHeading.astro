@@ -1,35 +1,57 @@
 ---
 interface Props {
-  tag?: string;
-  title: string;
-  highlight?: string;
+  eyebrow: string;
+  titleBefore: string;
+  titleEmphasis?: string;
+  titleAfter?: string;
   description?: string;
-  align?: 'left' | 'center';
-  class?: string;
+  id?: string;
 }
 
-const { tag, title, highlight, description, align = 'left', class: className = '' } = Astro.props;
+const { eyebrow, titleBefore, titleEmphasis, titleAfter, description, id } = Astro.props;
+// Spaces are built here, not in the markup: Astro drops whitespace between an
+// expression and a tag on another line. Punctuation attaches to the emphasis.
+const before = titleEmphasis ? `${titleBefore} ` : titleBefore;
+const after = titleAfter && !/^[,.;:!?]/.test(titleAfter) ? ` ${titleAfter}` : titleAfter;
 ---
 
-<div
-  class:list={[
-    'mb-12 sm:mb-16',
-    align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl',
-    className,
-  ]}
->
-  {tag && (
-    <div class="mb-3">
-      <span class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-ctp-mauve">
-        <span class="text-ctp-overlay0">//</span> {tag}
-      </span>
-    </div>
-  )}
-  <h2 class="text-3xl font-bold tracking-tight text-ctp-text sm:text-4xl">
-    {title}
-    {highlight && <span class="text-ctp-mauve"> {highlight}</span>}
+<header class="heading" data-reveal>
+  <span class="eyebrow">{eyebrow}</span>
+  <h2 class="title" id={id}>
+    {before}
+    {titleEmphasis && <em>{titleEmphasis}</em>}
+    {after}
   </h2>
-  {description && (
-    <p class="mt-4 text-base leading-relaxed text-ctp-subtext0 sm:text-lg">{description}</p>
-  )}
-</div>
+  {description && <p class="description">{description}</p>}
+</header>
+
+<style>
+  .heading {
+    max-width: 44rem;
+    margin-bottom: var(--san-space-12);
+  }
+
+  .eyebrow {
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: var(--san-space-3) 0 0;
+    font: 500 clamp(2.25rem, 5vw, 2.75rem) / 1.1 var(--san-font-family-display);
+    letter-spacing: var(--san-type-display-sm-tracking);
+    text-wrap: balance;
+  }
+
+  em {
+    color: var(--san-accent-ink);
+  }
+
+  .description {
+    margin: var(--san-space-4) 0 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+  }
+</style>

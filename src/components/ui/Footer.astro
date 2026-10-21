@@ -1,78 +1,200 @@
 ---
 import Container from './Container.astro';
-import { useTranslations, type Lang } from '../../i18n/translations';
+import { homeUrl as homeUrlFor, links, useUi, type Lang } from '../../i18n/ui';
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = 'en' } = Astro.props;
-const t = useTranslations(lang);
+const t = useUi(lang);
 const currentYear = new Date().getFullYear();
 
 const socialLinks = [
-  {
-    name: 'GitHub',
-    href: 'https://github.com/anthonyportugal',
-    label: 'GitHub Profile',
-  },
-  {
-    name: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/bruceeanthonyportugalrobles/',
-    label: 'LinkedIn Profile',
-  },
+  { name: 'GitHub', href: links.github },
+  { name: 'LinkedIn', href: links.linkedin },
 ];
 
-const homeUrl = lang === 'es' ? '/es/' : '/';
+const homeUrl = homeUrlFor(lang);
 ---
 
-<footer class="mt-auto border-t border-ctp-surface0/60 bg-ctp-mantle/50 py-12">
+<footer class="site-footer">
   <Container>
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-3 md:items-center">
-      <!-- Brand & Tagline -->
+    <div class="grid">
       <div>
-        <a
-          href={homeUrl}
-          class="text-base font-bold tracking-tight text-ctp-text hover:text-ctp-mauve"
-        >
+        <a href={homeUrl} class="brand">
           Anthony Portugal
         </a>
-        <p class="mt-2 text-sm text-ctp-subtext0">{t.footer.tagline}</p>
+        <p class="tagline">{t.meta.jobTitle}</p>
       </div>
 
-      <!-- Timezone & Location Status -->
-      <div class="flex items-center md:justify-center">
-        <div class="inline-flex items-center gap-2 rounded-full border border-ctp-surface1 bg-ctp-surface0/50 px-3 py-1 font-mono text-xs text-ctp-subtext0">
-          <span class="relative flex h-2 w-2">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-ctp-green opacity-75"></span>
-            <span class="relative inline-flex h-2 w-2 rounded-full bg-ctp-green"></span>
+      <div class="location">
+        <span class="status">
+          <span class="pulse" aria-hidden="true">
+            <span class="ping"></span>
+            <span class="dot"></span>
           </span>
-          <span>{t.contact.locLima}</span>
-        </div>
+          <span>{t.contact.location}</span>
+        </span>
       </div>
 
-      <!-- Social & Professional Links -->
-      <div class="flex items-center gap-4 md:justify-end">
+      <div class="social">
         {socialLinks.map((item) => (
-          <a
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-mono text-xs text-ctp-subtext0 transition-colors hover:text-ctp-mauve"
-            aria-label={item.label}
-          >
+          <a href={item.href} target="_blank" rel="noopener noreferrer" class="link">
             {item.name}
           </a>
         ))}
       </div>
     </div>
 
-    <!-- Copyright & Tech Badge -->
-    <div class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-ctp-surface0/40 pt-8 text-xs text-ctp-overlay1 sm:flex-row">
+    <div class="legal">
       <p>
         © {currentYear} {t.footer.rights}
       </p>
-      <p class="font-mono text-[11px] text-ctp-overlay1" set:html={t.footer.builtWith} />
+      <p class="built">
+        {t.footer.builtWith}
+        <a href="https://astro.build" class="link">
+          Astro
+        </a>
+        {t.footer.and}
+        <a href="https://sanctuary-ds.github.io/" class="link sanctuary">
+          Sanctuary
+        </a>
+      </p>
     </div>
   </Container>
 </footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    padding-block: var(--san-space-12);
+    border-top: var(--san-border-width-hairline) solid var(--san-lead-soft);
+    background: var(--san-surface-sunken);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--san-space-8);
+  }
+
+  .brand {
+    color: var(--san-text);
+    font: var(--san-type-title-lg);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--san-accent-ink);
+    }
+  }
+
+  .tagline {
+    margin: var(--san-space-2) 0 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-sm);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--san-space-2);
+    padding: var(--san-space-1) var(--san-space-3);
+    border: var(--san-border-width-hairline) solid var(--san-lead);
+    border-radius: var(--san-radius-full);
+    background: var(--san-surface-raised-1);
+    color: var(--san-text-muted);
+    font: var(--san-type-code-sm);
+  }
+
+  .pulse {
+    position: relative;
+    display: flex;
+    width: var(--san-space-2);
+    height: var(--san-space-2);
+  }
+
+  .ping,
+  .dot {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--san-radius-full);
+    background: var(--san-success);
+  }
+
+  .ping {
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .social {
+    display: flex;
+    gap: var(--san-space-4);
+  }
+
+  .link {
+    color: var(--san-text-muted);
+    font: var(--san-type-code-sm);
+    text-decoration: none;
+    transition: color var(--san-duration-fast) var(--san-ease-standard);
+
+    &:hover {
+      color: var(--san-accent-ink);
+    }
+  }
+
+  .sanctuary {
+    color: var(--san-accent-ink);
+  }
+
+  .legal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--san-space-4);
+    margin-top: var(--san-space-8);
+    padding-top: var(--san-space-8);
+    border-top: var(--san-border-width-hairline) solid var(--san-lead-soft);
+    color: var(--san-text-subtle);
+    font: var(--san-type-body-sm);
+
+    & p {
+      margin: 0;
+    }
+  }
+
+  .built {
+    display: flex;
+    gap: 0.35em;
+    font: var(--san-type-code-sm);
+  }
+
+  @media (min-width: 640px) {
+    .legal {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: center;
+    }
+
+    .location {
+      display: flex;
+      justify-content: center;
+    }
+
+    .social {
+      justify-content: flex-end;
+    }
+  }
+</style>

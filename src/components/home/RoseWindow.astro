@@ -1,0 +1,379 @@
+---
+import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
+import type { UiStrings } from '../../i18n/ui';
+
+interface Props {
+  t: UiStrings['work']['rose'];
+}
+
+const { t } = Astro.props;
+
+// The lancet petals of this site with the gilt roundels and sun of the rose on
+// sanctuary-ds.github.io. Each petal is a pigment and a button. The tracery between
+// the petals uses the window tokens, so it re-tints with the accent the visitor chooses.
+const pigments = Object.keys(palette.pigments);
+const flavors = Object.entries(palette.flavors).map(([id, flavor]) => ({
+  id,
+  name: flavor.name,
+  surface: flavor.colors.surface.hex,
+}));
+const pigmentName = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
+
+// 200 × 200 viewBox centered on 0,0; angles start at the top.
+const polar = (r: number, deg: number) => {
+  const rad = ((deg - 90) * Math.PI) / 180;
+  return [Number((r * Math.cos(rad)).toFixed(2)), Number((r * Math.sin(rad)).toFixed(2))] as const;
+};
+const at = (r: number, deg: number) => polar(r, deg).join(' ');
+
+const step = 360 / pigments.length;
+// From the outside in: the stone frame, the lead ring the glass is set in, the gilt
+// roundels between the petal tips and the lead, then the petals around the oculus.
+const FRAME = 99;
+const LEAD = 95;
+// The sun sits half a unit inside the lead ring, as on the official rose.
+const SUN = 94.5;
+const ROUNDEL_RING = 89;
+const TIP = 80;
+const SHOULDER = 64;
+const INNER = 34;
+const OCULUS = 28;
+// The tracery lancets fill each V between two petal tips and reach the lead ring.
+const TRACERY = { half: 4.6, inner: 73, shoulder: 85, tip: LEAD };
+
+// A lancet: straight sides from an inner arc, then two arcs meeting in a point.
+const lancet = (center: number, half: number, inner: number, shoulder: number, tip: number) => {
+  const left = center - half;
+  const right = center + half;
+  return [
+    `M${at(inner, left)}`,
+    `L${at(shoulder, left)}`,
+    `Q${at(tip - 3, left + half * 0.16)} ${at(tip, center)}`,
+    `Q${at(tip - 3, right - half * 0.16)} ${at(shoulder, right)}`,
+    `L${at(inner, right)}`,
+    `A${inner} ${inner} 0 0 0 ${at(inner, left)}`,
+    'Z',
+  ].join(' ');
+};
+
+// Tracery: a small lancet in each V between two petal tips, pointing at the frame,
+// so the border repeats the petals' shape. `i` staggers each shimmer.
+const tracery = pigments.map((_, i) => ({
+  d: lancet(i * step + step / 2, TRACERY.half, TRACERY.inner, TRACERY.shoulder, TRACERY.tip),
+  fill: i % 2 ? 'window-b' : 'window-c',
+  i,
+}));
+// Gilt roundels crown the tip of each petal.
+const roundels = pigments.map((_, i) => polar(ROUNDEL_RING, i * step));
+
+const petals = pigments.map((pigment, index) => ({
+  pigment,
+  name: pigmentName(pigment),
+  d: lancet(index * step, step / 2, INNER, SHOULDER, TIP),
+}));
+---
+
+<figure class="rose-window">
+  <svg class="rose" viewBox="-100 -100 200 200" role="group" aria-label={t.label}>
+    <defs>
+      {/* The sun: white light at the core fading to the flavor's own shade. */}
+      <radialGradient id="rose-sun">
+        <stop offset="0" class="sun-core" />
+        <stop offset=".55" class="sun-halo" />
+        <stop offset="1" class="sun-shade" />
+      </radialGradient>
+      {petals.map(({ pigment }) => (
+        <radialGradient
+          id={`glass-${pigment}`}
+          cx="0"
+          cy="0"
+          r={TIP}
+          gradientUnits="userSpaceOnUse"
+        >
+          {/* The glass's own deep tones, not the UI accent: in dark flavors the
+                accent is a light tone chosen for text contrast. */}
+          <stop offset="0.45" style={`stop-color: var(--san-pigment-${pigment}-900)`} />
+          <stop offset="0.7" style={`stop-color: var(--san-pigment-${pigment}-600)`} />
+          <stop offset="0.88" style={`stop-color: var(--san-pigment-${pigment}-500)`} />
+          <stop offset="1" style={`stop-color: var(--san-pigment-${pigment}-300)`} />
+        </radialGradient>
+      ))}
+    </defs>
+
+    <circle r={FRAME} class="stone" />
+    <circle r={LEAD} class="lead" />
+    {tracery.map(({ d, fill, i }) => (
+      <path class="tracery" d={d} style={`fill: var(--san-${fill}); --i: ${i}`} />
+    ))}
+    {roundels.map(([cx, cy], i) => (
+      <circle class="roundel" cx={cx} cy={cy} r="3.4" style={`--i: ${i}`} />
+    ))}
+    {petals.map(({ pigment, name, d }) => (
+      <path
+        class="petal"
+        d={d}
+        fill={`url(#glass-${pigment})`}
+        data-san-accent={pigment}
+        data-pigment={pigment}
+        data-name={name}
+        role="button"
+        tabindex="0"
+        aria-label={t.petalLabel.replace('{pigment}', name)}
+        aria-pressed="false"
+      />
+    ))}
+    <g
+      class="hub"
+      data-flavors={JSON.stringify(flavors)}
+      role="button"
+      tabindex="0"
+      aria-label={t.hubLabel}
+    >
+      <circle class="hub-ring" r={INNER} />
+      <circle class="hub-glass" r={OCULUS} />
+      <text class="hub-letter" y="1" text-anchor="middle" dominant-baseline="middle">
+        S
+      </text>
+    </g>
+    <circle r={SUN} class="sun" fill="url(#rose-sun)" />
+  </svg>
+  <figcaption class="caption">
+    <span class="hint">{t.hint}</span>
+    <span class="status" aria-live="polite"></span>
+  </figcaption>
+</figure>
+
+<script>
+  import { durationMs } from '../../lib/duration';
+
+  // Relights the whole page for this visit only: nothing is stored, a reload
+  // returns to the flavor that follows the visitor's system preference.
+  const root = document.documentElement;
+
+  // Tells the inline script in BaseLayout.astro to stop following the system
+  // preference: once the visitor relights the page, their choice wins.
+  const RELIT = 'data-relit';
+
+  // The relight lasts one procession, read from the token so the two never drift.
+  // The fallback mirrors the token's value in @sanctuary-ds/tokens (900ms).
+  const PROCESSION_FALLBACK_MS = 900;
+  const processionMs = () =>
+    durationMs(
+      getComputedStyle(root).getPropertyValue('--san-duration-procession'),
+      PROCESSION_FALLBACK_MS
+    );
+
+  let shifting: number | undefined;
+  function shift(change: () => void) {
+    window.clearTimeout(shifting);
+    root.classList.add('is-shifting');
+    change();
+    shifting = window.setTimeout(() => root.classList.remove('is-shifting'), processionMs());
+  }
+
+  // SVG shapes act as buttons, so they answer Enter and Space like one.
+  function onActivate(element: Element, action: () => void) {
+    element.addEventListener('click', action);
+    element.addEventListener('keydown', (event) => {
+      const key = (event as KeyboardEvent).key;
+      if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        action();
+      }
+    });
+  }
+
+  type Flavor = { id: string; name: string; surface: string };
+
+  for (const rose of document.querySelectorAll<HTMLElement>('.rose-window')) {
+    const petals = [...rose.querySelectorAll<SVGPathElement>('.petal')];
+    const hub = rose.querySelector<SVGGElement>('.hub');
+    const status = rose.querySelector<HTMLElement>('.status');
+    const flavors: Flavor[] = JSON.parse(hub?.dataset.flavors ?? '[]');
+    const themeColors = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
+
+    // Reflects whatever lit the page: a petal, the hub or the system preference.
+    const render = () => {
+      const accent = root.dataset.sanAccent ?? '';
+      const flavor = flavors.find((item) => item.id === root.dataset.sanFlavor);
+      let accentName = '';
+      for (const petal of petals) {
+        const active = petal.dataset.pigment === accent;
+        petal.setAttribute('aria-pressed', String(active));
+        if (active) accentName = petal.dataset.name ?? '';
+      }
+      if (status) status.textContent = [accentName, flavor?.name].filter(Boolean).join(' · ');
+      // Once relit, the browser chrome follows the visible stone, not the system.
+      if (flavor && root.hasAttribute(RELIT)) {
+        for (const meta of themeColors) meta.content = flavor.surface;
+      }
+    };
+
+    for (const petal of petals) {
+      onActivate(petal, () => {
+        root.setAttribute(RELIT, '');
+        shift(() => (root.dataset.sanAccent = petal.dataset.pigment));
+      });
+    }
+
+    if (hub) {
+      onActivate(hub, () => {
+        const index = flavors.findIndex((item) => item.id === root.dataset.sanFlavor);
+        const next = flavors[(index + 1) % flavors.length];
+        if (!next) return;
+        root.setAttribute(RELIT, '');
+        shift(() => (root.dataset.sanFlavor = next.id));
+      });
+    }
+
+    new MutationObserver(render).observe(root, {
+      attributes: true,
+      attributeFilter: ['data-san-flavor', 'data-san-accent'],
+    });
+    render();
+  }
+</script>
+
+<style>
+  .rose-window {
+    display: grid;
+    justify-items: center;
+    gap: var(--san-space-6);
+    margin: 0;
+  }
+
+  .rose {
+    display: block;
+    width: min(100%, 24rem);
+    aspect-ratio: 1;
+    overflow: visible;
+    filter: drop-shadow(0 0 46px color-mix(in oklch, var(--san-window-b) 50%, transparent));
+  }
+
+  .stone {
+    fill: var(--san-surface-raised-3);
+  }
+
+  .lead {
+    fill: var(--san-lead-came);
+  }
+
+  .roundel {
+    fill: var(--san-glass-gilt);
+    stroke: var(--san-lead-came);
+    stroke-width: 1;
+  }
+
+  .tracery {
+    stroke: var(--san-lead-came);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  .tracery,
+  .roundel {
+    animation: shimmer 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.55s);
+  }
+
+  @keyframes shimmer {
+    50% {
+      opacity: 0.72;
+    }
+  }
+
+  /* The sun sits over the glass but lets every click through to it. */
+  .sun {
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+
+  /* Set in CSS, since the stop-color attribute does not take custom properties. */
+  .sun-core {
+    stop-color: color-mix(in oklch, var(--san-light) 55%, transparent);
+  }
+
+  .sun-halo {
+    stop-color: color-mix(in oklch, var(--san-light) 8%, transparent);
+  }
+
+  .sun-shade {
+    stop-color: color-mix(in oklch, var(--san-umbra-key) 50%, transparent);
+  }
+
+  .petal,
+  .hub {
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Unlit glass: darker and quieter, but still glass, not a hole in the stone. */
+  .petal {
+    filter: saturate(0.85) brightness(0.75);
+    stroke: var(--san-lead-came);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    transition:
+      filter var(--san-duration-base) var(--san-ease-standard),
+      stroke var(--san-duration-fast) var(--san-ease-standard);
+
+    &:hover {
+      filter: saturate(1) brightness(0.95);
+    }
+
+    &:focus-visible {
+      stroke: var(--san-text);
+    }
+
+    /* Sun behind the chosen glass: full strength and a glow on the lead. */
+    &[aria-pressed='true'] {
+      filter: drop-shadow(0 0 5px var(--san-accent)) brightness(1.3);
+    }
+  }
+
+  .hub-ring {
+    fill: var(--san-surface-raised-2);
+    stroke: var(--san-lead-came);
+    stroke-width: 2.5;
+  }
+
+  .hub-glass {
+    fill: var(--san-accent);
+    stroke: var(--san-lead-came);
+    stroke-width: 2;
+  }
+
+  .hub:hover .hub-glass {
+    filter: brightness(1.12);
+  }
+
+  .hub:focus-visible .hub-ring {
+    stroke: var(--san-text);
+  }
+
+  .hub-letter {
+    fill: var(--san-accent-on);
+    font-family: var(--san-font-family-inscription);
+    font-size: 20px;
+    font-weight: var(--san-font-weight-semibold);
+    pointer-events: none;
+  }
+
+  .caption {
+    display: grid;
+    justify-items: center;
+    gap: var(--san-space-1);
+    text-align: center;
+  }
+
+  .hint {
+    color: var(--san-text-muted);
+    font: var(--san-type-body-sm);
+  }
+
+  .status {
+    min-height: 1.5em;
+    color: var(--san-accent-ink);
+    font: var(--san-type-code-sm);
+  }
+</style>

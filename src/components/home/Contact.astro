@@ -1,0 +1,98 @@
+---
+import Section from '../ui/Section.astro';
+import Button from '../ui/Button.astro';
+import { links, useUi, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUi(lang).contact;
+---
+
+<Section id="contact" labelledby="contact-title">
+  <div class="panel" data-reveal>
+    <div class="light" aria-hidden="true"></div>
+    <span class="eyebrow">{t.eyebrow}</span>
+    <h2 class="title" id="contact-title">
+      {t.titleBefore} <em>{t.titleEmphasis}</em>
+    </h2>
+    <p class="description">{t.description}</p>
+    <div class="actions">
+      <Button href={links.linkedin} target="_blank" size="lg">
+        {t.linkedin} ↗
+      </Button>
+      <Button href={links.github} target="_blank" size="lg" variant="secondary">
+        {t.github}
+      </Button>
+    </div>
+    <p class="location">{t.location}</p>
+  </div>
+</Section>
+
+<style>
+  /* The closing pane: the only place where light fills the stone. */
+  .panel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    justify-items: center;
+    padding: var(--san-space-16) var(--san-space-6);
+    border: var(--san-border-width-came) solid var(--san-lead-came);
+    border-radius: var(--san-radius-xl);
+    background: var(--san-surface-raised-1);
+    box-shadow: var(--san-elevation-3);
+    text-align: center;
+  }
+
+  .light {
+    position: absolute;
+    inset: -40% -10% auto;
+    z-index: -1;
+    height: 120%;
+    background: radial-gradient(50% 50% at 50% 50%, var(--san-window-b), transparent 70%);
+    filter: blur(40px);
+    opacity: 0.3;
+  }
+
+  .eyebrow {
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: var(--san-space-3) 0 0;
+    font: 500 clamp(2.5rem, 6vw, 3.5rem) / 1.08 var(--san-font-family-display);
+    letter-spacing: var(--san-type-display-md-tracking);
+    text-wrap: balance;
+
+    & em {
+      color: var(--san-accent-ink);
+    }
+  }
+
+  .description {
+    max-width: 34rem;
+    margin: var(--san-space-4) 0 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--san-space-3);
+    margin-top: var(--san-space-8);
+  }
+
+  .location {
+    margin: var(--san-space-8) 0 0;
+    color: var(--san-text-subtle);
+    font: var(--san-type-code-sm);
+  }
+</style>

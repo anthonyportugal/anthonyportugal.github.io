@@ -21,26 +21,6 @@ const {
   ...rest
 } = Astro.props;
 
-const baseStyles =
-  'inline-flex items-center justify-center font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none';
-
-const sizeStyles: Record<string, string> = {
-  sm: 'text-xs px-3 py-1.5 rounded-lg gap-1.5',
-  md: 'text-sm px-4 py-2.5 rounded-xl gap-2',
-  lg: 'text-base px-6 py-3.5 rounded-xl gap-2.5 font-semibold',
-};
-
-const variantStyles: Record<string, string> = {
-  primary:
-    'bg-ctp-mauve text-ctp-crust font-semibold hover:bg-ctp-lavender shadow-md shadow-ctp-mauve/20 active:scale-[0.98]',
-  secondary:
-    'bg-ctp-surface0/60 hover:bg-ctp-surface1 border border-ctp-surface1 text-ctp-text hover:border-ctp-mauve/50 active:scale-[0.98]',
-  outline:
-    'bg-transparent hover:bg-ctp-surface0/50 border border-ctp-surface1 text-ctp-text hover:border-ctp-mauve active:scale-[0.98]',
-  ghost:
-    'bg-transparent hover:bg-ctp-surface0/50 text-ctp-subtext0 hover:text-ctp-text active:scale-[0.98]',
-};
-
 const Tag = href ? 'a' : 'button';
 ---
 
@@ -49,8 +29,104 @@ const Tag = href ? 'a' : 'button';
   target={target}
   rel={target === '_blank' ? 'noopener noreferrer' : rel}
   type={!href ? type : undefined}
-  class:list={[baseStyles, sizeStyles[size], variantStyles[variant], className]}
+  class:list={['button', className]}
+  data-size={size}
+  data-variant={variant}
   {...rest}
 >
   <slot />
 </Tag>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--san-space-2);
+    border: var(--san-border-width-hairline) solid transparent;
+    border-radius: var(--san-radius-md);
+    font: var(--san-type-label-lg);
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color var(--san-duration-fast) var(--san-ease-standard),
+      border-color var(--san-duration-fast) var(--san-ease-standard),
+      color var(--san-duration-fast) var(--san-ease-standard),
+      box-shadow var(--san-duration-fast) var(--san-ease-standard),
+      transform var(--san-duration-fast) var(--san-ease-standard);
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  [data-size='sm'] {
+    min-height: var(--san-size-control-sm);
+    padding-inline: var(--san-space-3);
+    font: var(--san-type-label-md);
+  }
+
+  [data-size='md'] {
+    min-height: var(--san-size-control-md);
+    padding-inline: var(--san-space-4);
+  }
+
+  [data-size='lg'] {
+    min-height: var(--san-size-control-lg);
+    padding-inline: var(--san-space-6);
+    gap: var(--san-space-3);
+  }
+
+  /* Glass: how it is rendered follows the glazing (pot-metal, flashed, grisaille). */
+  [data-variant='primary'] {
+    background: var(--san-glaze-sheen), var(--san-glaze-bg);
+    border-color: var(--san-glaze-border);
+    color: var(--san-glaze-fg);
+    box-shadow: var(--san-glaze-glow);
+    backdrop-filter: var(--san-glaze-blur);
+
+    &:hover {
+      background: var(--san-glaze-sheen), var(--san-glaze-bg-hover);
+      box-shadow: var(--san-cast-sm);
+    }
+  }
+
+  /* Stone: raised surface held by lead. */
+  [data-variant='secondary'] {
+    background: var(--san-surface-raised-1);
+    border-color: var(--san-lead);
+    color: var(--san-text);
+
+    &:hover {
+      background: var(--san-surface-raised-2);
+      border-color: var(--san-accent);
+    }
+  }
+
+  [data-variant='outline'] {
+    background: transparent;
+    border-color: var(--san-lead);
+    color: var(--san-text);
+
+    &:hover {
+      background: var(--san-state-hover);
+      border-color: var(--san-accent);
+    }
+  }
+
+  [data-variant='ghost'] {
+    background: transparent;
+    color: var(--san-text-muted);
+
+    &:hover {
+      background: var(--san-state-hover);
+      color: var(--san-text);
+    }
+  }
+</style>

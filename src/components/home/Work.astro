@@ -1,0 +1,215 @@
+---
+import Section from '../ui/Section.astro';
+import Button from '../ui/Button.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import RoseWindow from './RoseWindow.astro';
+import { getLocalized } from '../../lib/content';
+import { links, useUi, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUi(lang).work;
+const projects = (await getLocalized('projects', lang)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Section id="work" labelledby="work-title">
+  <SectionHeading
+    id="work-title"
+    eyebrow={t.eyebrow}
+    titleBefore={t.titleBefore}
+    titleEmphasis={t.titleEmphasis}
+    titleAfter={t.titleAfter}
+  />
+
+  <article class="feature" data-reveal>
+    <div>
+      <span class="kicker">{t.featuredEyebrow}</span>
+      <h3 class="feature-title">Sanctuary</h3>
+      <p class="feature-text">{t.sanctuaryDescription}</p>
+      <ul class="chips">
+        {t.sanctuaryTags.map((tag) => (
+          <li>{tag}</li>
+        ))}
+      </ul>
+      <div class="actions">
+        <Button href={links.sanctuaryPlayground} target="_blank">
+          {t.sanctuaryPlayground} ↗
+        </Button>
+        <Button href={links.sanctuaryRepo} target="_blank" variant="secondary">
+          {t.sanctuaryRepo}
+        </Button>
+      </div>
+    </div>
+    <RoseWindow t={t.rose} />
+  </article>
+
+  <ul class="cases">
+    {projects.map(({ data }) => (
+      <li class="case" data-reveal>
+        <span class="kicker">
+          {data.category} · {data.period}
+        </span>
+        <h3 class="case-title">{data.title}</h3>
+        <p class="case-text">{data.summary}</p>
+        <p class="case-meta">
+          {data.role} · {data.organization}
+        </p>
+        <p class="metric">
+          <strong>{data.metric.value}</strong>
+          <span>{data.metric.label}</span>
+        </p>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  .kicker {
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* Featured: the only pane with all twelve pigments in it. */
+  .feature {
+    display: grid;
+    gap: var(--san-space-10);
+    align-items: center;
+    padding: var(--san-space-10) var(--san-space-6);
+    border: var(--san-border-width-hairline) solid var(--san-lead);
+    border-radius: var(--san-radius-xl);
+    background: var(--san-surface-raised-1);
+    box-shadow: var(--san-elevation-2);
+  }
+
+  .feature-title {
+    margin: var(--san-space-2) 0 0;
+    font: var(--san-type-display-md);
+    letter-spacing: var(--san-type-display-md-tracking);
+  }
+
+  .feature-text {
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--san-space-2);
+    margin: var(--san-space-6) 0 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      padding: var(--san-space-1) var(--san-space-3);
+      border: var(--san-border-width-hairline) solid var(--san-lead);
+      border-radius: var(--san-radius-full);
+      color: var(--san-text-muted);
+      font: var(--san-type-code-sm);
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--san-space-3);
+    margin-top: var(--san-space-8);
+  }
+
+  /* Case studies as panes, each with a glass edge. */
+  .cases {
+    display: grid;
+    gap: var(--san-space-6);
+    margin: var(--san-space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--san-space-4);
+    padding: var(--san-space-8);
+    border: var(--san-border-width-hairline) solid var(--san-lead);
+    border-radius: var(--san-radius-lg);
+    background: var(--san-surface-raised-1);
+    transition:
+      border-color var(--san-duration-base) var(--san-ease-standard),
+      box-shadow var(--san-duration-base) var(--san-ease-standard);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      border-radius: var(--san-radius-lg) var(--san-radius-lg) 0 0;
+      background: var(--san-window);
+    }
+
+    &:hover {
+      border-color: var(--san-accent);
+      box-shadow: var(--san-cast-sm), var(--san-elevation-3);
+    }
+
+    & .kicker {
+      color: var(--san-text-subtle);
+      letter-spacing: 0.06em;
+    }
+  }
+
+  .case-title {
+    margin: 0;
+    font: var(--san-type-headline-sm);
+    text-wrap: balance;
+  }
+
+  .case-text,
+  .case-meta {
+    margin: 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-sm);
+  }
+
+  .case-meta {
+    color: var(--san-text-subtle);
+  }
+
+  .metric {
+    margin: auto 0 0;
+    padding-top: var(--san-space-4);
+    border-top: var(--san-border-width-hairline) solid var(--san-lead-soft);
+
+    & strong {
+      color: var(--san-accent-ink);
+      font: var(--san-type-headline-lg);
+    }
+
+    & span {
+      display: block;
+      color: var(--san-text-subtle);
+      font: var(--san-type-label-md);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .feature {
+      padding: var(--san-space-10);
+    }
+
+    .cases {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .feature {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

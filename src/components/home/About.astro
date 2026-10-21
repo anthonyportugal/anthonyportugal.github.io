@@ -1,0 +1,249 @@
+---
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { useUi, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUi(lang).about;
+---
+
+<Section id="about" labelledby="about-title">
+  <div class="layout">
+    <div>
+      <SectionHeading
+        id="about-title"
+        eyebrow={t.eyebrow}
+        titleBefore={t.titleBefore}
+        titleEmphasis={t.titleEmphasis}
+        titleAfter={t.titleAfter}
+      />
+      <div class="bio" data-reveal>
+        {t.bio.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+
+      <dl class="facts" data-reveal>
+        <div>
+          <dt>{t.languagesTitle}</dt>
+          <dd>{t.languages}</dd>
+        </div>
+        <div>
+          <dt>{t.educationTitle}</dt>
+          <dd>{t.education}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="aside">
+      <h3 class="aside-title">{t.principlesTitle}</h3>
+      <ol class="principles">
+        {t.principles.map((principle) => (
+          <li data-reveal>
+            <h4>{principle.title}</h4>
+            <p>{principle.description}</p>
+          </li>
+        ))}
+      </ol>
+
+      <h3 class="aside-title">{t.stackTitle}</h3>
+      <dl class="stack" data-reveal>
+        {t.stack.map((row) => (
+          <div>
+            <dt>{row.group}</dt>
+            <dd>{row.items}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+
+  <div class="ai" data-reveal>
+    <h3 class="ai-title">{t.aiTitle}</h3>
+    <p class="ai-intro">{t.aiIntro}</p>
+    <ol class="practices">
+      {t.aiPractices.map((practice) => (
+        <li>
+          <h4>{practice.title}</h4>
+          <p>{practice.description}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Section>
+
+<style>
+  .layout {
+    display: grid;
+    gap: var(--san-space-12);
+  }
+
+  .bio {
+    display: grid;
+    gap: var(--san-space-4);
+    max-width: 38rem;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+
+    & p {
+      margin: 0;
+    }
+  }
+
+  .facts,
+  .stack {
+    display: grid;
+    gap: var(--san-space-4);
+    margin: var(--san-space-10) 0 0;
+
+    & dt {
+      color: var(--san-text-subtle);
+      font: var(--san-type-label-md);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    & dd {
+      margin: var(--san-space-1) 0 0;
+      color: var(--san-text);
+      font: var(--san-type-body-md);
+    }
+  }
+
+  .aside-title {
+    margin: 0 0 var(--san-space-4);
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .principles {
+    display: grid;
+    gap: var(--san-space-3);
+    margin: 0 0 var(--san-space-10);
+    padding: 0;
+    list-style: none;
+    counter-reset: principle;
+
+    & li {
+      position: relative;
+      padding: var(--san-space-5) var(--san-space-6) var(--san-space-5) var(--san-space-16);
+      border: var(--san-border-width-hairline) solid var(--san-lead);
+      border-radius: var(--san-radius-lg);
+      background: var(--san-surface-raised-1);
+      counter-increment: principle;
+
+      /* Roman numerals in the inscription face, as carved on a lintel. */
+      &::before {
+        content: counter(principle, upper-roman);
+        position: absolute;
+        top: var(--san-space-5);
+        left: var(--san-space-6);
+        color: var(--san-accent-ink);
+        font: var(--san-type-inscription);
+      }
+    }
+
+    & h4 {
+      margin: 0;
+      font: var(--san-type-title-lg);
+    }
+
+    & p {
+      margin: var(--san-space-1) 0 0;
+      color: var(--san-text-muted);
+      font: var(--san-type-body-sm);
+    }
+  }
+
+  .stack {
+    margin: 0;
+  }
+
+  /* How I work with agents: a lit pane under the two columns. */
+  .ai {
+    margin-top: var(--san-space-16);
+    padding: var(--san-space-10) var(--san-space-6);
+    border: var(--san-border-width-hairline) solid
+      color-mix(in oklch, var(--san-accent) 45%, var(--san-lead));
+    border-radius: var(--san-radius-xl);
+    background:
+      radial-gradient(
+        80% 120% at 0% 0%,
+        color-mix(in oklch, var(--san-accent) 10%, transparent),
+        transparent 60%
+      ),
+      var(--san-surface-raised-1);
+  }
+
+  .ai-title {
+    margin: 0;
+    font: var(--san-type-headline-lg);
+    letter-spacing: var(--san-type-headline-lg-tracking);
+  }
+
+  .ai-intro {
+    max-width: 40rem;
+    margin: var(--san-space-3) 0 0;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-lg);
+  }
+
+  .practices {
+    display: grid;
+    gap: var(--san-space-8) var(--san-space-10);
+    margin: var(--san-space-10) 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: practice;
+
+    & li {
+      padding-top: var(--san-space-4);
+      border-top: var(--san-border-width-came) solid var(--san-accent);
+      counter-increment: practice;
+
+      &::before {
+        content: '0' counter(practice);
+        color: var(--san-accent-ink);
+        font: var(--san-type-code-sm);
+      }
+    }
+
+    & h4 {
+      margin: var(--san-space-2) 0 0;
+      font: var(--san-type-title-lg);
+    }
+
+    & p {
+      margin: var(--san-space-2) 0 0;
+      color: var(--san-text-muted);
+      font: var(--san-type-body-md);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ai {
+      padding: var(--san-space-12);
+    }
+
+    .practices {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .layout {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--san-space-16);
+    }
+
+    .aside {
+      padding-top: var(--san-space-8);
+    }
+  }
+</style>

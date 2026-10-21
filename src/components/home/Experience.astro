@@ -1,0 +1,166 @@
+---
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { formatMonth, getLocalized } from '../../lib/content';
+import { useUi, type Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useUi(lang).experience;
+// Newest first; ISO year-months sort as plain strings.
+const positions = (await getLocalized('experience', lang)).sort((a, b) =>
+  b.data.start.localeCompare(a.data.start)
+);
+---
+
+<Section id="experience" labelledby="experience-title">
+  <SectionHeading
+    id="experience-title"
+    eyebrow={t.eyebrow}
+    titleBefore={t.titleBefore}
+    titleEmphasis={t.titleEmphasis}
+    titleAfter={t.titleAfter}
+  />
+
+  <ol class="timeline">
+    {positions.map(({ data }) => (
+      <li class:list={['position', { current: !data.end }]} data-reveal>
+        <p class="period">
+          <time datetime={data.start}>{formatMonth(data.start, lang)}</time> –{' '}
+          {data.end ? <time datetime={data.end}>{formatMonth(data.end, lang)}</time> : t.present}
+        </p>
+        <div class="body">
+          <h3 class="role">{data.role}</h3>
+          <p class="company">
+            {data.company}
+            {data.client && <span class="client">{` · ${t.client}: ${data.client}`}</span>}
+          </p>
+          <ul class="highlights">
+            {data.highlights.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <p class="stack">{data.stack.join(' · ')}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</Section>
+
+<style>
+  .timeline {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    /* The lead line the positions hang from. */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: var(--san-space-2) auto var(--san-space-2) 0.3rem;
+      width: var(--san-border-width-came);
+      background: var(--san-lead);
+    }
+  }
+
+  .position {
+    position: relative;
+    display: grid;
+    gap: var(--san-space-2);
+    padding: 0 0 var(--san-space-12) var(--san-space-8);
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    /* A glass bead on the lead line; the current position is lit. */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.4rem;
+      left: 0;
+      width: 0.75rem;
+      height: 0.75rem;
+      border: var(--san-border-width-came) solid var(--san-lead-came);
+      border-radius: var(--san-radius-full);
+      background: var(--san-surface-raised-3);
+    }
+
+    &.current::before {
+      background: var(--san-accent);
+      box-shadow: var(--san-cast-sm);
+    }
+  }
+
+  .period {
+    margin: 0;
+    color: var(--san-text-subtle);
+    font: var(--san-type-code-sm);
+    text-transform: capitalize;
+  }
+
+  .role {
+    margin: 0;
+    font: var(--san-type-headline-sm);
+  }
+
+  .company {
+    margin: var(--san-space-1) 0 0;
+    color: var(--san-accent-ink);
+    font: var(--san-type-title-md);
+  }
+
+  .client {
+    color: var(--san-text-muted);
+    font-weight: var(--san-font-weight-regular);
+  }
+
+  .highlights {
+    display: grid;
+    gap: var(--san-space-2);
+    max-width: 44rem;
+    margin: var(--san-space-4) 0 0;
+    padding-left: var(--san-space-5);
+    list-style: disc;
+    color: var(--san-text-muted);
+    font: var(--san-type-body-md);
+
+    & li::marker {
+      color: var(--san-accent);
+    }
+  }
+
+  .stack {
+    margin: var(--san-space-4) 0 0;
+    color: var(--san-text-subtle);
+    font: var(--san-type-code-sm);
+  }
+
+  @media (min-width: 768px) {
+    .timeline::before {
+      left: calc(10rem + 0.3rem);
+    }
+
+    .position {
+      grid-template-columns: 10rem 1fr;
+      gap: var(--san-space-8);
+      padding-left: 0;
+
+      &::before {
+        left: 10rem;
+      }
+    }
+
+    .period {
+      padding-top: 0.2rem;
+    }
+
+    .body {
+      padding-left: var(--san-space-4);
+    }
+  }
+</style>
