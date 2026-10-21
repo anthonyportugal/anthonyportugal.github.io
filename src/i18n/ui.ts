@@ -16,6 +16,8 @@ const en = {
     description:
       'Anthony Portugal (Anthony Portugal Robles), software engineer and frontend architect from Peru. Design systems, design tokens, Clean Architecture and multiplatform products. Creator of Sanctuary.',
     jobTitle: 'Software Engineer & Frontend Architect',
+    imageAlt:
+      'Anthony Portugal, software engineer and frontend architect, looking out of a café window',
   },
   nav: {
     label: 'Main navigation',
@@ -184,6 +186,8 @@ const es: UiStrings = {
     description:
       'Anthony Portugal (Anthony Portugal Robles), ingeniero de software y arquitecto frontend de Perú. Design systems, design tokens, Clean Architecture y productos multiplataforma. Creador de Sanctuary.',
     jobTitle: 'Ingeniero de Software y Arquitecto Frontend',
+    imageAlt:
+      'Anthony Portugal, ingeniero de software y arquitecto frontend, mirando por la ventana de una cafetería',
   },
   nav: {
     label: 'Navegación principal',
