@@ -10,7 +10,7 @@ const roles = Object.keys(palette.fonts);
 test('every palette role gets a font variable', () => {
   assert.deepEqual(
     fontRoles.map((role) => role.cssVariable),
-    roles.map((role) => `--font-${role}`),
+    roles.map((role) => `--font-${role}`)
   );
 });
 
@@ -26,7 +26,7 @@ test('the bridge points every family token at its hosted font', () => {
   for (const role of roles) {
     assert.ok(
       fontBridge.includes(`--san-font-family-${role}:var(--font-${role});`),
-      `missing bridge for ${role}`,
+      `missing bridge for ${role}`
     );
   }
 });
