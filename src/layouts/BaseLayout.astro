@@ -7,6 +7,7 @@ import { fontBridge, fontRoles } from '../data/fonts';
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 import { links, useUi, type Lang } from '../i18n/ui';
+import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
 
 interface Props {
   title?: string;
@@ -19,6 +20,12 @@ const { lang = 'en' } = Astro.props;
 const meta = useUi(lang).meta;
 const { title = meta.title, description = meta.description, image = '/og-image.png' } = Astro.props;
 
+// The browser chrome follows the stone of the flavor the visitor will see.
+const themeColor = {
+  dark: palette.flavors.compline.colors.surface.hex,
+  light: palette.flavors.lauds.colors.surface.hex,
+};
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(image, Astro.site);
 ---
@@ -26,6 +33,20 @@ const socialImageURL = new URL(image, Astro.site);
 <!doctype html>
 <html lang={lang} data-san-flavor="compline" data-san-accent="cobalt">
   <head>
+    <!-- Lauds is the only light flavor: follow the visitor's system preference
+         before the first paint, so the page never flashes in the wrong light.
+         Nothing is stored; the rose window in Work can relight the page for the visit. -->
+    <script is:inline>
+      (function () {
+        const light = window.matchMedia('(prefers-color-scheme: light)');
+        const root = document.documentElement;
+        const apply = () => (root.dataset.sanFlavor = light.matches ? 'lauds' : 'compline');
+        apply();
+        light.addEventListener('change', () => {
+          if (!root.hasAttribute('data-relit')) apply();
+        });
+      })();
+    </script>
     <!-- Language Auto-Detection & Immediate Routing (Zero-FOUC) -->
     <script is:inline>
       (function () {
@@ -75,7 +96,8 @@ const socialImageURL = new URL(image, Astro.site);
       name="keywords"
       content="Anthony Portugal, Anthony Portugal Robles, Brucee Anthony Portugal Robles, Software Engineer, Frontend Architect, Design Systems, Design Tokens, Sanctuary, Peru"
     />
-    <meta name="theme-color" content="#0d111b" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content={themeColor.dark} />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content={themeColor.light} />
     <meta name="google-site-verification" content="7d7NMlLI0KPl4VqcY3-CAB96dk47fPgB0K2zgnF0d2Y" />
 
     <!-- Open Graph / Facebook -->
