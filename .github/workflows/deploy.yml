@@ -31,16 +31,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Verify code formatting and linting
+      - name: Verify formatting, linting and tests
         run: |
           pnpm format:check
           pnpm lint
+          pnpm test
 
       - name: Build static site
         run: pnpm build
