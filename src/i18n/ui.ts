@@ -55,7 +55,12 @@ const en = {
     sanctuaryTags: ['OKLCH', 'DTCG tokens', 'CSS custom properties', 'Ports'],
     sanctuaryRepo: 'View on GitHub',
     sanctuaryPlayground: 'Open playground',
-    roseLabel: 'The twelve Sanctuary pigments arranged as a rose window',
+    rose: {
+      label: 'The twelve Sanctuary pigments arranged as a rose window',
+      paneLabel: 'Light the page through {pigment} glass',
+      hubLabel: 'Change the hour of the light',
+      hint: 'Touch a pane to relight this page; the center changes the hour.',
+    },
   },
   openSource: {
     eyebrow: 'Open source',
@@ -218,7 +223,12 @@ const es: UiStrings = {
     sanctuaryTags: ['OKLCH', 'Tokens DTCG', 'CSS custom properties', 'Ports'],
     sanctuaryRepo: 'Ver en GitHub',
     sanctuaryPlayground: 'Abrir playground',
-    roseLabel: 'Los doce pigmentos de Sanctuary dispuestos como un rosetón',
+    rose: {
+      label: 'Los doce pigmentos de Sanctuary dispuestos como un rosetón',
+      paneLabel: 'Iluminar la página a través del vidrio {pigment}',
+      hubLabel: 'Cambiar la hora de la luz',
+      hint: 'Toca un vidrio para iluminar la página; el centro cambia la hora.',
+    },
   },
   openSource: {
     eyebrow: 'Open source',

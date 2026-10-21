@@ -78,3 +78,18 @@ kbd {
     transform: translateY(1.5rem);
   }
 }
+
+/* While the rose window relights the page, the light moves slowly across it.
+   The class is set for one procession by RoseWindow.astro. */
+@media (prefers-reduced-motion: no-preference) {
+  html.is-shifting *,
+  html.is-shifting *::before,
+  html.is-shifting *::after {
+    transition:
+      background-color var(--san-duration-procession) var(--san-ease-standard),
+      color var(--san-duration-procession) var(--san-ease-standard),
+      border-color var(--san-duration-procession) var(--san-ease-standard),
+      box-shadow var(--san-duration-procession) var(--san-ease-standard),
+      transform var(--san-duration-slow) var(--san-ease-standard) !important;
+  }
+}
