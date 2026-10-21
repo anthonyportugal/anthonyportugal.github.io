@@ -27,6 +27,9 @@
   },
   "packageManager": "pnpm@11.23.0",
   "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "@sanctuary-ds/tokens": "0.1.1",
