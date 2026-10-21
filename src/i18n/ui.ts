@@ -51,8 +51,8 @@ const en = {
     titleAfter: ', shipped to production.',
     featuredEyebrow: 'Featured · Open source',
     sanctuaryDescription:
-      'A design system of stone, glass and light: DTCG tokens with four flavors and twelve pigments, every one checked for WCAG AA contrast. It themes web components, terminals and window managers from a single source of color. This site is built with it.',
-    sanctuaryTags: ['OKLCH', 'DTCG tokens', 'CSS custom properties', 'Terminal ports'],
+      'A design system of stone, glass and light: DTCG tokens with four flavors and twelve pigments, every one checked for WCAG AA contrast. One source of color for web interfaces and, through ports, the apps and tools around them. This site is built with it.',
+    sanctuaryTags: ['OKLCH', 'DTCG tokens', 'CSS custom properties', 'Ports'],
     sanctuaryRepo: 'View on GitHub',
     sanctuaryPlayground: 'Open playground',
     roseLabel: 'The twelve Sanctuary pigments arranged as a rose window',
@@ -214,8 +214,8 @@ const es: UiStrings = {
     titleAfter: ', llevados a producción.',
     featuredEyebrow: 'Destacado · Open source',
     sanctuaryDescription:
-      'Un design system de piedra, vidrio y luz: tokens DTCG con cuatro flavors y doce pigmentos, todos verificados con contraste WCAG AA. Tematiza componentes web, terminales y window managers desde una única fuente de color. Este sitio está construido con él.',
-    sanctuaryTags: ['OKLCH', 'Tokens DTCG', 'CSS custom properties', 'Ports para terminal'],
+      'Un design system de piedra, vidrio y luz: tokens DTCG con cuatro flavors y doce pigmentos, todos verificados con contraste WCAG AA. Una única fuente de color para interfaces web y, mediante ports, para las aplicaciones y herramientas que las rodean. Este sitio está construido con él.',
+    sanctuaryTags: ['OKLCH', 'Tokens DTCG', 'CSS custom properties', 'Ports'],
     sanctuaryRepo: 'Ver en GitHub',
     sanctuaryPlayground: 'Abrir playground',
     roseLabel: 'Los doce pigmentos de Sanctuary dispuestos como un rosetón',
