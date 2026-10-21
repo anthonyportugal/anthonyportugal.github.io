@@ -18,7 +18,11 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 const meta = useUi(lang).meta;
-const { title = meta.title, description = meta.description, image = '/og-image.png' } = Astro.props;
+// The size and description below belong to the default card; a page that passes
+// its own image publishes only the image, never another picture's metadata.
+const DEFAULT_IMAGE = '/og-image.png';
+const { title = meta.title, description = meta.description, image = DEFAULT_IMAGE } = Astro.props;
+const isDefaultImage = image === DEFAULT_IMAGE;
 
 // The browser chrome follows the stone of the flavor the visitor will see.
 const themeColor = {
@@ -108,9 +112,13 @@ const socialImageURL = new URL(image, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImageURL} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={meta.imageAlt} />
+    {isDefaultImage && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={meta.imageAlt} />
+      </>
+    )}
     <meta property="og:locale" content={lang === 'es' ? 'es_PE' : 'en_US'} />
 
     <!-- Twitter -->
@@ -119,7 +127,7 @@ const socialImageURL = new URL(image, Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
-    <meta name="twitter:image:alt" content={meta.imageAlt} />
+    {isDefaultImage && <meta name="twitter:image:alt" content={meta.imageAlt} />}
 
     <!-- Structured Data (JSON-LD) for Search Engines -->
     <script
