@@ -1,6 +1,6 @@
 ---
 import Container from './Container.astro';
-import { homeUrl as homeUrlFor, useUi, type Lang } from '../../i18n/ui';
+import { homeUrl as homeUrlFor, languages, useUi, type Lang } from '../../i18n/ui';
 
 interface Props {
   lang?: Lang;
@@ -22,8 +22,10 @@ const homeUrl = homeUrlFor(lang);
 <header class="site-header">
   <Container>
     <div class="bar">
-      <a href={homeUrl} class="brand" aria-label="Anthony Portugal - Home">
-        <span class="monogram">AP</span>
+      <a href={homeUrl} class="brand">
+        <span class="monogram" aria-hidden="true">
+          AP
+        </span>
         <span class="name">Anthony Portugal</span>
       </a>
 
@@ -42,20 +44,28 @@ const homeUrl = homeUrlFor(lang);
             data-lang-choice="en"
             tabindex={lang === 'en' ? -1 : 0}
             class="lang-option"
-            aria-label={t.language.switchTo.en}
+            hreflang="en"
             aria-current={lang === 'en' ? 'page' : undefined}
           >
             EN
+            <span class="sr-only" lang="en">
+              {' '}
+              {languages.en}
+            </span>
           </a>
           <a
             href={lang === 'es' ? undefined : '/es/'}
             data-lang-choice="es"
             tabindex={lang === 'es' ? -1 : 0}
             class="lang-option"
-            aria-label={t.language.switchTo.es}
+            hreflang="es"
             aria-current={lang === 'es' ? 'page' : undefined}
           >
             ES
+            <span class="sr-only" lang="es">
+              {' '}
+              {languages.es}
+            </span>
           </a>
         </div>
 

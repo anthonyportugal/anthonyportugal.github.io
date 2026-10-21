@@ -173,7 +173,6 @@ const en = {
   },
   language: {
     label: 'Language selection',
-    switchTo: { en: 'Switch to English', es: 'Cambiar a español' },
   },
 };
 
@@ -343,7 +342,6 @@ const es: UiStrings = {
   },
   language: {
     label: 'Selección de idioma',
-    switchTo: { en: 'Switch to English', es: 'Cambiar a español' },
   },
 };
 
