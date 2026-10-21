@@ -31,6 +31,8 @@ const step = 360 / pigments.length;
 // roundels between the petal tips and the lead, then the petals around the oculus.
 const FRAME = 99;
 const LEAD = 95;
+// The sun sits half a unit inside the lead ring, as on the official rose.
+const SUN = 94.5;
 const ROUNDEL_RING = 89;
 const TIP = 80;
 const SHOULDER = 64;
@@ -133,7 +135,7 @@ const petals = pigments.map((pigment, index) => ({
         S
       </text>
     </g>
-    <circle r={LEAD} class="sun" fill="url(#rose-sun)" />
+    <circle r={SUN} class="sun" fill="url(#rose-sun)" />
   </svg>
   <figcaption class="caption">
     <span class="hint">{t.hint}</span>
@@ -142,6 +144,8 @@ const petals = pigments.map((pigment, index) => ({
 </figure>
 
 <script>
+  import { durationMs } from '../../lib/duration';
+
   // Relights the whole page for this visit only: nothing is stored, a reload
   // returns to the flavor that follows the visitor's system preference.
   const root = document.documentElement;
@@ -151,12 +155,13 @@ const petals = pigments.map((pigment, index) => ({
   const RELIT = 'data-relit';
 
   // The relight lasts one procession, read from the token so the two never drift.
-  function processionMs() {
-    const value = getComputedStyle(root).getPropertyValue('--san-duration-procession').trim();
-    const amount = Number.parseFloat(value);
-    if (Number.isNaN(amount)) return 900;
-    return value.endsWith('ms') ? amount : amount * 1000;
-  }
+  // The fallback mirrors the token's value in @sanctuary-ds/tokens (900ms).
+  const PROCESSION_FALLBACK_MS = 900;
+  const processionMs = () =>
+    durationMs(
+      getComputedStyle(root).getPropertyValue('--san-duration-procession'),
+      PROCESSION_FALLBACK_MS
+    );
 
   let shifting: number | undefined;
   function shift(change: () => void) {
