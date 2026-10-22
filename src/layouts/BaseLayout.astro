@@ -6,7 +6,8 @@ import { fontBridge, fontRoles } from '../data/fonts';
 
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
-import { links, useUi, type Lang } from '../i18n/ui';
+import { useUi, type Lang } from '../i18n/ui';
+import { structuredData } from '../data/structured-data';
 import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
 
 interface Props {
@@ -133,32 +134,7 @@ const socialImageURL = new URL(image, Astro.site);
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Person',
-        name: 'Anthony Portugal',
-        alternateName: ['Anthony Portugal Robles', 'Brucee Anthony Portugal Robles'],
-        givenName: 'Anthony',
-        familyName: 'Portugal Robles',
-        url: 'https://anthonyportugal.github.io',
-        sameAs: [links.github, links.linkedin],
-        jobTitle: meta.jobTitle,
-        address: {
-          '@type': 'PostalAddress',
-          addressCountry: 'PE',
-        },
-        knowsAbout: [
-          'Design Systems',
-          'Design Tokens',
-          'Frontend Architecture',
-          'Clean Architecture',
-          'TypeScript',
-          'Vue',
-          'Flutter',
-          'Linux',
-          'AI-assisted software engineering',
-        ],
-      })}
+      set:html={JSON.stringify(structuredData(meta.jobTitle)).replace(/</g, '\\u003c')}
     ></script>
   </head>
   <body>
