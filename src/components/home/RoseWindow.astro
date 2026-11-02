@@ -1,5 +1,8 @@
 ---
-import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
+import {
+  flavors as paletteFlavors,
+  pigments as palettePigments,
+} from '@sanctuary-ds/tokens/palette';
 import type { UiStrings } from '../../i18n/ui';
 
 interface Props {
@@ -11,8 +14,8 @@ const { t } = Astro.props;
 // The lancet petals of this site with the gilt roundels and sun of the rose on
 // sanctuary-ds.github.io. Each petal is a pigment and a button. The tracery between
 // the petals uses the window tokens, so it re-tints with the accent the visitor chooses.
-const pigments = Object.keys(palette.pigments);
-const flavors = Object.entries(palette.flavors).map(([id, flavor]) => ({
+const pigments = Object.keys(palettePigments);
+const flavors = Object.entries(paletteFlavors).map(([id, flavor]) => ({
   id,
   name: flavor.name,
   surface: flavor.colors.surface.hex,

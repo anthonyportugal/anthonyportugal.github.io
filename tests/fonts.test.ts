@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
+import { fonts } from '@sanctuary-ds/tokens/palette';
 import { fontBridge, fontRoles } from '../src/data/fonts.ts';
 
 // The font setup is derived from the palette, so a new release of the tokens that
 // renames a role or drops a weight must fail here, not silently in the browser.
-const roles = Object.keys(palette.fonts);
+const roles = Object.keys(fonts);
 
 test('every palette role gets a font variable', () => {
   assert.deepEqual(
