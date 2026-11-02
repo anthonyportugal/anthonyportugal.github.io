@@ -205,6 +205,17 @@ const projects = (await getLocalized('projects', lang)).sort((a, b) => a.data.or
     .cases {
       grid-template-columns: repeat(3, 1fr);
     }
+
+    /* Three narrow columns: smaller, so a metric's number stays beside its unit. */
+    .metric strong {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .metric strong {
+      font: var(--san-type-headline-lg);
+    }
   }
 
   @media (min-width: 960px) {

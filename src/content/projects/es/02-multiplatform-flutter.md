@@ -6,8 +6,8 @@ role: 'Tech lead y software project manager'
 organization: 'FractalUp'
 period: '2024 – 2026'
 metric:
-  value: '5'
-  label: 'plataformas: Android, iOS, Windows, Linux, macOS'
+  value: '5 plataformas'
+  label: 'Android, iOS, Windows, Linux, macOS'
 metrics:
   - value: '~7'
     label: 'ingenieros a cargo'
