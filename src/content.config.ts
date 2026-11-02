@@ -34,10 +34,18 @@ const openSource = defineCollection({
     description: z.string(),
     technologies: z.array(z.string()),
     githubUrl: z.url(),
-    highlight: z.string().optional(),
-    liveUrl: z.url().optional(),
-    liveUrlLabel: z.string().optional(),
     order: z.number(),
+    layers: z.array(
+      z.object({
+        name: z.string(),
+        summary: z.string(),
+        tag: z.string().optional(),
+        requires: z.array(z.string()).default([]),
+        optIn: z.boolean().default(false),
+        highlight: z.string().optional(),
+        liveUrl: z.url().optional(),
+      })
+    ),
   }),
 });
 
