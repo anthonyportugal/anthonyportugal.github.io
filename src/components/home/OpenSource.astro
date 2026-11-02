@@ -2,6 +2,7 @@
 import Section from '../ui/Section.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 import { getLocalized } from '../../lib/content';
+import { requiredChain } from '../../lib/layers';
 import { useUi, type Lang } from '../../i18n/ui';
 
 interface Props {
@@ -23,67 +24,108 @@ const repos = (await getLocalized('openSource', lang)).sort((a, b) => a.data.ord
     description={t.description}
   />
 
-  <ul class="repos">
-    {repos.map(({ data }) => (
-      <li class="repo" data-reveal>
-        <span class="category">{data.category}</span>
-        <h3 class="name">
-          <a href={data.githubUrl} target="_blank" rel="noopener noreferrer">
-            {data.title}
-          </a>
-        </h3>
-        {data.highlight && (
-          <p class="highlight">
-            <span aria-hidden="true">✦</span>
-            {data.liveUrl ? (
-              <a href={data.liveUrl} target="_blank" rel="noopener noreferrer">
-                {data.highlight}
+  {repos.map(({ data }) => {
+    const groups = [
+      { label: undefined, layers: data.layers.filter((layer) => !layer.optIn) },
+      { label: t.optIn, layers: data.layers.filter((layer) => layer.optIn) },
+    ];
+
+    return (
+      <article class="repo" data-reveal>
+        <div class="intro">
+          <div class="summary">
+            <span class="category">{data.category}</span>
+            <h3 class="name">
+              <a href={data.githubUrl} target="_blank" rel="noopener noreferrer">
+                {data.title}
               </a>
-            ) : (
-              data.highlight
-            )}
-          </p>
-        )}
-        <p class="description">{data.description}</p>
-        <ul class="tech">
-          {data.technologies.map((tech) => (
-            <li>{tech}</li>
+            </h3>
+            <p class="description">{data.description}</p>
+          </div>
+          <div class="usage">
+            <p class="command">
+              <span aria-hidden="true">$</span> dotfiles setup
+            </p>
+            <ul class="tech">
+              {data.technologies.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+            <a class="source" href={data.githubUrl} target="_blank" rel="noopener noreferrer">
+              {t.source} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="stack" data-layer-stack>
+          {groups.map(({ label, layers }) => (
+            <div class={label ? 'group opt-in' : 'group'}>
+              {label && <p class="group-label">{label}</p>}
+              <ul class="layers">
+                {layers.map((layer) => (
+                  <li
+                    class:list={['layer', { session: layer.name.startsWith('wm/') }]}
+                    data-layer={layer.name}
+                    data-chain={requiredChain(layer.name, data.layers).join(' ')}
+                  >
+                    <h4 class="layer-name">
+                      <a
+                        href={`${data.githubUrl}/tree/main/layers/${layer.name}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {layer.name}
+                      </a>
+                      {layer.tag && <span class="layer-tag">{layer.tag}</span>}
+                    </h4>
+                    <p class="layer-summary">{layer.summary}</p>
+                    {layer.requires.length > 0 && (
+                      <p class="layer-requires">
+                        {t.requires} {layer.requires.join(', ')}
+                      </p>
+                    )}
+                    {layer.highlight && (
+                      <p class="highlight">
+                        <span aria-hidden="true">✦</span>
+                        <a href={layer.liveUrl} target="_blank" rel="noopener noreferrer">
+                          {layer.highlight}
+                        </a>
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
-      </li>
-    ))}
-  </ul>
+          <p class="hint">{t.hint}</p>
+        </div>
+      </article>
+    );
+  })}
 </Section>
 
 <style>
-  .repos {
+  .repo {
     display: grid;
-    gap: var(--san-space-4);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    gap: var(--san-space-6);
+    padding: var(--san-space-6);
+    border: var(--san-border-width-hairline) solid
+      color-mix(in oklch, var(--san-accent) 50%, var(--san-lead));
+    border-radius: var(--san-radius-lg);
+    background: var(--san-surface-raised-1);
   }
 
-  /* The whole card is the link target: the heading link stretches over it. */
-  .repo {
-    position: relative;
+  .intro {
+    display: grid;
+    gap: var(--san-space-4);
+  }
+
+  .summary,
+  .usage {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: var(--san-space-3);
-    padding: var(--san-space-6);
-    border: var(--san-border-width-hairline) solid var(--san-lead);
-    border-radius: var(--san-radius-lg);
-    background: var(--san-surface-sunken);
-    transition: border-color var(--san-duration-base) var(--san-ease-standard);
-
-    &:hover {
-      border-color: var(--san-accent);
-    }
-
-    &:has(.highlight) {
-      border-color: color-mix(in oklch, var(--san-accent) 50%, var(--san-lead));
-      background: var(--san-surface-raised-1);
-    }
   }
 
   .category {
@@ -94,36 +136,16 @@ const repos = (await getLocalized('openSource', lang)).sort((a, b) => a.data.ord
   .name {
     margin: 0;
     font: var(--san-type-code-md);
-    font-size: 1.125rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.1;
 
     & a {
       color: var(--san-text);
       text-decoration: none;
 
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
+      &:hover {
+        color: var(--san-accent-ink);
       }
-    }
-  }
-
-  .repo:hover .name a {
-    color: var(--san-accent-ink);
-  }
-
-  .highlight {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    gap: var(--san-space-2);
-    margin: 0;
-    color: var(--san-accent-ink);
-    font: var(--san-type-label-md);
-
-    & a {
-      color: inherit;
-      text-underline-offset: 0.2em;
     }
   }
 
@@ -133,26 +155,219 @@ const repos = (await getLocalized('openSource', lang)).sort((a, b) => a.data.ord
     font: var(--san-type-body-sm);
   }
 
+  .command {
+    align-self: stretch;
+    margin: 0;
+    padding: var(--san-space-3) var(--san-space-4);
+    border-radius: var(--san-radius-md);
+    background: var(--san-surface-sunken);
+    color: var(--san-text);
+    font: var(--san-type-code-sm);
+
+    & span {
+      color: var(--san-accent-ink);
+    }
+  }
+
   .tech {
     display: flex;
     flex-wrap: wrap;
     gap: var(--san-space-2) var(--san-space-3);
-    margin: auto 0 0;
-    padding: var(--san-space-3) 0 0;
+    margin: 0;
+    padding: 0;
     list-style: none;
     color: var(--san-text-subtle);
     font: var(--san-type-code-sm);
   }
 
-  @media (min-width: 768px) {
-    .repos {
+  .source {
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+    text-underline-offset: 0.2em;
+  }
+
+  .stack {
+    display: grid;
+    gap: var(--san-space-4);
+    min-width: 0;
+  }
+
+  .group-label {
+    margin: 0 0 var(--san-space-2);
+    color: var(--san-text-subtle);
+    font: var(--san-type-label-md);
+  }
+
+  .layers {
+    display: grid;
+    gap: var(--san-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* The whole layer is the link target: its name link stretches over it. */
+  .layer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--san-space-1);
+    padding: var(--san-space-3) var(--san-space-4);
+    border: var(--san-border-width-hairline) solid var(--san-lead);
+    border-radius: var(--san-radius-md);
+    background: var(--san-surface-sunken);
+    transition:
+      border-color var(--san-duration-base) var(--san-ease-standard),
+      opacity var(--san-duration-base) var(--san-ease-standard);
+  }
+
+  .opt-in .layer {
+    border-style: dashed;
+  }
+
+  .layer-name {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--san-space-3);
+    margin: 0;
+    font: var(--san-type-code-sm);
+    font-weight: 600;
+
+    & a {
+      color: var(--san-text);
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+      }
+    }
+  }
+
+  .layer-tag {
+    color: var(--san-text-subtle);
+    font: var(--san-type-label-md);
+  }
+
+  .layer-summary,
+  .layer-requires {
+    margin: 0;
+    font: var(--san-type-body-sm);
+  }
+
+  .layer-summary {
+    color: var(--san-text-muted);
+  }
+
+  .layer-requires {
+    color: var(--san-text-subtle);
+    font: var(--san-type-code-sm);
+  }
+
+  .highlight {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    gap: var(--san-space-2);
+    margin: var(--san-space-1) 0 0;
+    color: var(--san-accent-ink);
+    font: var(--san-type-label-md);
+
+    & a {
+      color: inherit;
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  .hint {
+    margin: 0;
+    color: var(--san-text-subtle);
+    font: var(--san-type-label-md);
+  }
+
+  /* Set by the script below: one layer and everything it requires stay lit. */
+  .stack[data-active] .layer {
+    opacity: 0.4;
+  }
+
+  .stack[data-active] .layer[data-lit] {
+    border-color: var(--san-accent);
+    opacity: 1;
+
+    & .layer-name a {
+      color: var(--san-accent-ink);
+    }
+  }
+
+  /* Nothing to hover on a touch screen; each layer still states what it requires. */
+  @media (hover: none) {
+    .hint {
+      display: none;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .layers {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .group:not(.opt-in) .layer:not(.session) {
+      grid-column: 1 / -1;
     }
   }
 
   @media (min-width: 1100px) {
-    .repos {
-      grid-template-columns: repeat(4, 1fr);
+    .repo {
+      gap: var(--san-space-8);
+      padding: var(--san-space-8);
+    }
+
+    .intro {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: var(--san-space-8);
+    }
+
+    .usage {
+      justify-content: flex-end;
+    }
+
+    /* Base layers beside the optional ones, which sit outside the dependency stack. */
+    .stack {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+
+    .opt-in .layers {
+      grid-template-columns: 1fr;
+    }
+
+    .hint {
+      grid-column: 1 / -1;
     }
   }
 </style>
+
+<script>
+  for (const stack of document.querySelectorAll<HTMLElement>('[data-layer-stack]')) {
+    const layers = [...stack.querySelectorAll<HTMLElement>('[data-layer]')];
+
+    const light = (target: EventTarget | null) => {
+      const active = target instanceof Element ? target.closest<HTMLElement>('[data-layer]') : null;
+      const lit = new Set(
+        active ? [active.dataset.layer, ...(active.dataset.chain ?? '').split(' ')] : []
+      );
+
+      stack.toggleAttribute('data-active', active !== null);
+      for (const layer of layers) {
+        layer.toggleAttribute('data-lit', lit.has(layer.dataset.layer));
+      }
+    };
+
+    stack.addEventListener('pointerover', (event) => light(event.target));
+    stack.addEventListener('pointerleave', () => light(null));
+    stack.addEventListener('focusin', (event) => light(event.target));
+    stack.addEventListener('focusout', () => light(null));
+  }
+</script>

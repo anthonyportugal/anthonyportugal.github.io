@@ -70,8 +70,11 @@ const en = {
     titleEmphasis: 'reproducible',
     titleAfter: 'as the code it builds.',
     description:
-      'Modular Linux environments, versioned and documented so they can be rebuilt from scratch.',
+      'One repository, one command. Pick a layer and it brings the ones it needs, so a machine can be rebuilt from scratch.',
     source: 'Source',
+    requires: 'requires',
+    optIn: 'Opt-in',
+    hint: 'Hover a layer to light up what it brings with it.',
   },
   experience: {
     eyebrow: 'Experience',
@@ -239,8 +242,11 @@ const es: UiStrings = {
     titleEmphasis: 'reproducible',
     titleAfter: 'como el código que construye.',
     description:
-      'Entornos Linux modulares, versionados y documentados para poder reconstruirlos desde cero.',
+      'Un repositorio, un comando. Eliges una capa y trae las que necesita, para poder reconstruir una máquina desde cero.',
     source: 'Código',
+    requires: 'requiere',
+    optIn: 'Opcionales',
+    hint: 'Pasa sobre una capa para iluminar lo que trae consigo.',
   },
   experience: {
     eyebrow: 'Experiencia',
