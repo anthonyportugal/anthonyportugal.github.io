@@ -7,7 +7,7 @@ organization: 'FractalUp'
 period: '2024 – 2026'
 metric:
   value: '5'
-  label: 'Android, iOS, Windows, Linux, macOS'
+  label: 'platforms: Android, iOS, Windows, Linux, macOS'
 metrics:
   - value: '~7'
     label: 'engineers led'
