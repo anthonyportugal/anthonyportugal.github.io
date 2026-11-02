@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
+import { fonts as paletteFonts } from '@sanctuary-ds/tokens/palette';
 
 // Sanctuary publishes, for each type role (display, text, mono, inscription), the
 // family, weights and fallbacks it is designed with. Astro downloads them from
@@ -9,9 +9,9 @@ import palette from '@sanctuary-ds/tokens/palette' with { type: 'json' };
 // request a third party. src/data/fonts.ts bridges each --font-<role> onto the
 // core's --san-font-family-<role>.
 const google = fontProviders.google();
-// The palette's arrays are plain JSON; Astro's types want them non-empty.
+// The palette types its arrays as plain arrays; Astro's types want them non-empty.
 /** @type {NonNullable<import('astro').AstroUserConfig['fonts']>} */
-const fonts = Object.entries(palette.fonts).map(([role, font]) => ({
+const fonts = Object.entries(paletteFonts).map(([role, font]) => ({
   name: font.family,
   cssVariable: `--font-${role}`,
   provider: google,
