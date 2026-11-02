@@ -353,8 +353,15 @@ const repos = (await getLocalized('openSource', lang)).sort((a, b) => a.data.ord
   for (const stack of document.querySelectorAll<HTMLElement>('[data-layer-stack]')) {
     const layers = [...stack.querySelectorAll<HTMLElement>('[data-layer]')];
 
-    const light = (target: EventTarget | null) => {
-      const active = target instanceof Element ? target.closest<HTMLElement>('[data-layer]') : null;
+    const layerOf = (target: EventTarget | null) =>
+      target instanceof Element ? target.closest<HTMLElement>('[data-layer]') : null;
+
+    // Pointer and keyboard are tracked apart so neither erases the other's highlight.
+    let hovered: HTMLElement | null = null;
+    let focused: HTMLElement | null = null;
+
+    const render = () => {
+      const active = hovered ?? focused;
       const lit = new Set(
         active ? [active.dataset.layer, ...(active.dataset.chain ?? '').split(' ')] : []
       );
@@ -365,9 +372,24 @@ const repos = (await getLocalized('openSource', lang)).sort((a, b) => a.data.ord
       }
     };
 
-    stack.addEventListener('pointerover', (event) => light(event.target));
-    stack.addEventListener('pointerleave', () => light(null));
-    stack.addEventListener('focusin', (event) => light(event.target));
-    stack.addEventListener('focusout', () => light(null));
+    stack.addEventListener('pointerover', (event) => {
+      hovered = layerOf(event.target);
+      render();
+    });
+    stack.addEventListener('pointerleave', () => {
+      hovered = null;
+      render();
+    });
+    // Only keyboard focus counts: a link clicked with the mouse gets focus back when
+    // its new tab closes, which must not dim the diagram.
+    stack.addEventListener('focusin', (event) => {
+      const isKeyboard = event.target instanceof Element && event.target.matches(':focus-visible');
+      focused = isKeyboard ? layerOf(event.target) : null;
+      render();
+    });
+    stack.addEventListener('focusout', () => {
+      focused = null;
+      render();
+    });
   }
 </script>
