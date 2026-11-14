@@ -12,7 +12,7 @@ export const defaultLang: Lang = 'en';
 
 const en = {
   meta: {
-    title: 'Anthony Portugal (Anthony Portugal Robles) | Software Engineer & Frontend Architect',
+    title: 'Anthony Portugal | Software Engineer & Frontend Architect',
     description:
       'Anthony Portugal (Anthony Portugal Robles), software engineer and frontend architect from Peru. Design systems, design tokens, Clean Architecture and multiplatform products. Creator of Sanctuary.',
     jobTitle: 'Software Engineer & Frontend Architect',
@@ -183,8 +183,7 @@ export type UiStrings = typeof en;
 
 const es: UiStrings = {
   meta: {
-    title:
-      'Anthony Portugal (Anthony Portugal Robles) | Ingeniero de Software y Arquitecto Frontend',
+    title: 'Anthony Portugal | Ingeniero de Software y Arquitecto Frontend',
     description:
       'Anthony Portugal (Anthony Portugal Robles), ingeniero de software y arquitecto frontend de Perú. Design systems, design tokens, Clean Architecture y productos multiplataforma. Creador de Sanctuary.',
     jobTitle: 'Ingeniero de Software y Arquitecto Frontend',
