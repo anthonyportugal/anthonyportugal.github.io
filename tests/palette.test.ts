@@ -1,7 +1,5 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
 import { flavors, pigments } from '@sanctuary-ds/tokens/palette';
 
 // The layout and the rose window read these parts of the palette. A new release
@@ -20,31 +18,17 @@ test('every flavor has a name and a surface color for the rose window', () => {
   }
 });
 
-test('every pigment has the shades the rose window paints its glass with', async () => {
-  const ids = Object.keys(pigments);
-  assert.ok(ids.length > 0, 'the palette has no pigments');
+test('every pigment has the shades the rose window paints its glass with', () => {
+  const entries = Object.entries(pigments);
+  assert.ok(entries.length > 0, 'the palette has no pigments');
 
-  const css = await readFile(
-    fileURLToPath(import.meta.resolve('@sanctuary-ds/tokens/css')),
-    'utf8'
-  );
-  const declared = rootProperties(css);
-  for (const id of ids) {
-    for (const shade of [300, 500, 600, 900]) {
-      const name = `--san-pigment-${id}-${shade}`;
-      assert.ok(declared.has(name), `${name} is not declared on :root`);
+  for (const [id, pigment] of entries) {
+    for (const shade of [300, 500, 600, 900] as const) {
+      assert.match(
+        pigment.tones[shade],
+        HEX,
+        `${id}.tones[${shade}] is missing or not a hex color`
+      );
     }
   }
 });
-
-// The custom properties declared in the stylesheet's top-level ':root' rules.
-// Comments are dropped first so a name mentioned there does not count, and
-// properties scoped to a flavor or accent selector are left out.
-function rootProperties(css: string): Set<string> {
-  const code = css.replace(/\/\*[\s\S]*?\*\//g, '');
-  const names = new Set<string>();
-  for (const [, body = ''] of code.matchAll(/(?:^|\})\s*:root\s*\{([^}]*)\}/g)) {
-    for (const [, name = ''] of body.matchAll(/(--[\w-]+)\s*:/g)) names.add(name);
-  }
-  return names;
-}

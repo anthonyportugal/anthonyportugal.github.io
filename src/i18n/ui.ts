@@ -14,7 +14,7 @@ const en = {
   meta: {
     title: 'Anthony Portugal | Software Engineer & Frontend Architect',
     description:
-      'Anthony Portugal (Anthony Portugal Robles), software engineer and frontend architect from Peru. Design systems, design tokens, Clean Architecture and multiplatform products. Creator of Sanctuary.',
+      'Anthony Portugal (Anthony Portugal Robles), software engineer and frontend architect from Peru. Decoupled architectures (Clean Architecture, SOLID), Design Systems governance (DTCG, WCAG AA), CI/CD, Linux and AI-assisted engineering. Creator of Sanctuary.',
     jobTitle: 'Software Engineer & Frontend Architect',
     imageAlt:
       'Anthony Portugal, software engineer and frontend architect, looking out of a café window',
@@ -34,7 +34,7 @@ const en = {
     last: 'Portugal',
     statement: 'I design systems that teams can build on.',
     ledeBefore:
-      'Software engineer from Peru with 7+ years across frontend and backend. I lead teams, build design tokens and component libraries, and ship multiplatform products. Creator of',
+      'Software engineer and frontend architect from Peru with 7+ years across frontend, backend and infrastructure. I lead technical teams, design decoupled architectures with Clean Architecture and SOLID, govern design systems, and integrate AI agents under engineering rigor. Creator of',
     ledeAfter: ', a design system of stone, glass and light.',
     ctaWork: 'See selected work',
     ctaContact: 'Get in touch',
@@ -53,8 +53,8 @@ const en = {
     titleAfter: ', shipped to production.',
     featuredEyebrow: 'Featured · Open source',
     sanctuaryDescription:
-      'A design system of stone, glass and light: DTCG tokens with four flavors and twelve pigments, every one checked for WCAG AA contrast. One source of color for web interfaces and, through ports, the apps and tools around them. This site is built with it.',
-    sanctuaryTags: ['OKLCH', 'DTCG tokens', 'CSS custom properties', 'Ports'],
+      'An open-source design system of stone, glass and light: DTCG 2025.10 tokens with four flavors and twelve pigments, every one checked for WCAG AA contrast. Includes a Lit web components library and ports for desktop tools (foot, MangoWM, Waybar). This site is built with it.',
+    sanctuaryTags: ['DTCG 2025.10', 'OKLCH', 'Lit Web Components', 'Ports'],
     sanctuaryRepo: 'View on GitHub',
     sanctuaryPlayground: 'Open playground',
     rose: {
@@ -90,8 +90,8 @@ const en = {
     titleEmphasis: 'Good boundaries',
     titleAfter: 'last.',
     bio: [
-      'I am a software engineer based in Peru. I have worked across the stack, from Laravel and Node services to Vue, React and Flutter interfaces, and I have led a product team through a multiplatform migration.',
-      'What I enjoy most is the layer between design and code: design tokens, component libraries and the architecture that lets a team move fast without breaking what already works. Outside of work I build Sanctuary and keep my Linux workstation reproducible.',
+      'I am a software engineer and frontend architect based in Peru with 7+ years across frontend, backend and infrastructure. I have built services in Go, Node and Laravel, interfaces in TypeScript, Vue, React, Svelte, Lit and Flutter, and led a product team through a multiplatform migration.',
+      'What I enjoy most is the layer between design and code: Design Systems governance (DTCG, WCAG AA), component libraries, decoupled architectures (Clean Architecture, SOLID) and CI/CD automation. Outside of work I build Sanctuary and keep my Linux workstation reproducible.',
     ],
     principlesTitle: 'Principles',
     principles: [
@@ -140,14 +140,19 @@ const en = {
     stack: [
       {
         group: 'Frontend',
-        items: 'TypeScript, Vue, Nuxt, React, Angular, Flutter, Astro, Storybook',
+        items:
+          'TypeScript, Vue, Nuxt, React, Svelte, Astro, Angular, Lit (Web Components), Flutter (Dart), Tauri',
       },
-      { group: 'Backend', items: 'Node (NestJS, Express, AdonisJS), PHP (Laravel)' },
+      {
+        group: 'Design systems',
+        items: 'Design tokens (DTCG), Storybook, WidgetBook, Figma (tokens), Compound Components',
+      },
+      { group: 'Backend', items: 'Go, Node (NestJS, Express, AdonisJS), PHP (Laravel)' },
       {
         group: 'Infrastructure',
-        items: 'Docker, AWS, GitLab CI/CD, GitHub Actions, Cloudflare, Linux',
+        items: 'Docker, AWS, Cloudflare, GitLab CI/CD, GitHub Actions, Sentry, Linux',
       },
-      { group: 'Data & APIs', items: 'REST, GraphQL, MySQL, SQLite' },
+      { group: 'Data & APIs', items: 'REST, GraphQL, PostgreSQL, MySQL, SQLite' },
       {
         group: 'AI tooling',
         items: 'Claude Code, Antigravity CLI, herdr, gentle-ai, Engram, MCP servers',
@@ -185,7 +190,7 @@ const es: UiStrings = {
   meta: {
     title: 'Anthony Portugal | Ingeniero de Software y Arquitecto Frontend',
     description:
-      'Anthony Portugal (Anthony Portugal Robles), ingeniero de software y arquitecto frontend de Perú. Design systems, design tokens, Clean Architecture y productos multiplataforma. Creador de Sanctuary.',
+      'Anthony Portugal (Anthony Portugal Robles), ingeniero de software y arquitecto frontend de Perú. Arquitecturas desacopladas (Clean Architecture, SOLID), gobernanza de Design Systems (DTCG, WCAG AA), CI/CD, Linux e ingeniería con agentes de IA. Creador de Sanctuary.',
     jobTitle: 'Ingeniero de Software y Arquitecto Frontend',
     imageAlt:
       'Anthony Portugal, ingeniero de software y arquitecto frontend, mirando por la ventana de una cafetería',
@@ -205,7 +210,7 @@ const es: UiStrings = {
     last: 'Portugal',
     statement: 'Diseño sistemas sobre los que los equipos pueden construir.',
     ledeBefore:
-      'Ingeniero de software de Perú con más de 7 años en frontend y backend. Lidero equipos, construyo design tokens y librerías de componentes, y entrego productos multiplataforma. Creador de',
+      'Ingeniero de software y arquitecto frontend de Perú con más de 7 años en frontend, backend e infraestructura. Lidero equipos técnicos, diseño arquitecturas desacopladas con Clean Architecture y SOLID, gobierno design systems e integro agentes de IA con rigor de ingeniería. Creador de',
     ledeAfter: ', un design system de piedra, vidrio y luz.',
     ctaWork: 'Ver trabajo seleccionado',
     ctaContact: 'Hablemos',
@@ -224,8 +229,8 @@ const es: UiStrings = {
     titleAfter: ', llevados a producción.',
     featuredEyebrow: 'Destacado · Open source',
     sanctuaryDescription:
-      'Un design system de piedra, vidrio y luz: tokens DTCG con cuatro flavors y doce pigmentos, todos verificados con contraste WCAG AA. Una única fuente de color para interfaces web y, mediante ports, para las aplicaciones y herramientas que las rodean. Este sitio está construido con él.',
-    sanctuaryTags: ['OKLCH', 'Tokens DTCG', 'CSS custom properties', 'Ports'],
+      'Un design system open source de piedra, vidrio y luz: tokens DTCG 2025.10 con cuatro flavors y doce pigmentos, todos verificados con contraste WCAG AA. Incluye una librería de Web Components en Lit y ports para herramientas de escritorio (foot, MangoWM, Waybar). Este sitio está construido con él.',
+    sanctuaryTags: ['DTCG 2025.10', 'OKLCH', 'Lit Web Components', 'Ports'],
     sanctuaryRepo: 'Ver en GitHub',
     sanctuaryPlayground: 'Abrir playground',
     rose: {
@@ -261,8 +266,8 @@ const es: UiStrings = {
     titleEmphasis: 'Los buenos límites',
     titleAfter: 'perduran.',
     bio: [
-      'Soy ingeniero de software y vivo en Perú. He trabajado en todo el stack, desde servicios en Laravel y Node hasta interfaces en Vue, React y Flutter, y he liderado un equipo de producto durante una migración multiplataforma.',
-      'Lo que más disfruto es la capa entre el diseño y el código: design tokens, librerías de componentes y la arquitectura que permite a un equipo avanzar rápido sin romper lo que ya funciona. Fuera del trabajo construyo Sanctuary y mantengo reproducible mi estación de trabajo Linux.',
+      'Soy ingeniero de software y arquitecto frontend en Perú, con más de 7 años en frontend, backend e infraestructura. He trabajado desde servicios en Go, Node y Laravel hasta interfaces en TypeScript, Vue, React, Svelte, Lit y Flutter, y he liderado un equipo de producto durante una migración multiplataforma.',
+      'Lo que más disfruto es la capa entre el diseño y el código: gobernanza de Design Systems (DTCG, WCAG AA), librerías de componentes, arquitecturas desacopladas (Clean Architecture, SOLID) y automatización de CI/CD. Fuera del trabajo construyo Sanctuary y mantengo reproducible mi estación de trabajo Linux.',
     ],
     principlesTitle: 'Principios',
     principles: [
@@ -311,14 +316,19 @@ const es: UiStrings = {
     stack: [
       {
         group: 'Frontend',
-        items: 'TypeScript, Vue, Nuxt, React, Angular, Flutter, Astro, Storybook',
+        items:
+          'TypeScript, Vue, Nuxt, React, Svelte, Astro, Angular, Lit (Web Components), Flutter (Dart), Tauri',
       },
-      { group: 'Backend', items: 'Node (NestJS, Express, AdonisJS), PHP (Laravel)' },
+      {
+        group: 'Design systems',
+        items: 'Design tokens (DTCG), Storybook, WidgetBook, Figma (tokens), Compound Components',
+      },
+      { group: 'Backend', items: 'Go, Node (NestJS, Express, AdonisJS), PHP (Laravel)' },
       {
         group: 'Infraestructura',
-        items: 'Docker, AWS, GitLab CI/CD, GitHub Actions, Cloudflare, Linux',
+        items: 'Docker, AWS, Cloudflare, GitLab CI/CD, GitHub Actions, Sentry, Linux',
       },
-      { group: 'Datos y APIs', items: 'REST, GraphQL, MySQL, SQLite' },
+      { group: 'Datos y APIs', items: 'REST, GraphQL, PostgreSQL, MySQL, SQLite' },
       {
         group: 'Herramientas de IA',
         items: 'Claude Code, Antigravity CLI, herdr, gentle-ai, Engram, servidores MCP',
