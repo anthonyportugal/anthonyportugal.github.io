@@ -72,6 +72,7 @@ const roundels = pigments.map((_, i) => polar(ROUNDEL_RING, i * step));
 const petals = pigments.map((pigment, index) => ({
   pigment,
   name: pigmentName(pigment),
+  tones: palettePigments[pigment as keyof typeof palettePigments].tones,
   d: lancet(index * step, step / 2, INNER, SHOULDER, TIP),
 }));
 ---
@@ -85,7 +86,7 @@ const petals = pigments.map((pigment, index) => ({
         <stop offset=".55" class="sun-halo" />
         <stop offset="1" class="sun-shade" />
       </radialGradient>
-      {petals.map(({ pigment }) => (
+      {petals.map(({ pigment, tones }) => (
         <radialGradient
           id={`glass-${pigment}`}
           cx="0"
@@ -95,10 +96,10 @@ const petals = pigments.map((pigment, index) => ({
         >
           {/* The glass's own deep tones, not the UI accent: in dark flavors the
                 accent is a light tone chosen for text contrast. */}
-          <stop offset="0.45" style={`stop-color: var(--san-pigment-${pigment}-900)`} />
-          <stop offset="0.7" style={`stop-color: var(--san-pigment-${pigment}-600)`} />
-          <stop offset="0.88" style={`stop-color: var(--san-pigment-${pigment}-500)`} />
-          <stop offset="1" style={`stop-color: var(--san-pigment-${pigment}-300)`} />
+          <stop offset="0.45" stop-color={tones[900]} />
+          <stop offset="0.7" stop-color={tones[600]} />
+          <stop offset="0.88" stop-color={tones[500]} />
+          <stop offset="1" stop-color={tones[300]} />
         </radialGradient>
       ))}
     </defs>
